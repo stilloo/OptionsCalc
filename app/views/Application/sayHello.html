@@ -1,0 +1,518 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Flot Examples</title>
+    <link href="@{'/public/stylesheets/layout.css'}" rel="stylesheet" type="text/css">
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="@{'/public/javascripts/excanvas.min.js'}"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery-1.7.1.js'}"></script>
+    <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery.flot.js'}"></script>
+    
+   <script language="javascript" type="text/javascript" src="@{'/public/javascripts/flot.axislabels.js'}"></script>
+    <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery.flot.threshold.js'}"></script>
+     <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery.flot.crosshair.js'}"></script>
+     <style type="text/css">
+.tafEmailIcon {
+    background-image: url("http://g-ecx.images-amazon.com/images/G/01/x-locale/communities/social/snwicons_v2._V156405318_.png");
+    background-position: 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    vertical-align: middle;
+    width: 18px;
+}
+.tafSocialButton {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+.tafContainerDiv .aTxtInPopTrigger {
+    text-decoration: underline;
+}
+.tafShareText {
+    padding: 0 5px;
+    vertical-align: middle;
+}
+.tafSocialLink {
+    vertical-align: middle;
+}
+a:link {
+    color: #003399;
+}
+a:link {
+    color: #004B91;
+    font-family: verdana,arial,helvetica,sans-serif;
+}
+</style>
+ </head>
+    <body onload="loadAllValues()">
+
+    <div id="placeholder" style="width:600px;height:300px"></div>
+
+ <script type="text/javascript">
+  function share()
+  {
+	  
+	  //document.getElementById("email").href=document.getElementById("email").replace("sayhello","optionscalc");
+	  document.getElementById("fb").href=document.getElementById("fb").replace("sayhello","optionscalc");
+	  document.getElementById("twitter").href=document.getElementById("twitter").href.replace("sayhello","optionscalc");
+	
+  }
+  
+  function loadAllValues()
+  {
+	  share();
+	  var exp =  document.getElementById("expiration_1");
+	  var option = document.createElement("option");
+	    option.text = "${params.get('expiration_1')}";
+	    option.value = "${params.get('expiration_1')}";
+	    
+	    try {
+	    	exp.add(option, null); //Standard
+	      
+	    }catch(error) {
+	    	exp.add(option); // IE only
+	    }
+
+		exp.options[1].selected=true;  
+	    %{
+		
+		int indexcounts = Integer.parseInt(params.get("POITableCount"));
+		
+		int indexcomparecount = Integer.parseInt(params.get("POITable1Count"));
+		%}
+		
+		document.getElementById("POITableCount").value="${indexcounts}";
+		
+		document.getElementById("POITable1Count").value="${indexcomparecount}";
+		
+		  
+		//ok so now we know that we have 3 counts with 1 and 1c mandatory
+		
+		%{
+			for(int i = 1;i<=indexcounts;i++)
+				{
+		%}
+			%{
+				if(i < indexcounts)
+					{
+					%}
+					document.getElementById("addmorePOIbutton").onclick();
+					%{ 
+			   }
+			%}
+		var buysell =  document.getElementById("longshort_"+${i});
+		   option = document.createElement("option");
+		    option.text = "${params.get('longshort_'+i)}";
+		    option.value = "${params.get('longshort_'+i)}";
+		    
+		    try {
+		    	buysell.add(option, null); //Standard
+		      
+		    }catch(error) {
+		    	buysell.add(option); // IE only
+		    }
+
+		    if(option.value == "BUY")
+		    	{
+		    	 buysell.options[1].selected=true;
+				    	
+		    	}
+		    else if(option.value == "SELL")
+		    	{
+		   	 buysell.options[2].selected=true;
+					
+		    	}
+		    
+		   var contracts = document.getElementById("contracts_"+${i});
+			contracts.value="${params.get('contracts_'+i)}";
+		    
+		    var type =  document.getElementById("type_"+${i});
+			   option = document.createElement("option");
+			    option.text = "${params.get('type_'+i)}";
+			    option.value = "${params.get('type_'+i)}";
+			    
+			    try {
+			    	type.add(option, null); //Standard
+			      
+			    }catch(error) {
+			    	type.add(option); // IE only
+			    }
+
+			    if(option.value == "C")
+		    	{
+		    	 type.options[1].selected=true;
+				    	
+		    	}
+		    else if(option.value == "P")
+		    	{
+		   	 type.options[2].selected=true;
+					
+		    	}
+			    
+			    var strike =  document.getElementById("strike_"+${i});
+				   option = document.createElement("option");
+				    option.text = "${params.get('strike_'+i)}";
+				    option.value = "${params.get('strike_'+i)}";
+				    
+				    try {
+				    	strike.add(option, null); //Standard
+				      
+				    }catch(error) {
+				    	strike.add(option); // IE only
+				    }
+
+				    strike.options[1].selected=true;
+				    
+				    var premium = document.getElementById("premium_"+${i});
+				    
+				    premium.value="${params.get('premium_'+i)}";
+					
+				    
+				    %{
+				    }
+					%}
+		    
+
+		%{
+			for(int i = 1;i<=indexcomparecount;i++)
+				{
+		%}
+			%{
+				if(i < indexcomparecount)
+					{
+					%}
+					document.getElementById("addmorePOIbuttonCompare").onclick();
+					%{ 
+			   }
+			%}
+			%{ if(i == 1) {
+			%}
+			  setTable();
+			%{
+			}
+			%}
+		var buysell =  document.getElementById("longshort_"+${i}+"c");
+		   option = document.createElement("option");
+		    option.text = "${params.get('longshort_'+i+'c')}";
+		    option.value = "${params.get('longshort_'+i+'c')}";
+		    
+		    try {
+		    	buysell.add(option, null); //Standard
+		      
+		    }catch(error) {
+		    	buysell.add(option); // IE only
+		    }
+
+		    if(option.value == "BUY")
+	    	{
+	    	 buysell.options[1].selected=true;
+			    	
+	    	}
+	    else if(option.value == "SELL")
+	    	{
+	   	 buysell.options[2].selected=true;
+				
+	    	}
+		    
+		    var contracts = document.getElementById("contracts_"+${i}+"c");
+			contracts.value="${params.get('contracts_'+i+'c')}";
+		    
+		    
+		    
+		    var type =  document.getElementById("type_"+${i}+"c");
+			   option = document.createElement("option");
+			    option.text = "${params.get('type_'+i+'c')}";
+			    option.value = "${params.get('type_'+i+'c')}";
+			    
+			    try {
+			    	type.add(option, null); //Standard
+			      
+			    }catch(error) {
+			    	type.add(option); // IE only
+			    }
+
+			    if(option.value == "C")
+		    	{
+		    	 type.options[1].selected=true;
+				    	
+		    	}
+		    else if(option.value == "P")
+		    	{
+		   	 type.options[2].selected=true;
+					
+		    	}
+			    
+			    var strike =  document.getElementById("strike_"+${i}+"c");
+				   option = document.createElement("option");
+				    option.text = "${params.get('strike_'+i+'c')}";
+				    option.value = "${params.get('strike_'+i+'c')}";
+				    
+				    try {
+				    	strike.add(option, null); //Standard
+				      
+				    }catch(error) {
+				    	strike.add(option); // IE only
+				    }
+
+				    strike.options[1].selected=true;
+				    
+						var premium = document.getElementById("premium_"+${i}+"c");
+				    
+				    premium.value="${params.get('premium_'+i+'c')}";
+					var compare = document.getElementById("compare");
+					compare.value="compare";
+				    compare.checked=true;
+				    %{
+				    }
+					%}
+
+		   document.optionform.submit();
+			 
+		
+	 }
+  
+ </script>
+ <center>
+ <br/>
+ <br/>
+    Net Initial Position Value ($) :  <label for="inv" id="inv"></label> 
+ <br/>
+ 	<label for="inv_c" id="inv_c"></label>
+     <br/>
+     </center>
+<script type="text/javascript">
+
+$(function () {
+	
+	    
+    var sin = [], cos = [];
+    var test = "${m}";
+    //test = test.replace(/=/g,":");
+    var first = test.substring(2,test.indexOf("}"));
+	var second = null;
+    if(test.lastIndexOf("{") > 2)
+    	{
+    		 second   = test.substring(test.lastIndexOf("{")+1,test.lastIndexOf("}"));
+    	}
+   // alert(second);
+   // alert(first);
+    var options = first.split(",");
+   // alert(options[options.length-1])
+    for (var i = 0; i < options.length; i++) {
+    	//alert(options[i]);
+    	var optionPair = options[i].split("=");
+    	//alert(optionPair[0]);
+    	//alert(optionPair[1]);
+       //sin.push([1, 300);
+        //cos.push([i, Math.cos(i)]);
+    }
+
+    
+    var minVal, maxVal, investment, investment_c;
+    //alert(options);
+    for (var i = 0; i < options.length; i += 1) {
+    	var optionPair = options[i].split("=");
+    	
+    	if(optionPair[0] == "min")
+    	{
+    		 minVal = optionPair[1];
+    	}
+    	else if(optionPair[0] == "max")
+    		maxVal = optionPair[1];
+    	/*
+    	else if(optionPair[0] == "inv")
+    		document.getElementById("inv").innerHTML = optionPair[1];
+    	else if(optionPair[0] == "inv_c")
+    		document.getElementById("inv_c").innerHTML =  = optionPair[1];
+    	*/
+    	else{
+    		if(optionPair[0] == " inv")
+    		{
+    			document.getElementById("inv").innerHTML = optionPair[1];
+    		}
+    	else if(optionPair[0] == "inv_c")
+    		{
+    		document.getElementById('inv_c').innerHTML= optionPair[1];
+    
+    		}
+    	else
+       	sin.push([optionPair[0], optionPair[1]]);
+    	}
+    } 	
+  
+        //cos.push([i, Math.cos(i)]);
+       if(second !=null)
+    	   {
+         options = second.split(",");
+   // alert(options[options.length-1])
+    for (var j= 0; j < options.length; j++) {
+    	//alert(options[i]);
+    	var optionPair = options[j].split("=");
+    	//alert(optionPair[0]);
+    	//alert(optionPair[1]);
+       //sin.push([1, 300);
+        //cos.push([i, Math.cos(i)]);
+    }
+
+    
+    var minVal1, maxVal1;
+    
+    for (var i = 0; i < options.length; i += 1) {
+    	var optionPair = options[i].split("=");
+    	//alert(optionPair[0]);
+    	
+    	if(optionPair[0] == "min")
+    	{
+    		 minVal1 = optionPair[1];
+    	}
+    	else if(optionPair[0] == " max")
+    		{
+    		maxVal1 = optionPair[1];
+    		}
+    	/*
+    	else if(optionPair[0] == "inv_c")
+    		document.getElementById("inv_c").innerHTML = optionPair[1];
+    	*/
+    	else
+       	cos.push([optionPair[0], optionPair[1]]);
+    	
+    }
+   // alert("second "+second);
+   // alert("sin "+sin);
+   // alert("cos " +cos);
+ 
+  if(minVal1 < minVal){
+	  minVal=minVal1;
+  }
+  
+  if(maxVal1 > maxVal) {
+	  maxVal = maxVal1;
+  }
+    }
+   if(cos == null || cos.length == 0 )
+	   {
+	   var plot = $.plot($("#placeholder"),
+	           [ { data: sin,  color: "rgb(30, 180, 20)",threshold: { below: 0, color: "rgb(200, 20, 30)" },  label: "Positon 1 Profit/Loss ($)"},
+	              ],{  
+	               series: {
+	                   lines: { show: true },
+	                   points: { show: false }
+	               },
+	               grid: { /*backgroundColor: {
+	                   colors: ["#FFF", "#DDD"]
+	               },*/
+	               hoverable: true, clickable: true },
+	               crosshair: { mode: "x" },
+		             
+	               xaxis: {
+	                   axisLabel: 'Expiration Stock Price',
+	                   axisLabelUseCanvas: true,
+	                   
+	               },
+	               yaxis: {
+	                   axisLabel: 'Profit/Loss ($)',
+	                   axisLabelUseCanvas: true,
+	                   min: minVal, max: maxVal 
+	               }
+	              
+	             });
+	   }
+   else
+	   {
+    var plot = $.plot($("#placeholder"),
+           [ { data: sin,  color: "rgb(30, 180, 20)",threshold: { below: 0, color: "rgb(200, 20, 30)" },  label: "Positon 1 Profit/Loss ($)"},
+             {data: cos,  color: "rgb(0,255,255)",threshold: { below: 0, color: "rgb(255,0,0)" },   label: "Position 2 Profit/Loss ($)"},
+              ],{  
+               series: {
+                   lines: { show: true },
+                   points: { show: false }
+               },
+               grid: { /*backgroundColor: {
+                   colors: ["#FFF", "#DDD"]
+               },*/
+               hoverable: true, clickable: true },
+               crosshair: { mode: "x" },
+               
+               xaxis: {
+                   axisLabel: 'Expiration Stock Price',
+                   axisLabelUseCanvas: true,
+                   
+               },
+               yaxis: {
+                   axisLabel: 'Profit/Loss ($)',
+                   axisLabelUseCanvas: true,
+                   min: minVal, max: maxVal 
+               }
+              
+             });
+    
+ 
+    }
+   
+
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y + 5,
+            left: x + 5,
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#fee',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+
+    var previousPoint = null;
+    $("#placeholder").bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+       if (item) {
+            if (previousPoint != item.dataIndex) {
+                previousPoint = item.dataIndex;
+                
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(2),
+                    y = item.datapoint[1].toFixed(2);
+                
+                showTooltip(item.pageX, item.pageY,
+                             y + " for " + x);
+            }
+        }
+        else {
+            $("#tooltip").remove();
+            previousPoint = null;            
+        }
+        
+    });
+
+    $("#placeholder").bind("plotclick", function (event, pos, item) {
+        if (item) {
+            $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
+            plot.highlight(item.series, item.datapoint);
+        }
+    });
+});
+</script>
+<br/>
+     <br/>
+     <center>
+     <div id="url">
+    
+     <span class="tafShareText">Share</span>
+   
+    
+     <a class="tafSocialButton" id="fb" href="http://www.facebook.com/sharer/sharer.php?u=${request.base}${request.url}" target="_blank">	
+       <img src="@{'/public/images/fb.jpg'}" height="18" width="18"/>
+     </a>
+     <a class="tafSocialButton" id="twitter" href="https://twitter.com/intent/session?original_referer=${request.base}${request.url}" target="_blank">
+      <img src="@{'/public/images/twitter.jpg'}" height="18" width="18"/>
+     </a>
+     
+   	 </div>
+	</center>
+   
+ </body>
+</html>

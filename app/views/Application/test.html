@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashington Cricket - Admin Login</title>
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.1.js'></script>
+  
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+  
+    
+    
+      <script src="@{'/public/javascripts/bootstrap-dropdown.js'}"></script>
+   
+      <link href="@{'/public/stylesheets/bootstrap.css'}" rel="stylesheet">
+  
+</head>
+
+<body>
+    
+<div class="container">
+    
+<!-- Navigation bar -->
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help&nbsp;<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Forgot password</a></li>
+                        <li><a href="#">Something else</a></li>
+                        <li><a href="#">Contact admin</a></li>
+                    </ul> <!-- End of dropdown-menu ul -->
+                </li> <!-- End of dropdown li -->
+            </ul> <!-- End of nav ul -->
+        </div> <!-- End of container-fluid -->
+    </div> <!-- End of navbar-inner -->
+</div> <!-- End of navbar -->
+    
+</div> <!-- End of container -->
+
+<script type="text/javascript">
+    jQuery(function($) {
+        
+        $('.dropdown-toggle').dropdown()
+        
+    });
+</script>
+
+</body>
+</html> 
