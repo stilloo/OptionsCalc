@@ -276,11 +276,11 @@
 						if(strike == strUser)
 						{
 						
-							if(data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].ask == "")
+							if(data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].ask == "" || data.query.results.optionsChain.option[i].bid == "NaN" || data.query.results.optionsChain.option[i].ask == "NaN")
 							{
 								document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
 							}
-							else if (data.query.results.optionsChain.option[i].bid == "")
+							else if (data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].bid == "NaN")
 								{
 								document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].ask;
 								}
