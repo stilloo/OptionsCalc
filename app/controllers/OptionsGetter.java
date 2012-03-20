@@ -211,7 +211,7 @@ public class OptionsGetter {
 		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		      Date dt = formatter.parse (date);
 		      java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
-			  st.setDate(0,sqlDate);
+			  st.setDate(1,sqlDate);
 			  ResultSet rs = st.executeQuery();
 			  
 			  while(rs.next())
