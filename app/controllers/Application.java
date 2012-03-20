@@ -84,9 +84,9 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
     	
-    	String compare = params.get("compare");
-    	//System.out.println("compare is "+compare);
-    	if(compare !=null && compare.equals("compare"))
+    	 int noOfIndexes =   Integer.parseInt(params.get("POITable1Count"));
+			//System.out.println("compare is "+compare);
+    	if(noOfIndexes > 0)
     	{
     	try {
     		
@@ -106,7 +106,7 @@ public class Application extends Controller {
 				
 			// System.out.println("size is "+size);
 			 //ok its multiple of 6 then
-			 int noOfIndexes =   Integer.parseInt(params.get("POITable1Count"));
+			  noOfIndexes =   Integer.parseInt(params.get("POITable1Count"));
 			 
 			// System.out.println("POITable1Count is "+noOfIndexes);
 			   
