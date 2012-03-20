@@ -22,8 +22,8 @@ public class Application extends Controller {
     }
   
     public static void showHistory(String ticker, String optionsdate) {
-    	System.out.println(ticker);
-    	System.out.println(optionsdate);
+    	//System.out.println(ticker);
+    	//System.out.println(optionsdate);
     	List<Map<String,String>> datalist = null;
     	try {
     		datalist = OptionsGetter.getHistory(ticker, optionsdate);
