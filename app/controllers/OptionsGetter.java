@@ -7,7 +7,16 @@ import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -89,12 +98,14 @@ public class OptionsGetter {
 	     //BufferedWriter writer = new BufferedWriter(new FileWriter(new File("aapl0315")));
 	     
 	    // writer.write("StockPrice,Symbol,Type,Strike,Last,Vol,OpenInt\n");
+	     
 	     String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
 	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
 	      
 	      Statement st = conn.createStatement();
+	      
 
 	    for (int i = 0; i < nodes.getLength(); i++) {
 	    	 String sql = "INSERT INTO optionsTb values (";
@@ -135,8 +146,11 @@ public class OptionsGetter {
 	         if("NaN".equals(openInt))
 	        	 openInt="0";
 	         //System.out.println("openInt is "+openInt);
-	         builder.append(openInt);
-	        
+	         builder.append(openInt).append(",");
+	         Date dt = new Date();
+	         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	         String dateStr = sdf.format(dt);
+	         builder.append("'"+dateStr+"'");
 	         System.out.println(sql+builder.toString()+")");
 	         
 	       //  writer.write(builder.toString()+"\n");
@@ -152,6 +166,76 @@ public class OptionsGetter {
 	    conn.close();
 	   
 	     
+	}
+	
+	
+	public static List<Map<String,String>> getHistory(String ticker,String date) throws Exception
+	{
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		
+		  /*
+		  Map<String,String> map = new HashMap<String, String>();
+		
+		  map.put("StockPrice","123");
+		  
+		  map.put("Symbol", "aapl");
+		  
+		  map.put("TYPE","C");
+		  map.put("Strike","270");
+		  map.put("Last","250");
+		  map.put("Vol","30");
+		  map.put("OpenInt","50");
+		  list.add(map);
+		  map = new HashMap<String, String>();
+ map.put("StockPrice","231");
+		  
+		  map.put("Symbol", "aapl");
+		  
+		  map.put("TYPE","C");
+		  map.put("Strike","270");
+		  map.put("Last","250");
+		  map.put("Vol","30");
+		  map.put("OpenInt","50");
+		  list.add(map);
+		  */
+		 // System.out.println("list is "+list);
+		//ok now query db
+		  
+		   String myDriver = "com.mysql.jdbc.Driver";
+		      String myUrl = "jdbc:mysql://localhost/optionsDb";
+		      Class.forName(myDriver);
+		      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+		      
+		     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
+		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ?");
+		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		      Date dt = formatter.parse (date);
+		      java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
+			  st.setDate(0,sqlDate);
+			  ResultSet rs = st.executeQuery();
+			  
+			  while(rs.next())
+			  {
+				  Map<String,String> map = new HashMap<String, String>();
+				  map.put("StockPrice",rs.getString("StockPrice"));
+				  
+				  map.put("Symbol", rs.getString("Symbol"));
+				  
+				  map.put("TYPE",rs.getString("TYPE"));
+				  map.put("Strike",rs.getString("Strike"));
+				  map.put("Last",rs.getString("Last"));
+				  map.put("Vol",rs.getString("Vol"));
+				  map.put("OpenInt",rs.getString("OpenInt"));
+				  list.add(map);
+			  }
+			  
+			  rs.close();
+			  st.close();
+			  conn.close();
+			  
+		
+		return list;
+		
 	}
 	
 	

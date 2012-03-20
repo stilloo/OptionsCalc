@@ -1,0 +1,61 @@
+   <link href="@{'/public/stylesheets/bootstrap.css'}" rel="stylesheet">
+   
+    <link href="@{'/public/stylesheets/bootstrap-responsive.css'}" rel="stylesheet">
+  
+  <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery-1.7.1.js'}"></script>
+    
+  
+  		 <table class="table table-striped table-bordered ">
+					 <thead>
+		  			<tr>
+		  			<th><label class="control-label">StockPrice</label></th>
+		  			<th><label class="control-label">Symbol</label></th>
+		  			<th><label class="control-label">Type</label></th>
+		  			<th><label class="control-label">Strike</label></th>
+		  			<th><label class="control-label">Last</label></th>
+		  			<th><label class="control-label">Vol</label></th>
+		  			<th><label class="control-label">OpenInt</label></th>
+		  		  </tr>
+  				</thead>
+  				<tbody>
+  	
+ 
+ %{
+				for(Map<String,String> map : datalist)
+					{
+					 String stockPrice=map.get("StockPrice");
+					 String symbol= map.get("Symbol");
+		  			 String type=map.get("TYPE");
+		  			 String strike=map.get("Strike");
+		  			 String last=map.get("Last");
+		  			 String vol=map.get("Vol");
+		  			 String openInt=map.get("OpenInt");
+					%}
+			
+  				<tr>
+  				<td><label class="control-label">${stockPrice}</label></td>
+		  			<td><label class="control-label">${symbol}</label></td>
+		  			<td><label class="control-label">${type}</label></td>
+		  			<td><label class="control-label">${strike}</label></td>
+		  			<td><label class="control-label">${last}</label></td>
+		  			<td><label class="control-label">${vol}</label></td>
+		  			<td><label class="control-label">${openInt}</label></td>
+		       </tr>
+		      
+					%{ 
+			   }
+			%}
+			 </tbody>
+       			</table>
+			
+   <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="@{'/public/javascripts/jquery-1.7.1.js'}"></script>
+    <script src="@{'/public/javascripts/bootstrap.js'}"></script>
+    <script src="@{'/public/javascripts/bootstrap.min.js'}"></script>
+     <script src="@{'/public/javascripts/bootstrap-dropdown.js'}"></script>
+     
+<script src="@{'/public/javascripts/bootstrap-collapse.js'}"></script>
+
+			

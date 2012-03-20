@@ -16,7 +16,24 @@ public class Application extends Controller {
     public static void optionscalc() {
         render(params);
     }
+    
+    public static void history() {
+        render(params);
+    }
   
+    public static void showHistory(String ticker, String optionsdate) {
+    	System.out.println(ticker);
+    	System.out.println(optionsdate);
+    	List<Map<String,String>> datalist = null;
+    	try {
+    		datalist = OptionsGetter.getHistory(ticker, optionsdate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        render(datalist);
+    }
+    
     public static void sayHello(String myName) {
     	//System.out.println("Rendering");
     	Map<String, Double>  renderMap = null;
