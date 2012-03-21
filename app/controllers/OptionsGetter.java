@@ -31,11 +31,11 @@ public class OptionsGetter {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args){
 		// TODO Auto-generated method stub
-		
-
-				
+		try
+		{
+		 System.out.println("Starting");
 		 URL url = new URL("http://query.yahooapis.com/v1/public/yql?q=%09%09select%20*%20from%20yahoo.finance.quotes%20where%20symbol%3D'AAPL'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
 	     InputStream xmlStream = url.openStream();
 	     /*
@@ -72,9 +72,10 @@ public class OptionsGetter {
 			}
 	     
 	     System.out.println(quote);
-				
+	     System.out.println("calling options");
 		 url = new URL("http://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20yahoo.finance.options%20WHERE%20symbol%3D%22AAPL%22%20AND%20expiration%20in%20(SELECT%20contract%20FROM%20yahoo.finance.option_contracts%20WHERE%20symbol%3D%22AAPL%22)&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
 	      xmlStream = url.openStream();
+	     // System.out.println("got it 1");
 	     /*
 	     Document doc = readXml(xmlStream);
 	     NodeList list = doc.getChildNodes();
@@ -82,19 +83,25 @@ public class OptionsGetter {
 	     System.out.println(optionsChains.getNodeName());
 	     */
 	       factory=XPathFactory.newInstance();
+	      // System.out.println("got it 2");
+	 	  
 	      xPath=factory.newXPath();
-	   
+	     // System.out.println("got it 3");
+		  
 	      inputSource = 
 	    		    new InputSource(xmlStream);
-	     
+	     // System.out.println("got it 4");
+		  
 	    
 	      root = (Node) xPath.evaluate("query/results", inputSource, XPathConstants.NODE);
+	    //  System.out.println("got it 5 "+root);
+		 // System.out.println("Calling for ticker");
 	     String ticker = xPath.evaluate("optionsChain/@symbol", root);
-	     //System.out.println(ticker);
+	     System.out.println(ticker);
 	     
 	     NodeList nodes = (NodeList) xPath.evaluate
 	    	       ("optionsChain/option", root, XPathConstants.NODESET);
-	     
+	   
 	     //BufferedWriter writer = new BufferedWriter(new FileWriter(new File("aapl0315")));
 	     
 	    // writer.write("StockPrice,Symbol,Type,Strike,Last,Vol,OpenInt\n");
@@ -150,7 +157,27 @@ public class OptionsGetter {
 	         Date dt = new Date();
 	         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	         String dateStr = sdf.format(dt);
+	         builder.append("'"+dateStr+"',");
+	         //derive expiration date from option symbol
+	         //AAPL140118C00860000
+	         
+	         //first remove ticket from symbol
+	         optionSymbol=optionSymbol.replaceFirst(ticker, "");
+	         
+	         //System.out.println(optionSymbol);
+	         
+	         //now get next 4 char
+	         String newchar = optionSymbol.substring(0, 6);
+	         //System.out.println(newchar);
+	         //now convert into date
+	         sdf = new java.text.SimpleDateFormat("yyMMdd");
+	         Date date = sdf.parse(newchar);
+	         //System.out.println(date);
+	         sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	         dateStr = sdf.format(date);
+	      
 	         builder.append("'"+dateStr+"'");
+	         
 	         System.out.println(sql+builder.toString()+")");
 	         
 	       //  writer.write(builder.toString()+"\n");
@@ -164,7 +191,11 @@ public class OptionsGetter {
 	    // writer.flush();
 	   //  writer.close();
 	    conn.close();
-	   
+		}
+	    catch(Throwable t)
+		{
+			t.printStackTrace();
+		}
 	     
 	}
 	
@@ -191,27 +222,29 @@ public class OptionsGetter {
 		  
 		  map.put("Symbol", "aapl");
 		  
-		  map.put("TYPE","C");
+		  map.put("TYPE","P");
 		  map.put("Strike","270");
 		  map.put("Last","250");
 		  map.put("Vol","30");
 		  map.put("OpenInt","50");
 		  list.add(map);
 		  */
+		  
 		 // System.out.println("list is "+list);
 		//ok now query db
-		  
+		 
 		   String myDriver = "com.mysql.jdbc.Driver";
 		      String myUrl = "jdbc:mysql://localhost/optionsDb";
 		      Class.forName(myDriver);
 		      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
 		      
 		     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
-		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ?");
+		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = (select min(ExpirationDate) from optionsTb where Options_Date=?)");
 		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		      Date dt = formatter.parse (date);
 		      java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
 			  st.setDate(1,sqlDate);
+			  st.setDate(2,sqlDate);
 			  ResultSet rs = st.executeQuery();
 			  
 			  while(rs.next())
@@ -235,8 +268,9 @@ public class OptionsGetter {
 			  
 		
 		return list;
-		
 	}
+	
+
 	
 	
 }

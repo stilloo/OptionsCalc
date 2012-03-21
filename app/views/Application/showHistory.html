@@ -4,23 +4,59 @@
   
   <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery-1.7.1.js'}"></script>
     
-  
-  		 <table class="table table-striped table-bordered ">
-					 <thead>
-		  			<tr>
-		  			<th><label class="control-label">StockPrice</label></th>
-		  			<th><label class="control-label">Symbol</label></th>
-		  			<th><label class="control-label">Type</label></th>
-		  			<th><label class="control-label">Strike</label></th>
-		  			<th><label class="control-label">Last</label></th>
-		  			<th><label class="control-label">Vol</label></th>
-		  			<th><label class="control-label">OpenInt</label></th>
-		  		  </tr>
-  				</thead>
-  				<tbody>
-  	
- 
- %{
+    <table id="yfncsumtab" cellpadding="0" cellspacing="0"
+	border="0">
+	<tr>
+		<td colspan="3">
+		<table border="0" cellspacing="0"
+				class="yfnc_modtitle1"
+				style="border-bottom: 1px solid #dcdcdc; margin-bottom: 10px; width: 100%;">
+				
+		</table>
+	</td>
+	</tr>
+	<tr valign="top">
+		<td>View By Expiration: <strong>Mar 12</strong> | <a
+			href="/q/op?s=AAPL&amp;m=2012-04">Apr 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2012-05">May 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2012-06">Jun 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2012-07">Jul 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2012-08">Aug 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2012-09">Sep 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2012-10">Oct 12</a> | <a
+			href="/q/op?s=AAPL&amp;m=2013-01">Jan 13</a> | <a
+			href="/q/op?s=AAPL&amp;m=2014-01">Jan 14</a>
+		<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td height="2"></td>
+				</tr>
+			</table>
+			<table class="yfnc_mod_table_title1" width="100%" cellpadding="2"
+				cellspacing="0" border="0">
+				<tr valign="top">
+					<td><small><b><strong class="yfi-module-title">Call
+									Options</strong></b></small></td>
+					<td align="right">Expire at close Thursday, March 22, 2012</td>
+				</tr>
+			</table>
+			<table class="yfnc_datamodoutline1" width="100%" >
+				<tr valign="top">
+					<td><table class="table table-striped table-bordered ">
+						<thead>
+							<tr>
+								<tr>
+								<th scope="col" class="yfnc_tablehead1"  align="left">Strike</th>
+								<th scope="col" class="yfnc_tablehead1" >Symbol</th>
+								<th scope="col" class="yfnc_tablehead1" 
+									align="right">Last</th>
+								<th scope="col" class="yfnc_tablehead1" 
+									align="right">Vol</th>
+								<th scope="col" class="yfnc_tablehead1" 
+									align="right">Open Int</th>
+							</tr>
+							</tr>
+						</thead>
+				 %{
 				for(Map<String,String> map : datalist)
 					{
 					 String stockPrice=map.get("StockPrice");
@@ -30,23 +66,110 @@
 		  			 String last=map.get("Last");
 		  			 String vol=map.get("Vol");
 		  			 String openInt=map.get("OpenInt");
+		  			 if("C".equals(type))
+		  			 {
 					%}
-			
-  				<tr>
-  				<td><label class="control-label">${stockPrice}</label></td>
-		  			<td><label class="control-label">${symbol}</label></td>
-		  			<td><label class="control-label">${type}</label></td>
-		  			<td><label class="control-label">${strike}</label></td>
-		  			<td><label class="control-label">${last}</label></td>
-		  			<td><label class="control-label">${vol}</label></td>
-		  			<td><label class="control-label">${openInt}</label></td>
-		       </tr>
-		      
-					%{ 
+							<tr>
+								<td class="yfnc_h" nowrap><a
+									href="/q/op?s=AAPL&amp;k=510.000000"><strong><label class="control-label">${strike}</label></strong></a></td>
+								<td class="yfnc_h"><a href="/q?s=AAPL120323C00510000"><label class="control-label">${symbol}</label></a></td>
+								<td class="yfnc_h" align="right"><b><label class="control-label">${last}</label></b></td>
+								<td class="yfnc_h" align="right"><label class="control-label">${vol}</label></td>
+								<td class="yfnc_h" align="right"><label class="control-label">${openInt}</label></td>
+							</tr>
+								%{ 
+						}
 			   }
 			%}
-			 </tbody>
-       			</table>
+						</table></td>
+				</tr>
+			</table>
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td height="10"></td>
+				</tr>
+			</table>
+			<table class="yfnc_mod_table_title1" width="100%" cellpadding="2"
+				cellspacing="0" border="0">
+				<tr valign="top">
+					<td><small><b><strong class="yfi-module-title">Put
+									Options</strong></b></small></td>
+					<td align="right">Expire at close Thursday, March 22, 2012</td>
+				</tr>
+			</table>
+			<table class="yfnc_datamodoutline1" width="100%" cellpadding="0"
+				cellspacing="0" border="0">
+				<tr valign="top">
+					<td><table class="table table-striped table-bordered ">
+						  <thead>
+							<tr>
+								<th scope="col" class="yfnc_tablehead1"  align="left">Strike</th>
+								<th scope="col" class="yfnc_tablehead1" >Symbol</th>
+								<th scope="col" class="yfnc_tablehead1" 
+									align="right">Last</th>
+								<th scope="col" class="yfnc_tablehead1" 
+									align="right">Vol</th>
+								<th scope="col" class="yfnc_tablehead1" 
+									align="right">Open Int</th>
+							</tr>
+							</thead>
+								 %{
+				for(Map<String,String> map : datalist)
+					{
+					 String stockPrice=map.get("StockPrice");
+					 String symbol= map.get("Symbol");
+		  			 String type=map.get("TYPE");
+		  			 String strike=map.get("Strike");
+		  			 String last=map.get("Last");
+		  			 String vol=map.get("Vol");
+		  			 String openInt=map.get("OpenInt");
+		  			 if("P".equals(type))
+		  			 {
+					%}
+							<tr>
+								<td class="yfnc_tabledata1" nowrap><a
+									href="/q/op?s=AAPL&amp;k=510.000000"><strong><label class="control-label">${strike}</label></strong></a></td>
+								<td class="yfnc_tabledata1"><a
+									href="/q?s=AAPL120323P00510000"><label class="control-label">${symbol}</label></a></td>
+								<td class="yfnc_h" align="right"><b><label class="control-label">${last}</label></b></td>
+								<td class="yfnc_h" align="right"><label class="control-label">${vol}</label></td>
+								<td class="yfnc_h" align="right"><label class="control-label">${openInt}</label></td>
+							</tr>
+							%{ 
+						}
+			   }
+			%}
+						</table></td>
+				</tr>
+			</table>
+			<table border="0" cellpadding="2" cellspacing="0">
+				<tr>
+					<td width="1%"><table border="0" cellpadding="1"
+							cellspacing="0" width="10" class="yfnc_d">
+							<tr>
+								<td><table border="0" cellpadding="1" cellspacing="0"
+										width="100%">
+										<tr>
+											<td class="yfnc_h">&nbsp;&nbsp;&nbsp;</td>
+										</tr>
+									</table></td>
+							</tr>
+						</table></td>
+					<td><small>Highlighted options are in-the-money.</small></td>
+				</tr>
+			</table>
+			<p style="text-align: center">
+				<a href="/q/os?s=AAPL&amp;m=2012-03-22"><strong>Expand
+						to Straddle View...</strong></a>
+			</p>
+			<p class="yfi_disclaimer">Currency in USD.</p></td>
+		<td width="15"></td>
+		<td width="1%" class="skycell">
+	</tr>
+	</tbody>
+</table>
+  
+  	
 			
    <!-- Le javascript
     ================================================== -->
