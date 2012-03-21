@@ -238,6 +238,7 @@ public class OptionsGetter {
 		      Class.forName(myDriver);
 		      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
 		      
+		      
 		     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
 		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = (select min(ExpirationDate) from optionsTb where Options_Date=?)");
 		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -253,7 +254,6 @@ public class OptionsGetter {
 				  map.put("StockPrice",rs.getString("StockPrice"));
 				  
 				  map.put("Symbol", rs.getString("Symbol"));
-				  
 				  map.put("TYPE",rs.getString("TYPE"));
 				  map.put("Strike",rs.getString("Strike"));
 				  map.put("Last",rs.getString("Last"));
@@ -264,6 +264,19 @@ public class OptionsGetter {
 			  
 			  rs.close();
 			  st.close();
+			  
+			  PreparedStatement stmt = conn.prepareStatement("select distinct ExpirationDate from optionsTb where Options_Date=? order by ExpirationDate asc");
+			  rs = stmt.executeQuery();    
+			  while(rs.next())
+			  {
+				  Map<String,String> map = new HashMap<String, String>();
+				  map.put("ExpirationDate",rs.getString("ExpirationDate"));
+				  list.add(map);
+			  }
+			  
+			  rs.close();
+			  stmt.close();
+			    
 			  conn.close();
 			  
 		
