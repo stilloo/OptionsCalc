@@ -266,6 +266,7 @@ public class OptionsGetter {
 			  st.close();
 			  
 			  PreparedStatement stmt = conn.prepareStatement("select distinct ExpirationDate from optionsTb where Options_Date=? order by ExpirationDate asc");
+			  stmt.setDate(1,sqlDate);
 			  rs = stmt.executeQuery();    
 			  while(rs.next())
 			  {
