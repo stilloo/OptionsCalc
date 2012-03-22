@@ -21,23 +21,23 @@ public class Application extends Controller {
         render(params);
     }
   
-    public static void showHistory(String ticker, String optionsdate) {
-    	System.out.println(ticker);
-    	System.out.println(optionsdate);
-    	OptionsData optionsData = null;
-    	try {
-    		optionsData = OptionsGetter.getHistory(ticker, optionsdate);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        render(optionsData);
-    }
+//    public static void showHistory(String ticker, String optionsdate) {
+//    	System.out.println(ticker);
+//    	System.out.println("optionsdate "+optionsdate);
+//    	OptionsData optionsData = null;
+//    	try {
+//    		optionsData = OptionsGetter.getHistory(ticker, optionsdate);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        render(optionsData);
+//    }
     
     public static void showHistory(String ticker, String optionsdate,String expirationDate) {
-//    	System.out.println(ticker);
-//    	System.out.println(optionsdate);
-//    	System.out.println("exp " +expirationDate);
+     	System.out.println(ticker);
+    	System.out.println(optionsdate);
+    	System.out.println("exp " +expirationDate);
     	OptionsData optionsData = null;
     	try {
     		optionsData = OptionsGetter.getHistory(ticker, optionsdate, expirationDate);
