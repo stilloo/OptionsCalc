@@ -35,9 +35,9 @@ public class Application extends Controller {
 //    }
     
     public static void showHistory(String ticker, String optionsdate,String expirationDate) {
-     	System.out.println(ticker);
-    	System.out.println(optionsdate);
-    	System.out.println("exp " +expirationDate);
+//     	System.out.println(ticker);
+//    	System.out.println(optionsdate);
+//    	System.out.println("exp " +expirationDate);
     	OptionsData optionsData = null;
     	try {
     		optionsData = OptionsGetter.getHistory(ticker, optionsdate, expirationDate);

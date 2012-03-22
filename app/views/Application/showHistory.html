@@ -31,6 +31,7 @@
   						String expDate = month+" "+year
 				 		if((selectedExpirationDate == null && i == 0 ) || selectedExpirationDate.equals(expirationDate))
 					   	{
+					   	 optionsData.selectedExpirationDate=expirationDate;
 					   	 if(i > 0)
 			      {
 					   
@@ -69,7 +70,16 @@
 				<tr valign="top">
 					<td><small><b><strong class="yfi-module-title">Call
 									Options</strong></b></small></td>
-					<td align="right">Expire at close Thursday, March 22, 2012</td>
+					%{
+							String expirationDate = optionsData.selectedExpirationDate;
+							 java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		   			   Date dt = formatter.parse (expirationDate);
+		   			    formatter=new java.text.SimpleDateFormat("MMM dd, yyyy");
+  					    String expiryDate = formatter.format(dt);
+		   			   
+							
+					%}				
+					<td align="right">Expire at ${expiryDate}</td>
 				</tr>
 			</table>
 			<table class="yfnc_datamodoutline1" width="100%" >
