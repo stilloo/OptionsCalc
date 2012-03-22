@@ -394,7 +394,7 @@ $(function () {
    if(cos == null || cos.length == 0 )
 	   {
 	   var plot = $.plot($("#placeholder"),
-	           [ { data: sin,  color: "rgb(30, 180, 20)",threshold: { below: 0, color: "rgb(200, 20, 30)" },  label: "Positon 1 Profit/Loss ($)"},
+	           [ { data: sin,  color: "rgb(30, 180, 20)",threshold: { below: 0, color: "rgb(200, 20, 30)" },  label: "Positon 1 P/L ($)"},
 	              ],{  
 	               series: {
 	                   lines: { show: true },
@@ -422,8 +422,8 @@ $(function () {
    else
 	   {
     var plot = $.plot($("#placeholder"),
-           [ { data: sin,  color: "rgb(30, 180, 20)",threshold: { below: 0, color: "rgb(200, 20, 30)" },  label: "Positon 1 Profit/Loss ($)"},
-             {data: cos,  color: "rgb(0,255,255)",threshold: { below: 0, color: "rgb(255,0,0)" },   label: "Position 2 Profit/Loss ($)"},
+           [ { data: sin,  color: "rgb(30, 180, 20)",threshold: { below: 0, color: "rgb(200, 20, 30)" },  label: "Positon 1 P/L ($)"},
+             {data: cos,  color: "rgb(0,255,255)",threshold: { below: 0, color: "rgb(255,0,0)" },   label: "Position 2 P/L ($)"},
               ],{  
                series: {
                    lines: { show: true },
