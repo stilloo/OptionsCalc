@@ -243,7 +243,7 @@ public class OptionsGetter {
 		      
 		      
 		     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
-		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = (select min(ExpirationDate) from optionsTb where Options_Date=?)");
+		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = (select min(ExpirationDate) from optionsTb where Options_Date=?) order by Strike asc");
 		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		      Date dt = formatter.parse (date);
 		      java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
@@ -346,7 +346,7 @@ public class OptionsGetter {
 		      
 		      
 		     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
-		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = ?");
+		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = ? order by Strike asc");
 		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		      Date dt = formatter.parse (date);
 		      java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
