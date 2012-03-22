@@ -23,6 +23,12 @@
 					
 		 		for(String expirationDate : optionsData.expirationDates)
 					{
+					   java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		   			   Date dt = formatter.parse (expirationDate);
+		    		   formatter=new SimpleDateFormat("MMM");
+  					    String month = simpleDateformat.format(dt));
+  						String year=expirationDate.subString(2,4);
+  						String expDate = month+" "+year
 				 		if((selectedExpirationDate == null && i == 0 ) || selectedExpirationDate.equals(expirationDate))
 					   	{
 					   	 if(i > 0)
@@ -33,7 +39,7 @@
 		%{
 			}
 		%}	
-			 <strong>${expirationDate}</strong> 
+			 <strong>${expDate}</strong> 
 		%{ 
 						}
 			     else
@@ -46,7 +52,7 @@
 				  }
 			 %}
 				<a
-			href="/application/showHistory?ticker=${optionsData.ticker}&amp;optionsdate=${optionsData.optionsDate}&amp;expirationDate=${expirationDate}">${expirationDate}</a>
+			href="/application/showHistory?ticker=${optionsData.ticker}&amp;optionsdate=${optionsData.optionsDate}&amp;expirationDate=${expirationDate}">${expDate}</a>
 					
 			%{		}
 					i++;
