@@ -354,10 +354,10 @@ public class OptionsGetter {
 		      st.setDate(1,sqlDate);
 		      
 		      formatter = new SimpleDateFormat("yyyy-MM-dd");
-		      System.out.println("Expiration date is "+expirationDate);
+		      //System.out.println("Expiration date is "+expirationDate);
 		      dt = formatter.parse (expirationDate);
 		      java.sql.Date expSqlDate = new java.sql.Date(dt.getTime());
-		      System.out.println("Expiration date DATE is "+expSqlDate);
+		      //System.out.println("Expiration date DATE is "+expSqlDate);
 			  st.setDate(2,expSqlDate);
 			  ResultSet rs = st.executeQuery();
 			  
