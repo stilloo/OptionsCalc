@@ -356,9 +356,9 @@ public class OptionsGetter {
 		      formatter = new SimpleDateFormat("yyyy-MM-dd");
 		      System.out.println("Expiration date is "+expirationDate);
 		      dt = formatter.parse (expirationDate);
-		      sqlDate = new java.sql.Date(dt.getTime());
-		      System.out.println("Expiration date DATE is "+expirationDate);
-			  st.setDate(2,sqlDate);
+		      java.sql.Date expSqlDate = new java.sql.Date(dt.getTime());
+		      System.out.println("Expiration date DATE is "+expSqlDate);
+			  st.setDate(2,expSqlDate);
 			  ResultSet rs = st.executeQuery();
 			  
 			  while(rs.next())
@@ -388,6 +388,8 @@ public class OptionsGetter {
 				  expDates.add(rs.getString("ExpirationDate"));
 					
 			  }
+			  //System.out.println("expirationdates "+expDates);
+				 
 			  data.expirationDates=expDates;
 				  
 			  rs.close();
@@ -399,7 +401,7 @@ public class OptionsGetter {
 		  
 		  data.datalist=list;
 		  data.ticker=ticker;
-		  data.selectedExpirationDate=expirationDate;
+		 data.selectedExpirationDate=expirationDate;
 		  data.optionsDate=date;
 		  /*
 		  List<String> expDates = new ArrayList<String>();
