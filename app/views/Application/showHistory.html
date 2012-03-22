@@ -27,7 +27,7 @@
 		   			   Date dt = formatter.parse (expirationDate);
 		    		   formatter=new java.text.SimpleDateFormat("MMM");
   					    String month = formatter.format(dt);
-  						String year=expirationDate.subString(2,4);
+  						String year=expirationDate.substring(2,4);
   						String expDate = month+" "+year
 				 		if((selectedExpirationDate == null && i == 0 ) || selectedExpirationDate.equals(expirationDate))
 					   	{
