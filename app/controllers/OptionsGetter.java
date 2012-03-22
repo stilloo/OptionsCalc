@@ -22,6 +22,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import models.OptionsData;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -200,11 +202,13 @@ public class OptionsGetter {
 	}
 	
 	
-	public static List<Map<String,String>> getHistory(String ticker,String date) throws Exception
+	public static OptionsData getHistory(String ticker,String date) throws Exception
 	{
+		OptionsData data = new OptionsData();
 		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
 		
-		  /*
+		/*
+		  
 		  Map<String,String> map = new HashMap<String, String>();
 		
 		  map.put("StockPrice","123");
@@ -229,7 +233,6 @@ public class OptionsGetter {
 		  map.put("OpenInt","50");
 		  list.add(map);
 		  */
-		  
 		 // System.out.println("list is "+list);
 		//ok now query db
 		 
@@ -268,20 +271,145 @@ public class OptionsGetter {
 			  PreparedStatement stmt = conn.prepareStatement("select distinct ExpirationDate from optionsTb where Options_Date=? order by ExpirationDate asc");
 			  stmt.setDate(1,sqlDate);
 			  rs = stmt.executeQuery();    
+			  List<String> expDates = new ArrayList<String>();
+			  while(rs.next())
+			  {
+				  expDates.add(rs.getString("ExpirationDate"));
+			
+			  }
+			  data.expirationDates=expDates;
+			  rs.close();
+			  stmt.close();
+			   
+			  conn.close();
+			 
+		  data.datalist=list;
+		  data.ticker=ticker;
+		  data.selectedExpirationDate=null;
+		  data.optionsDate=date; 
+		  /*
+		  List<String> expDates = new ArrayList<String>();
+		  expDates.add("2012-04-21");
+		  expDates.add("2012-05-21");
+		  data.expirationDates=expDates;
+		   */
+				  
+		return data;
+	}
+	
+	public static OptionsData getHistory(String ticker,String date,String expirationDate) throws Exception
+	{
+		OptionsData data = new OptionsData();
+		
+		if(expirationDate == null)
+		{
+			return getHistory(ticker, date);
+		}
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		
+		
+		/*
+		  Map<String,String> map = new HashMap<String, String>();
+		
+		    
+		  map.put("StockPrice","123");
+		  
+		  map.put("Symbol", "aapl");
+		  
+		  map.put("TYPE","C");
+		  map.put("Strike","270");
+		  map.put("Last","500");
+		  map.put("Vol","30");
+		  map.put("OpenInt","50");
+		  list.add(map);
+		  map = new HashMap<String, String>();
+ map.put("StockPrice","231");
+		  
+		  map.put("Symbol", "aapl");
+		  
+		  map.put("TYPE","P");
+		  map.put("Strike","270");
+		  map.put("Last","200");
+		  map.put("Vol","30");
+		  map.put("OpenInt","50");
+		  list.add(map);
+		
+		  */
+		 // System.out.println("list is "+list);
+		//ok now query db
+		 
+		   
+		   String myDriver = "com.mysql.jdbc.Driver";
+		      String myUrl = "jdbc:mysql://localhost/optionsDb";
+		      Class.forName(myDriver);
+		      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+		      
+		      
+		     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
+		      PreparedStatement st = conn.prepareStatement("select * from optionsTb where  Options_Date = ? and ExpirationDate = ?");
+		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		      Date dt = formatter.parse (date);
+		      java.sql.Date sqlDate = new java.sql.Date(dt.getTime());
+		      
+		      st.setDate(1,sqlDate);
+		      
+		      formatter = new SimpleDateFormat("yyyy-MM-dd");
+		      System.out.println("Expiration date is "+expirationDate);
+		      dt = formatter.parse (expirationDate);
+		      sqlDate = new java.sql.Date(dt.getTime());
+		      System.out.println("Expiration date DATE is "+expirationDate);
+			  st.setDate(2,sqlDate);
+			  ResultSet rs = st.executeQuery();
+			  
 			  while(rs.next())
 			  {
 				  Map<String,String> map = new HashMap<String, String>();
-				  map.put("ExpirationDate",rs.getString("ExpirationDate"));
+				  map.put("StockPrice",rs.getString("StockPrice"));
+				  
+				  map.put("Symbol", rs.getString("Symbol"));
+				  map.put("TYPE",rs.getString("TYPE"));
+				  map.put("Strike",rs.getString("Strike"));
+				  map.put("Last",rs.getString("Last"));
+				  map.put("Vol",rs.getString("Vol"));
+				  map.put("OpenInt",rs.getString("OpenInt"));
 				  list.add(map);
 			  }
 			  
+			  rs.close();
+			  st.close();
+			  
+			  PreparedStatement stmt = conn.prepareStatement("select distinct ExpirationDate from optionsTb where Options_Date=? order by ExpirationDate asc");
+			  stmt.setDate(1,sqlDate);
+			  rs = stmt.executeQuery();    
+			  List<String> expDates = new ArrayList<String>();
+				
+			  while(rs.next())
+			  {
+				  expDates.add(rs.getString("ExpirationDate"));
+					
+			  }
+			  data.expirationDates=expDates;
+				  
 			  rs.close();
 			  stmt.close();
 			    
 			  conn.close();
 			  
 		
-		return list;
+		  
+		  data.datalist=list;
+		  data.ticker=ticker;
+		  data.selectedExpirationDate=expirationDate;
+		  data.optionsDate=date;
+		  /*
+		  List<String> expDates = new ArrayList<String>();
+		  expDates.add("2012-04-21");
+		  expDates.add("2012-05-21");
+		  
+		  data.expirationDates=expDates;
+		  */
+			
+		return data;
 	}
 	
 

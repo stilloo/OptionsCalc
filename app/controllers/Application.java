@@ -22,17 +22,32 @@ public class Application extends Controller {
     }
   
     public static void showHistory(String ticker, String optionsdate) {
-    	//System.out.println(ticker);
-    	//System.out.println(optionsdate);
-    	List<Map<String,String>> datalist = null;
+    	System.out.println(ticker);
+    	System.out.println(optionsdate);
+    	OptionsData optionsData = null;
     	try {
-    		datalist = OptionsGetter.getHistory(ticker, optionsdate);
+    		optionsData = OptionsGetter.getHistory(ticker, optionsdate);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        render(datalist);
+        render(optionsData);
     }
+    
+    public static void showHistory(String ticker, String optionsdate,String expirationDate) {
+//    	System.out.println(ticker);
+//    	System.out.println(optionsdate);
+//    	System.out.println("exp " +expirationDate);
+    	OptionsData optionsData = null;
+    	try {
+    		optionsData = OptionsGetter.getHistory(ticker, optionsdate, expirationDate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        render(optionsData);
+    }
+    
     
     public static void sayHello(String myName) {
     	//System.out.println("Rendering");

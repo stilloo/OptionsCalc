@@ -19,27 +19,38 @@
 		<td>View By Expiration: 
 		 %{
 		 		int i = 0;
-				for(Map<String,String> map : datalist)
+		 		 String selectedExpirationDate = optionsData.selectedExpirationDate;
+					
+		 		for(String expirationDate : optionsData.expirationDates)
 					{
-					 String expirationDate = map.get("ExpirationDate");
-					 if(expirationDate !=null) 
-					 {
-					   if(i == 0)
-					   {
+				 		if((selectedExpirationDate == null && i == 0 ) || selectedExpirationDate.equals(expirationDate))
+					   	{
+					   	 if(i > 0)
+			      {
 					   
 			%}
-			<strong>${expirationDate}</strong> 
+			|
+		%{
+			}
+		%}	
+			 <strong>${expirationDate}</strong> 
 		%{ 
-					}
-					else
-					{
-			%}	
-				| <a
-			href="/q/op?s=AAPL&amp;m=2012-04">${expirationDate}</a>
+						}
+			     else
+			     {
+			      if(i > 0)
+			      {
+			  %}  
+				| 
+			%{ 
+				  }
+			 %}
+				<a
+			href="/application/showHistory?ticker=${optionsData.ticker}&amp;optionsdate=${optionsData.optionsDate}&amp;expirationDate=${expirationDate}">${expirationDate}</a>
 					
 			%{		}
 					i++;
-						}
+						
 					}	
 		%}
 		<table cellpadding="0" cellspacing="0" border="0">
@@ -73,13 +84,8 @@
 							</tr>
 						</thead>
 				 %{
-				for(Map<String,String> map : datalist)
+				for(Map<String,String> map : optionsData.datalist)
 					{
-					 String expirationDate = map.get("ExpirationDate");
-					 if(expirationDate !=null) 
-					 {
-					   continue;
-					 }
 					 String stockPrice=map.get("StockPrice");
 					 String symbol= map.get("Symbol");
 		  			 String type=map.get("TYPE");
@@ -135,7 +141,7 @@
 							</tr>
 							</thead>
 								 %{
-				for(Map<String,String> map : datalist)
+				for(Map<String,String> map : optionsData.datalist)
 					{
 					 String stockPrice=map.get("StockPrice");
 					 String symbol= map.get("Symbol");
