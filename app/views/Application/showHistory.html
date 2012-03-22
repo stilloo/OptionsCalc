@@ -25,7 +25,7 @@
 					{
 					   java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		   			   Date dt = formatter.parse (expirationDate);
-		    		   formatter=new SimpleDateFormat("MMM");
+		    		   formatter=new java.text.SimpleDateFormat("MMM");
   					    String month = simpleDateformat.format(dt);
   						String year=expirationDate.subString(2,4);
   						String expDate = month+" "+year
