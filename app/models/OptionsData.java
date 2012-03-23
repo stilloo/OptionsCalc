@@ -11,5 +11,6 @@ public class OptionsData {
 	public String selectedExpirationDate;
 	public String ticker;
 	public String optionsDate;
+	public String stockPrice;
 	
 }

@@ -365,7 +365,7 @@ public class OptionsGetter {
 			  {
 				  Map<String,String> map = new HashMap<String, String>();
 				  map.put("StockPrice",rs.getString("StockPrice"));
-				  
+				  data.stockPrice=rs.getString("StockPrice");
 				  map.put("Symbol", rs.getString("Symbol"));
 				  map.put("TYPE",rs.getString("TYPE"));
 				  map.put("Strike",rs.getString("Strike"));
