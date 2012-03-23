@@ -327,10 +327,11 @@ public class OptionsGetter {
 		  while(rs.next())
 		  {
 			 
-			 String optionsDate =  rs.getString("Options_Date");
+			 Date optionsDate =  rs.getDate("Options_Date");
+			
 			 Double last = rs.getDouble("Last");
 			 Double stockPrice = rs.getDouble("StockPrice");
-			 optionsDetailData.optionsDatePrice.put(optionsDate,last);
+			 optionsDetailData.optionsDatePrice.put( optionsDate.getTime(),last);
 			 optionsDetailData.stockPrice.add(stockPrice);
 		  }
 		  
