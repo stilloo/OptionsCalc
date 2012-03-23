@@ -134,8 +134,8 @@
 					%}
 							<tr>
 								<td class="yfnc_h" nowrap><a
-									href="/q/op?s=AAPL&amp;k=510.000000"><strong><label class="control-label">${strike}</label></strong></a></td>
-								<td class="yfnc_h"><a href="/q?s=AAPL120323C00510000"><label class="control-label">${symbol}</label></a></td>
+									href="/application/showOptionDetail?ticker=${optionsData.ticker}&amp;strike=${strike}&amp;expiryDate=${optionsData.selectedExpirationDate}&amp;type=${type}"><strong><label class="control-label">${strike}</label></strong></a></td>
+								<td class="yfnc_h"><label class="control-label">${symbol}</label></td>
 								<td class="yfnc_h" align="right"><b><label class="control-label">${last}</label></b></td>
 								<td class="yfnc_h" align="right"><label class="control-label">${vol}</label></td>
 								<td class="yfnc_h" align="right"><label class="control-label">${openInt}</label></td>
@@ -191,9 +191,8 @@
 					%}
 							<tr>
 								<td class="yfnc_tabledata1" nowrap><a
-									href="/q/op?s=AAPL&amp;k=510.000000"><strong><label class="control-label">${strike}</label></strong></a></td>
-								<td class="yfnc_tabledata1"><a
-									href="/q?s=AAPL120323P00510000"><label class="control-label">${symbol}</label></a></td>
+									href="/application/showOptionDetail?ticker=${optionsData.ticker}&amp;strike=${strike}&amp;expiryDate=${optionsData.selectedExpirationDate}&amp;type=${type}"><strong><label class="control-label">${strike}</label></strong></a></td>
+								<td class="yfnc_tabledata1"><label class="control-label">${symbol}</label></td>
 								<td class="yfnc_h" align="right"><b><label class="control-label">${last}</label></b></td>
 								<td class="yfnc_h" align="right"><label class="control-label">${vol}</label></td>
 								<td class="yfnc_h" align="right"><label class="control-label">${openInt}</label></td>

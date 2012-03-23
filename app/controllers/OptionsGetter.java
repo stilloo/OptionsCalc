@@ -23,6 +23,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import models.OptionsData;
+import models.OptionsDetailData;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -297,6 +298,43 @@ public class OptionsGetter {
 				  
 		return data;
 	}
+	
+	public static OptionsDetailData getHistoryOptionDetail(String ticker,String strike,String expiryDate,String type) throws Exception
+    {
+
+		  String myDriver = "com.mysql.jdbc.Driver";
+	      String myUrl = "jdbc:mysql://localhost/optionsDb";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	      
+	      
+	     // PreparedStatement st = conn.prepareStatement("select * from optionsTb where Symbol=? and Options_Date = ?");
+	      PreparedStatement st = conn.prepareStatement("select Options_Date, Last, StockPrice from optionsTb where  Strike = ? and ExpirationDate = ? and TYPE = ? order by Options_Date asc");
+	      st.setString(1, strike);
+	      
+	      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	      //System.out.println("Expiration date is "+expirationDate);
+	      Date dt = formatter.parse (expiryDate);
+	      java.sql.Date expSqlDate = new java.sql.Date(dt.getTime());
+	      //System.out.println("Expiration date DATE is "+expSqlDate);
+		  st.setDate(2,expSqlDate);
+		
+		  ResultSet rs = st.executeQuery();
+		  OptionsDetailData optionsDetailData=new OptionsDetailData();
+		  while(rs.next())
+		  {
+			 
+			 String optionsDate =  rs.getString("Options_Date");
+			 Double last = rs.getDouble("Last");
+			 Double stockPrice = rs.getDouble("StockPrice");
+			 optionsDetailData.optionsDatePrice.put(optionsDate,last);
+			 optionsDetailData.stockPrice.add(stockPrice);
+		  }
+		  
+		  optionsDetailData.ticker=ticker;
+		 
+		return optionsDetailData;
+    }
 	
 	public static OptionsData getHistory(String ticker,String date,String expirationDate) throws Exception
 	{

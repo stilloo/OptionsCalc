@@ -48,6 +48,18 @@ public class Application extends Controller {
         render(optionsData);
     }
     
+    public static void showOptionDetail(String ticker,String strike,String expiryDate,String type)
+    {
+    	OptionsDetailData detailData = null;	
+    	try {
+			detailData = OptionsGetter.getHistoryOptionDetail(ticker, strike, expiryDate,type);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	render(detailData);
+    	
+    }
     
     public static void sayHello(String myName) {
     	//System.out.println("Rendering");
