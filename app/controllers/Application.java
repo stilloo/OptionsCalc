@@ -50,6 +50,7 @@ public class Application extends Controller {
     
     public static void showOptionDetail(String ticker,String strike,String expiryDate,String type)
     {
+    	System.out.println("Came inside showOptionDetail");
     	OptionsDetailData detailData = null;	
     	try {
 			detailData = OptionsGetter.getHistoryOptionDetail(ticker, strike, expiryDate,type);

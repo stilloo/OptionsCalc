@@ -301,7 +301,8 @@ public class OptionsGetter {
 	
 	public static OptionsDetailData getHistoryOptionDetail(String ticker,String strike,String expiryDate,String type) throws Exception
     {
-
+	
+		  System.out.println("Came insite getHistoryOptionDetail with "+ticker+ " "+expiryDate);
 		  String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
@@ -318,6 +319,8 @@ public class OptionsGetter {
 	      java.sql.Date expSqlDate = new java.sql.Date(dt.getTime());
 	      //System.out.println("Expiration date DATE is "+expSqlDate);
 		  st.setDate(2,expSqlDate);
+		  
+		  st.setString(3, type);
 		
 		  ResultSet rs = st.executeQuery();
 		  OptionsDetailData optionsDetailData=new OptionsDetailData();
@@ -332,6 +335,10 @@ public class OptionsGetter {
 		  }
 		  
 		  optionsDetailData.ticker=ticker;
+		  
+		  rs.close();
+		  st.close();
+		  conn.close();
 		 
 		return optionsDetailData;
     }
