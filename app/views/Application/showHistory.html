@@ -29,6 +29,7 @@
 		<td>View By Expiration: 
 		 %{
 		 		int i = 0;
+		 		String previousExpDate = null;
 		 		 String selectedExpirationDate = optionsData.selectedExpirationDate;
 					
 		 		for(String expirationDate : optionsData.expirationDates)
@@ -38,7 +39,16 @@
 		    		   formatter=new java.text.SimpleDateFormat("MMM");
   					    String month = formatter.format(dt);
   						String year=expirationDate.substring(2,4);
-  						String expDate = month+" "+year
+  						String expDate = month+" "+year;
+  						if(previousExpDate !=null && previousExpDate.equals(expDate))
+  						{
+  						 	expDate = expDate + "'w"; 
+  						 	previousExpDate=null;
+  						}
+  						else
+  						{
+  							previousExpDate=expDate;
+  						}
 				 		if((selectedExpirationDate == null && i == 0 ) || selectedExpirationDate.equals(expirationDate))
 					   	{
 					   	 optionsData.selectedExpirationDate=expirationDate;
