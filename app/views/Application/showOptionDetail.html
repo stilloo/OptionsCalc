@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
 $(function () {
-    var optionsData = [];
+    var optionsData = [
     %{
     	
     	java.util.Iterator itr = detailData.optionsDatePrice.entrySet().iterator();
@@ -29,13 +29,17 @@ $(function () {
              
      %}
 
-        optionsData.push(${pairs.getKey()}, ${pairs.getValue()});
+        [${pairs.getKey()}, ${pairs.getValue()]
         
      %{
     	 
-    	 
+    	 if(itr.hasNext())
+    		 {
+   %} 		 
+    			,
+       %{ }
      }
-    
+     ];
     	
     %}
   
