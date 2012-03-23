@@ -44,14 +44,26 @@ $(function () {
         $.plot($("#placeholder"),
            [ { data: optionsData, label: "Option price ($)" }],
            { 
-               xaxes: [ { mode: 'time' } ],
-               yaxes: [ { min: 0 },
-                        {
-                          // align if we are to the right
-                          alignTicksWithAxis: position == "right" ? 1 : null,
-                          position: position,
-                        } ],
-               legend: { position: 'sw' }
+        	series: {
+                lines: { show: true },
+                points: { show: false }
+            },
+            grid: { /*backgroundColor: {
+                colors: ["#FFF", "#DDD"]
+            },*/
+            hoverable: true, clickable: true },
+            crosshair: { mode: "x" },
+	             
+            xaxis: {
+                axisLabel: 'Options Date',
+                axisLabelUseCanvas: true,
+                
+            },
+            yaxis: {
+                axisLabel: 'Option Price ($)',
+                axisLabelUseCanvas: true,
+            }
+          
            });
     }
 
