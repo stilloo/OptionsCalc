@@ -46,6 +46,8 @@ $(function () {
         $.plot($("#placeholder"),
            [ { data: optionsData, label: "Option price ($)" }],
            { 
+        	 hoverable: true, clickable: true },
+             crosshair: { mode: "x" },
                xaxes: [ { mode: 'time' } ],
                yaxes: [ { min: 0 }],
            });

@@ -302,7 +302,7 @@ public class OptionsGetter {
 	public static OptionsDetailData getHistoryOptionDetail(String ticker,String strike,String expiryDate,String type) throws Exception
     {
 	
-		  System.out.println("Came insite getHistoryOptionDetail with "+ticker+ " "+expiryDate);
+		 // System.out.println("Came inside getHistoryOptionDetail with "+ticker+ " "+expiryDate);
 		  String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
