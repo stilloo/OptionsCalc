@@ -157,10 +157,14 @@
 									Options</strong></b></small></td>
 					%{
 							String expirationDate = optionsData.selectedExpirationDate;
+							 String expiryDate="";
+							if(expirationDate !=null)
+							{
 							 java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		   			   Date dt = formatter.parse (expirationDate);
 		   			    formatter=new java.text.SimpleDateFormat("MMM dd, yyyy");
-  					    String expiryDate = formatter.format(dt);
+  					     expiryDate = formatter.format(dt);
+  					    }
 		   			   
 							
 					%}				
