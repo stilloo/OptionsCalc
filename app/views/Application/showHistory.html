@@ -68,7 +68,8 @@
   </div>
    
 </form>
- 
+  <div class="row">
+<div class="span6 offset2">
     <table id="yfncsumtab" class="offset2" cellpadding="0" cellspacing="0"
 	border="0">
 	<tr>
@@ -199,7 +200,7 @@
 					%}
 							<tr>
 								<td class="yfnc_h" nowrap><a
-									href="/application/showOptionDetail?ticker=${optionsData.ticker}&amp;strike=${strike}&amp;expiryDate=${optionsData.selectedExpirationDate}&amp;type=${type}"><strong><label class="control-label">${strike}</label></strong></a></td>
+									href="/application/showOptionDetail?ticker=${optionsData.ticker}&amp;strike=${strike}&amp;expiryDate=${optionsData.selectedExpirationDate}&amp;type=${type}"  target="my_iframe"><strong><label class="control-label">${strike}</label></strong></a></td>
 								<td class="yfnc_h"><label class="control-label">${symbol}</label></td>
 								<td class="yfnc_h" align="right"><b><label class="control-label">${last}</label></b></td>
 								<td class="yfnc_h" align="right"><label class="control-label">${vol}</label></td>
@@ -256,7 +257,7 @@
 					%}
 							<tr>
 								<td class="yfnc_tabledata1" nowrap><a
-									href="/application/showOptionDetail?ticker=${optionsData.ticker}&amp;strike=${strike}&amp;expiryDate=${optionsData.selectedExpirationDate}&amp;type=${type}"><strong><label class="control-label">${strike}</label></strong></a></td>
+									href="/application/showOptionDetail?ticker=${optionsData.ticker}&amp;strike=${strike}&amp;expiryDate=${optionsData.selectedExpirationDate}&amp;type=${type}" target="my_iframe" ><strong><label class="control-label">${strike}</label></strong></a></td>
 								<td class="yfnc_tabledata1"><label class="control-label">${symbol}</label></td>
 								<td class="yfnc_h" align="right"><b><label class="control-label">${last}</label></b></td>
 								<td class="yfnc_h" align="right"><label class="control-label">${vol}</label></td>
@@ -276,6 +277,12 @@
 	</tbody>
 </table>
   
+  </div>
+<div class="span6">
+<div align="center">
+<iframe name="my_iframe" frameborder="0" height="600" width="800"></iframe>
+</div>
+</div>
   	
 			
    <!-- Le javascript
