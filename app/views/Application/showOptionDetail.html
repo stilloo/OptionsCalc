@@ -91,8 +91,21 @@ $(function () {
         	grid: {
             hoverable: true, clickable: true },
             crosshair: { mode: "x" },
+            xaxis: {
+                axisLabel: 'Expiration Stock Price',
+                axisLabelUseCanvas: true,
+                
+            },
+            yaxis: {
+                axisLabel: 'Profit/Loss ($)',
+                axisLabelUseCanvas: true,
+                min: minVal, max: maxVal 
+            }
+            /*
                xaxes: [ { mode: 'time' ,    axisLabel: 'Option Price'} ],
-               yaxes: [ { min: 0,    axisLabel: 'Date' }]
+               yaxes: [ { min: 0,    axisLabel: 'Date' }],
+               */
+               
            });
     }
 
