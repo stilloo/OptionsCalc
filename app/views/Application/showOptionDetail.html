@@ -47,7 +47,27 @@
     <div align="center">
     	<h1 align="center"> Options Historical Detail </h1>
     </div>
-
+<div id="POItablediv" align="center">
+  <div class="row">
+  <div class="span3 offset4" align="center">
+  	<table   border="0">
+  		<thead>
+  			<tr>
+  			<th><label class="control-label">Ticker</label></th>
+  			<th><label class="control-label">Strike Price</label></th>
+  		  </tr>
+  		</thead>
+  		<tbody>
+  	
+  		<tr>
+  			<td><input size=5 type="text" class="span1" name="ticker" id="ticker" value="${detailData.ticker}" onblur="queryYQL();queryYQL1();"/></td>
+  			<td><input size=10 type="text"  class="span1"name=strikePrice value="${detailData.strikePrice}" id="strikePrice"/> </td>
+       </tr>
+       </tbody>
+  	</table>
+  	</div>
+  	 </div>
+  	 </div>
    <div id="placeholder" style="top:150px;left:300px;width:600px;height:400px;"></div>
 	
 
