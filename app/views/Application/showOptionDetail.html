@@ -65,7 +65,7 @@
   			<td><input size=5 type="text" class="span1" name="ticker" id="ticker" value="${detailData.ticker}"/></td>
   			<td><input size=10 type="text"  class="span1"name=strikePrice value="${detailData.strikePrice}" id="strikePrice"/> </td>
   			<td><select class="span2" id="type_1" name="type_1"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
-  			<td><input style="height:20px;" data-datepicker="datepicker" class="small" type="text" name="optionsdate" id="optionsdate" value="${optionsData.optionsDate}"></td>
+  			<td><input style="height:20px;" data-datepicker="datepicker" class="small" type="text" name="optionsdate" id="optionsdate" value="${detailData.expiryDate}"></td>
   	
 	    	<td> <button type="submit" class="btn">View</button></td>
        </tr>
