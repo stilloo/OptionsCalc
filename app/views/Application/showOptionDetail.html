@@ -19,6 +19,11 @@
      <script src="@{'/public/javascripts/bootstrap-dropdown.js'}"></script>
      
 <script src="@{'/public/javascripts/bootstrap-collapse.js'}"></script>
+ 
+   <script language="javascript" type="text/javascript" src="@{'/public/javascripts/flot.axislabels.js'}"></script>
+    <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery.flot.threshold.js'}"></script>
+     <script language="javascript" type="text/javascript" src="@{'/public/javascripts/jquery.flot.crosshair.js'}"></script>
+   
 
  </head>
     <body style="text-align: center;">
@@ -42,11 +47,11 @@
         </div>
       </div>
     </div>
-    <div class="row">
-    <div class="span12 offset3">
-    <h1 align="center">  Options Historical Detail </h1>
+    
+    <div align="center">
+    	<h1 align="center">  Options Historical Detail </h1>
     </div>
-	</div>
+
    <div id="placeholder" style="top:150px;left:300px;width:600px;height:400px;"></div>
 	
 
@@ -81,8 +86,8 @@ $(function () {
         	grid: {
             hoverable: true, clickable: true },
             crosshair: { mode: "x" },
-               xaxes: [ { mode: 'time' } ],
-               yaxes: [ { min: 0 }],
+               xaxes: [ { mode: 'time',   axisLabel: 'Option Date' } ],
+               yaxes: [ { min: 0 ,    axisLabel: 'Option Price', }],
            });
     }
 
