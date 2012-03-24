@@ -11,6 +11,7 @@ public class OptionsDetailData {
 
 	public String ticker;
 	public String strikePrice;
+	public String type;
 	public Map<Long,Double> optionsDatePrice = new LinkedHashMap<Long,Double>();
 	public List<Double> stockPrice = new ArrayList<Double>();
 	

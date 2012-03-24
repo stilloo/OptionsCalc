@@ -337,6 +337,7 @@ public class OptionsGetter {
 		  
 		  optionsDetailData.ticker=ticker;
 		  optionsDetailData.strikePrice=strike;
+		  optionsDetailData.type=type;
 		  
 		  rs.close();
 		  st.close();
