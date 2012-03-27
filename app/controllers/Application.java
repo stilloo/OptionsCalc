@@ -17,6 +17,10 @@ public class Application extends Controller {
         render(params);
     }
     
+    public static void oldoptionscalc() {
+        render(params);
+    }
+    
     public static void history() {
         render(params);
     }
