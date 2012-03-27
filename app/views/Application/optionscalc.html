@@ -119,13 +119,20 @@
 			var callback = function(data) {
 				 var combo = document.getElementById("expiration_1");
 				 combo.options.length = 0;
-				 
+				 var option = document.createElement("option");
+				    option.text = "--";
+				    option.value = "--";
+				 try {
+				        combo.add(option, null); //Standard
+				    }catch(error) {
+				        combo.add(option); // IE only
+				    }
 					for(var i=0; i<data.query.results.option.length; i++)
 					{
 						var contract = data.query.results.option[i].contract;
 						//alert(contract);
 						
-					    var option = document.createElement("option");
+					    option = document.createElement("option");
 					    option.text = contract;
 					    option.value = contract;
 					    try {
@@ -137,7 +144,9 @@
 					    
 								
 					}
-				
+					 if(document.getElementById("expId").style.display=="none"){
+						   document.getElementById("expId").style.display="";
+					 }
 	    		
 			};
 			 
@@ -165,10 +174,43 @@
 	//alert("callback");
 	// Define your callback:
 			var callback = function(data) {
+			  
+				 if(document.getElementById("POITable").style.display=="none"){
+					   document.getElementById("POITable").style.display="";
+				 }
+				 
+				 document.getElementById("addrw").style.display="";
+				  
+				 document.getElementById("cmptable").style.display="";
+					  
+				 document.getElementById("subbtn").style.display="";
+					  
+				
 				 var combo = document.getElementById("strike_"+x);
 				 var combo1 = document.getElementById("strike_"+x+"c");
 				 combo.options.length=0;
 				 combo1.options.length=0;
+				  var option = document.createElement("option");
+				    option.text = "--";
+				    option.value = "--";
+				    try {
+				        combo.add(option, null); //Standard
+				        if(combo1 !=null)
+				        	{
+				        	var option1 = document.createElement("option");
+						    option1.text = "--";
+						    option1.value = "--";
+				        	  combo1.add(option1, null); //Standard
+						      	
+				        	}
+				    }catch(error) {
+				        combo.add(option); // IE only
+				        if(combo1 !=null)
+			        	{
+				        combo1.add(option); 
+			        	}
+					      
+				    }
 				 //alert(data.query.results.optionsChain.option.length);
 					for(var i=0; i<data.query.results.optionsChain.option.length; i++)
 					{
@@ -176,7 +218,7 @@
 							var strike = data.query.results.optionsChain.option[i].strikePrice;
 							//alert(contract);
 							
-						    var option = document.createElement("option");
+						     option = document.createElement("option");
 						    option.text = strike;
 						    option.value = strike;
 						    
@@ -229,6 +271,7 @@
 								
 							}
 					}
+					
 			};
 			 
 			// Instantiate with the query:
@@ -409,6 +452,7 @@
 	   function loadAllValues()
 	   {
 	
+		 
 		  var exp =  document.getElementById("expiration_1");
 		  %{
 		  if(params.get('expiration_1')  == null)
@@ -419,6 +463,18 @@
 			 %{
 		  }
 			 %}
+		  
+		  document.getElementById("expId").style.display="";
+			
+		   document.getElementById("POITable").style.display="";
+		  
+		   document.getElementById("addrw").style.display="";
+			  
+		   document.getElementById("cmptable").style.display="";
+			  
+		   document.getElementById("subbtn").style.display="";
+			  
+		
 		  var option = document.createElement("option");
 		    option.text = "${params.get('expiration_1')}";
 		    option.value = "${params.get('expiration_1')}";
@@ -661,6 +717,22 @@
   		<thead>
   			<tr>
   			<th><label class="control-label">Ticker</label></th>
+  		  </tr>
+  		</thead>
+  		<tbody>
+  	
+  		<tr>
+  			<td><input size=5 type="text" class="span1" name="ticker" id="ticker" value="${params.get('ticker')}" onblur="queryYQL();queryYQL1();"/></td>
+       </tr>
+       </tbody>
+  	</table>
+  	</div>
+  	</div>
+  	<div class="row">
+  	<div>
+  		<table style="display:none" id="expId"  border="0">
+  		<thead>
+  			<tr>
   			<th colspan="2"><label class="control-label">Stock Price</label></th>
   			<th colspan="2" align="center"><label class="control-label">Expiration</label></th>
   		  </tr>
@@ -668,8 +740,7 @@
   		<tbody>
   	
   		<tr>
-  			<td><input size=5 type="text" class="span1" name="ticker" id="ticker" value="${params.get('ticker')}" onblur="queryYQL();queryYQL1();"/></td>
-  			<td><input size=10 type="text"  class="span1"name="stockPrice" value="${params.get('stockPrice')}" id="stockPrice"/> </td>
+  			<td><input size=10 type="text"  class="span1"name="stockPrice"  readonly value="${params.get('stockPrice')}" id="stockPrice"/> </td>
   			<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL()"/></td>
   			<td><select class="span2" name="expiration_1" id="expiration_1" onchange="queryYQL2();"><option>--</option></select></td>
   			<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL1()"/></td>
@@ -680,7 +751,7 @@
   	 </div>
   	 <div class="row">
   	<div class="span3 offset3" align="center">
-    <table id="POITable" border="0">
+    <table id="POITable" style="display:none"   border="0">
     	<thead>
         <tr>
         	<th><label class="control-label">Buy/Sell</label></th>
@@ -709,7 +780,7 @@
     </div>
      </div>
       <div class="row">
-    <table>
+    <table id="addrw" style="display:none" >
      <tr>
       		 <td><input class="btn" type="button" id="addmoreOIbutton" value="Add" onclick="insRow()" style="margin-left: 450px;"/></td>
         </tr>
@@ -717,7 +788,7 @@
     </table>
     </div>
      <div class="row">
-     <table>
+     <table id ="cmptable" style="display:none" >
      <tr>
     
        <td>
@@ -756,7 +827,7 @@
     
     </table>
     </div>
-     <button type="submit" class="btn btn-primary">Submit</button>
+     <button style="display:none" id="subbtn" type="submit" class="btn btn-primary">Submit</button>
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
      
@@ -795,23 +866,28 @@ function insRow()
     var inp1 = new_row.cells[0].getElementsByTagName('select')[0];
     inp1.id = inp1.id.split("_")[0] + "_" + len;
     inp1.name = inp1.name.split("_")[0]+ "_"+len;
+    inp1.selectedIndex=x.rows[0].cells[0].getElementsByTagName('select')[0].selectedIndex;
     //inp1.value = '';
     var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
     inp2.id = inp2.id.split("_")[0] + "_"+ len;
     inp2.name = inp2.name.split("_")[0]+ "_"+len;
+    inp2.value=x.rows[0].cells[1].getElementsByTagName('input')[0].value;
+    
    // inp2.value = '';
     var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
     inp3.id = inp3.id.split("_")[0] + "_"+ len;
     inp3.name = inp3.name.split("_")[0]+ "_"+len;
+    inp3.selectedIndex=x.rows[0].cells[2].getElementsByTagName('select')[0].selectedIndex;
     
     var inp4 = new_row.cells[3].getElementsByTagName('select')[0];
     inp4.id = inp4.id.split("_")[0] + "_"+ len;
     inp4.name = inp4.name.split("_")[0]+ "_"+len;
+    inp4.selectedIndex=x.rows[0].cells[3].getElementsByTagName('select')[0].selectedIndex;
     
     var inp6 = new_row.cells[5].getElementsByTagName('input')[0];
     inp6.id = inp6.id.split("_")[0] + "_"+ len;
     inp6.name = inp6.name.split("_")[0]+ "_"+len;
-    inp6.value='';
+    inp6.value=x.rows[0].cells[5].getElementsByTagName('input')[0].value;;
     
     x.appendChild( new_row );
     
@@ -828,23 +904,33 @@ function insRowCompare()
     var inp1 = new_row.cells[0].getElementsByTagName('select')[0];
     inp1.id = inp1.id.split("_")[0] + "_" + len+"c";
     inp1.name = inp1.name.split("_")[0]+ "_"+len+"c";
+    inp1.selectedIndex=x.rows[0].cells[0].getElementsByTagName('select')[0].selectedIndex;
+    
     //inp1.value = '';
     var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
     inp2.id = inp2.id.split("_")[0] + "_"+ len+"c";
     inp2.name = inp2.name.split("_")[0]+ "_"+len+"c";
+    inp2.value=x.rows[0].cells[1].getElementsByTagName('input')[0].value;
+    
+   
    // inp2.value = '';
     var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
     inp3.id = inp3.id.split("_")[0] + "_"+ len+"c";
     inp3.name = inp3.name.split("_")[0]+ "_"+len+"c";
+    inp3.selectedIndex=x.rows[0].cells[2].getElementsByTagName('select')[0].selectedIndex;
     
+   
     var inp4 = new_row.cells[3].getElementsByTagName('select')[0];
     inp4.id = inp4.id.split("_")[0] + "_"+ len+"c";
     inp4.name = inp4.name.split("_")[0]+ "_"+len+"c";
+    inp4.selectedIndex=x.rows[0].cells[3].getElementsByTagName('select')[0].selectedIndex;
     
+   
     var inp6 = new_row.cells[4].getElementsByTagName('input')[0];
     inp6.id = inp6.id.split("_")[0] + "_"+ len+"c";
     inp6.name = inp6.name.split("_")[0]+ "_"+len+"c";
-    inp6.value='';
+    inp6.value=x.rows[0].cells[4].getElementsByTagName('input')[0].value;;
+    
     
     x.appendChild( new_row );
     
