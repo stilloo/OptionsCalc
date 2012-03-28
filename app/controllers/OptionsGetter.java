@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,6 +27,7 @@ import javax.xml.xpath.XPathFactory;
 import models.OptionsData;
 import models.OptionsDetailData;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -36,6 +39,7 @@ public class OptionsGetter {
 	 */
 	public static void main(String[] args){
 		// TODO Auto-generated method stub
+		long start = System.currentTimeMillis();
 		try
 		{
 		 System.out.println("Starting");
@@ -78,6 +82,18 @@ public class OptionsGetter {
 	     System.out.println("calling options");
 		 url = new URL("http://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20yahoo.finance.options%20WHERE%20symbol%3D%22AAPL%22%20AND%20expiration%20in%20(SELECT%20contract%20FROM%20yahoo.finance.option_contracts%20WHERE%20symbol%3D%22AAPL%22)&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
 	      xmlStream = url.openStream();
+	      
+	      StringWriter writer = new StringWriter();
+	      IOUtils.copy(xmlStream, writer);
+	      String theString = writer.toString();
+	      /*
+	      BufferedWriter bwriter = new BufferedWriter(new FileWriter("output"));
+	      
+	      bwriter.write(theString);
+	      bwriter.flush();
+	      bwriter.close();
+	      */
+	      
 	     // System.out.println("got it 1");
 	     /*
 	     Document doc = readXml(xmlStream);
@@ -85,20 +101,22 @@ public class OptionsGetter {
 	     Node optionsChains = list.item(0).getChildNodes().item(1).getChildNodes().item(0);
 	     System.out.println(optionsChains.getNodeName());
 	     */
+	      
 	       factory=XPathFactory.newInstance();
 	      // System.out.println("got it 2");
 	 	  
-	      xPath=factory.newXPath();
+	     xPath=factory.newXPath();
 	     // System.out.println("got it 3");
 		  
 	      inputSource = 
-	    		    new InputSource(xmlStream);
+	    		    new InputSource(new StringReader(theString));
 	     // System.out.println("got it 4");
 		  
 	    
 	      root = (Node) xPath.evaluate("query/results", inputSource, XPathConstants.NODE);
 	    //  System.out.println("got it 5 "+root);
 		 // System.out.println("Calling for ticker");
+	      
 	     String ticker = xPath.evaluate("optionsChain/@symbol", root);
 	     System.out.println(ticker);
 	     
@@ -181,24 +199,31 @@ public class OptionsGetter {
 	      
 	         builder.append("'"+dateStr+"'");
 	         
-	         System.out.println(sql+builder.toString()+")");
+	         //System.out.println(sql+builder.toString()+")");
 	         
 	       //  writer.write(builder.toString()+"\n");
-	         st.executeUpdate(sql+builder.toString()+")");
+	        st.addBatch(sql+builder.toString()+")");
+	        // st.executeUpdate(sql+builder.toString()+")");
 	         
 	        
 	        
 	         
 	     }
+	    
+	    st.executeBatch();
+	   
+	    
 	     
 	    // writer.flush();
 	   //  writer.close();
 	    conn.close();
+	    
 		}
 	    catch(Throwable t)
 		{
 			t.printStackTrace();
 		}
+		System.out.println("Total time "+(System.currentTimeMillis() - start) + " ms");
 	     
 	}
 	

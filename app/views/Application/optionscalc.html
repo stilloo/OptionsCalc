@@ -43,11 +43,12 @@
 		
 	<script>
 	$(function() {
-		$( "#datepicker" ).datepicker({
-			showOn: "button",
-			buttonImage: "@{'/public/images/calendar.gif'}",
-			buttonImageOnly: true
-		});
+		 $("#ticker").keyup(function(event){
+			    if(event.keyCode == 13){
+			        $("#gobutton").click();
+			    }
+			});
+		
 	});
 	
 	</script>
@@ -699,66 +700,63 @@
 			
 		 }
 	   
+	   function Change_Cursor()
+	   {
+	   document.body.style.cursor = "wait";
+	   }
+	   
 	  
+	 
 	</script>
 	
 
 	
-<h1 align="center">Option Profit/Loss after Expiration</h1>
+<div  align="center"><h2>Strategy Builder</h2></div>
     <div class="container">
     <body onload="loadAllValues()">
 <form class="form-inline" name="optionform" action="@{Application.sayHello()}"  target="my_iframe" method="GET">
 <br/>
-<br/>
+
   <div id="POItablediv" align="center">
   <div class="row">
-  <div class="span3 offset4" align="center">
-  	<table   border="0">
-  		<thead>
-  			<tr>
-  			<th><label class="control-label">Ticker</label></th>
-  		  </tr>
-  		</thead>
-  		<tbody>
+  <div class="span4 offset4" align="center">
+   <br>
+        <b>Ticker :</b> <input type="text" size="5" class="span1" name="ticker" id="ticker" value="${params.get('ticker')}" > 
+  	<input type="button"  onclick="queryYQL();queryYQL1(); " value="Go" id="gobutton" class="btn-mini btn-primary">
   	
-  		<tr>
-  			<td><input size=5 type="text" class="span1" name="ticker" id="ticker" value="${params.get('ticker')}" onblur="queryYQL();queryYQL1();"/></td>
-       </tr>
-       </tbody>
-  	</table>
   	</div>
   	</div>
+  	<br/>
   	<div class="row">
-  	<div>
-  		<table style="display:none" id="expId"  border="0">
-  		<thead>
-  			<tr>
-  			<th colspan="2"><label class="control-label">Stock Price</label></th>
-  			<th colspan="2" align="center"><label class="control-label">Expiration</label></th>
-  		  </tr>
-  		</thead>
+  	<div class="span4 offset4">
+  		<table style="display:none" id="expId"  cellpadding="3px" border="0">
   		<tbody>
-  	
   		<tr>
-  			<td><input size=10 type="text"  class="span1"name="stockPrice"  readonly value="${params.get('stockPrice')}" id="stockPrice"/> </td>
-  			<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL()"/></td>
-  			<td><select class="span2" name="expiration_1" id="expiration_1" onchange="queryYQL2();"><option>--</option></select></td>
-  			<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL1()"/></td>
+<td nowrap><label class="control-label"><b>Stock Price :</b></label></td>
+
+  			<td><input type="text" id="stockPrice"  readonly value="${params.get('stockPrice')}" name="stockPrice" class="span1" size="10"> </td>
+  			<td valign="center"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL()"/></td>
+<td><img src="@{'/public/images/clear.gif'}"   width="30"></td>
+	<td align="center" nowrap ><label class="control-label"><b>Expiration :</b></label></td>
+  			<td><select class="span2" name="expiration_1" id="expiration_1"  onchange="queryYQL2();"><option>--</option></select></td>
+  			<td valign="center"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL1()"/></td>
        </tr>
+  		
        </tbody>
   	</table>
   	</div>
   	 </div>
+  	 <br/>
   	 <div class="row">
   	<div class="span3 offset3" align="center">
     <table id="POITable" style="display:none"   border="0">
     	<thead>
         <tr>
-        	<th><label class="control-label">Buy/Sell</label></th>
-            <th><label class="control-label">Contracts</label></th>
-            <th><label class="control-label">Type</label></th>
-            <th colspan="2"><label class="control-label">Strike</label></th>
-        	<th colspan="2"><label class="control-label">Premium</label></th>
+        	<th><label class="control-label"><b>Buy/Sell</b></label></th>
+            <th><label class="control-label"><b>Contracts</b></label></th>
+            <th><label class="control-label"><b>Type</b></label></th>
+            <th colspan="2"><label class="control-label"><b>Strike</b></label></th>
+        	<th colspan="2"><label class="control-label"><b>Premium</b></label></th>
         </tr>
         </thead>
         <tbody>
@@ -771,7 +769,7 @@
             <td><input class="span1" size=10 type="text" name="premium_1" id="premium_1" /></td>
 		    <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL3(this)"/></td>
         	
-            <td><input type="button" class="btn" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
+            <td><input type="button" class="btn-mini btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
            
         </tr>
         
@@ -782,7 +780,9 @@
       <div class="row">
     <table id="addrw" style="display:none" >
      <tr>
-      		 <td><input class="btn" type="button" id="addmoreOIbutton" value="Add" onclick="insRow()" style="margin-left: 450px;"/></td>
+      		 <td>
+      		 <input class="btn-mini btn-primary" type="button" id="addmoreOIbutton" value="Add" onclick="insRow()" style="margin-left: 450px;"/>
+      		 </td>
         </tr>
     
     </table>
@@ -811,7 +811,7 @@
 	        <td><select class="span2" name="strike_1c" id="strike_1c"  onchange="queryYQL31(this)"><option value="--">--</option></select></td>
             <td><input size=10 class="span1" type="text" name="premium_1c" id="premium_1c" /></td>
         	<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL31(this)"/></td>
-            <td><input type="button" class="btn" id="delPOIbutton" value="Delete" onclick="deleteRowCompare(this)"/></td>
+            <td><input type="button" class="btn-mini btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRowCompare(this)"/></td>
            
         </tr>
         
@@ -822,7 +822,7 @@
      <div class="row">
      <table id ="POITable1Add" style="display:none">
      <tr>
-      		 <td><input type="button" class="btn" id="addmorePOIbuttonCompare" value="Add" onclick="insRowCompare()" style="margin-left: 450px;"/></td>
+      		 <td><input type="button" class="btn-mini btn-primary" id="addmorePOIbuttonCompare" value="Add" onclick="insRowCompare()" style="margin-left: 450px;"/></td>
         </tr>
     
     </table>
@@ -835,6 +835,7 @@
    
 </form>
 </body>
+
 <script type='text/javascript'>//<![CDATA[ 
 
 
