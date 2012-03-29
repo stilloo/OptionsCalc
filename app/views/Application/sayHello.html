@@ -84,9 +84,9 @@ a:link {
 	  get_short_url(document.getElementById("fb").href, login, api_key, function(short_url) {
 		  shortURL=short_url;
 		  document.getElementById("fb").href = "http://www.facebook.com/sharer/sharer.php?u="+ short_url;
+		  document.getElementById("twitter").href="https://twitter.com/intent/session?original_referer="+shortURL;
 	 });
 	  
-	  document.getElementById("twitter").href="https://twitter.com/intent/session?original_referer="+shortURL;
 	 
   }
   
