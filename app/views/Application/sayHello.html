@@ -51,13 +51,43 @@ a:link {
     <div id="placeholder" style="width:600px;height:300px"></div>
 
  <script type="text/javascript">
+ 
+ var login = "stilloo";
+ var api_key = "R_28be5e6efb705da89aed96c5dfe63c03";
+
+
+ 
+ function get_short_url(long_url, login, api_key, func)
+ {
+     $.getJSON(
+         "http://api.bitly.com/v3/shorten?callback=?", 
+         { 
+             "format": "json",
+             "apiKey": api_key,
+             "login": login,
+             "longUrl": long_url
+         },
+         function(response)
+         {
+             func(response.data.url);
+         }
+     );
+ }
+ 
   function share()
   {
 	  
 	  //document.getElementById("email").href=document.getElementById("email").replace("sayhello","optionscalc");
-	  document.getElementById("fb").href=document.getElementById("fb").replace("sayhello","optionscalc");
+	  document.getElementById("fb").href=document.getElementById("fb").href.replace("sayhello","optionscalc");
 	  document.getElementById("twitter").href=document.getElementById("twitter").href.replace("sayhello","optionscalc");
-	
+	  var shortURL = null;
+	  get_short_url(document.getElementById("fb").href, login, api_key, function(short_url) {
+		  shortURL=short_url;
+		  document.getElementById("fb").href = "http://www.facebook.com/sharer/sharer.php?u="+ short_url;
+	 });
+	  
+	  document.getElementById("twitter").href="https://twitter.com/intent/session?original_referer="+shortURL;
+	 
   }
   
   function loadAllValues()
@@ -504,10 +534,10 @@ $(function () {
      <span class="tafShareText">Share</span>
    
     
-     <a class="tafSocialButton" id="fb" href="http://www.facebook.com/sharer/sharer.php?u=${request.base}${request.url}" target="_blank">	
+     <a class="tafSocialButton" id="fb" href="${request.base}${request.url}" target="_blank">	
        <img src="@{'/public/images/fb.jpg'}" height="18" width="18"/>
      </a>
-     <a class="tafSocialButton" id="twitter" href="https://twitter.com/intent/session?original_referer=${request.base}${request.url}" target="_blank">
+     <a class="tafSocialButton" id="twitter" href="${request.base}${request.url}" target="_blank">
       <img src="@{'/public/images/twitter.jpg'}" height="18" width="18"/>
      </a>
      
