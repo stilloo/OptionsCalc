@@ -6,6 +6,16 @@
    
     <link href="@{'/public/stylesheets/bootstrap-responsive.css'}" rel="stylesheet">
 
+ <style type="text/css">
+  .throbber {
+    background: url("data:image/gif;base64,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") no-repeat scroll center center gray;
+    height: 100%;
+    opacity: 0.2;
+    position: absolute;
+    width: 100%;
+}
+ 
+ </style>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -101,7 +111,7 @@
 						}
 				}
 				document.getElementById('stockPrice').value = quote;
-	    		
+				Change_Cursor('none');
 			};
 			 
 			// Instantiate with the query:
@@ -148,7 +158,7 @@
 					 if(document.getElementById("expId").style.display=="none"){
 						   document.getElementById("expId").style.display="";
 					 }
-	    		
+					 Change_Cursor('none');
 			};
 			 
 			// Instantiate with the query:
@@ -260,17 +270,7 @@
 							}
 								}
 							*/
-							if(size > 1)
-							{
-								for(var g=2;g<size;g++)
-								{
-									//deleteRowAtIndex(g);
-								}
-								
-								
-								
-								
-							}
+							Change_Cursor('none');
 					}
 					
 			};
@@ -302,6 +302,7 @@
 		
 		if(strUser == "--" || strUser1 == "--" || buy == "--")
 		{
+			Change_Cursor('none');
 			return;	
 		}
 		//Construct your query:
@@ -336,7 +337,7 @@
 						}
 					}
 				}
-			
+				Change_Cursor('none');
 				
 			};
 			 
@@ -391,7 +392,7 @@
 						}
 					}
 				}
-			
+				Change_Cursor('none');
 				
 			};
 			 
@@ -700,9 +701,9 @@
 			
 		 }
 	   
-	   function Change_Cursor()
+	   function Change_Cursor(mark)
 	   {
-	   document.body.style.cursor = "wait";
+		    document.getElementById("throbber").style.display=mark;
 	   }
 	   
 	  
@@ -710,6 +711,7 @@
 	</script>
 	
 
+<div class="throbber" style="display:none" id="throbber"></div>
 	
 <div  align="center"><h2>Strategy Builder</h2></div>
     <div class="container">
@@ -722,7 +724,7 @@
   <div class="span4 offset4" align="center">
    <br>
         <b>Ticker :</b> <input type="text" size="5" class="span1" name="ticker" id="ticker" value="${params.get('ticker')}" > 
-  	<input type="button"  onclick="queryYQL();queryYQL1(); " value="Go" id="gobutton" class="btn-mini btn-primary">
+  	<input type="button"  onclick="Change_Cursor('');queryYQL();queryYQL1(); " value="Go" id="gobutton" class="btn-mini btn-primary">
   	
   	</div>
   	</div>
@@ -735,11 +737,11 @@
 <td nowrap><label class="control-label"><b>Stock Price :</b></label></td>
 
   			<td><input type="text" id="stockPrice"  readonly value="${params.get('stockPrice')}" name="stockPrice" class="span1" size="10"> </td>
-  			<td valign="center"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL()"/></td>
+  			<td valign="center"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL()"/></td>
 <td><img src="@{'/public/images/clear.gif'}"   width="30"></td>
 	<td align="center" nowrap ><label class="control-label"><b>Expiration :</b></label></td>
-  			<td><select class="span2" name="expiration_1" id="expiration_1"  onchange="queryYQL2();"><option>--</option></select></td>
-  			<td valign="center"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL1()"/></td>
+  			<td><select class="span2" name="expiration_1" id="expiration_1"  onchange="Change_Cursor('');queryYQL2();"><option>--</option></select></td>
+  			<td valign="center"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL1()"/></td>
        </tr>
   		
        </tbody>
@@ -763,11 +765,11 @@
         <tr>
         	<td><select class="span2" id="longshort_1" name="longshort_1" "><option value="--">--</option><option value="BUY">Buy</option><option value="SELL">Sell</option></select></td>
             <td><input size=5  class="span1" type="text" name="contracts_1" id="contracts_1" /></td>
-            <td><select class="span2" id="type_1" name="type_1" onchange="queryYQL3(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
-	        <td><select class="span2" name="strike_1" id="strike_1"  onchange="queryYQL3(this)"><option value="--">--</option></select></td>
-	        <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL2()"/> </td>
+            <td><select class="span2" id="type_1" name="type_1" onchange="Change_Cursor('');queryYQL3(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
+	        <td><select class="span2" name="strike_1" id="strike_1"  onchange="Change_Cursor('');queryYQL3(this)"><option value="--">--</option></select></td>
+	        <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL2()"/> </td>
             <td><input class="span1" size=10 type="text" name="premium_1" id="premium_1" /></td>
-		    <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL3(this)"/></td>
+		    <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL3(this)"/></td>
         	
             <td><input type="button" class="btn-mini btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
            
@@ -807,10 +809,10 @@
         <tr>
         	<td><select class="span2"id="longshort_1c" name="longshort_1c"><option value="--">--</option><option value="BUY">Buy</option><option value="SELL">Sell</option></select></td>
             <td><input class="span1" size=5 type="text" name="contracts_1c" id="contracts_1c" /></td>
-            <td><select class="span2" id="type_1c" name="type_1c" onchange="queryYQL31(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
-	        <td><select class="span2" name="strike_1c" id="strike_1c"  onchange="queryYQL31(this)"><option value="--">--</option></select></td>
+            <td><select class="span2" id="type_1c" name="type_1c" onchange="Change_Cursor('');queryYQL31(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
+	        <td><select class="span2" name="strike_1c" id="strike_1c"  onchange="Change_Cursor('');queryYQL31(this)"><option value="--">--</option></select></td>
             <td><input size=10 class="span1" type="text" name="premium_1c" id="premium_1c" /></td>
-        	<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="queryYQL31(this)"/></td>
+        	<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL31(this)"/></td>
             <td><input type="button" class="btn-mini btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRowCompare(this)"/></td>
            
         </tr>
@@ -957,11 +959,7 @@ function insRowCompare()
 
     </div> <!-- /container -->
      <script type="text/javascript">
-    jQuery(function($) {
-        
-        $('.dropdown-toggle').dropdown()
-        
-    });
+    
 </script>
 
     <!-- Le javascript
