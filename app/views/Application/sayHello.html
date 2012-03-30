@@ -311,6 +311,18 @@ a:link {
  <br/>
  	<label for="inv_c" id="inv_c"></label>
      <br/>
+     %{
+    	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
+    	java.util.Iterator it = positionsMap.entrySet().iterator();
+   		while (it.hasNext()) {
+       	 java.util.Map.Entry pairs = (java.util.Map.Entry)it.next();
+      %}
+      	${pairs.getKey()} = ${pairs.getValue()}
+      %{	
+  		  }.
+     %}
+     
+      <br/>
      </center>
 <script type="text/javascript">
 
@@ -319,6 +331,7 @@ $(function () {
 	    
     var sin = [], cos = [];
     var test = "${modelData.m}";
+    var positionsMap =  "${modelData.positionsMap}";
     //test = test.replace(/=/g,":");
     var first = test.substring(2,test.indexOf("}"));
 	var second = null;
