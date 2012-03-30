@@ -201,7 +201,9 @@ public class OptionsCalculator {
 		    	  model.setTransactionType(buyOrSell);
 	    		  modelList.add(model);
 	    	  }
+	    	  System.out.println("modellist is "+modelList);
 	    	  double investment = getInvestment(modelList);
+	    	  System.out.println("inv "+investment);
 	    	  positionMap.put(positionName, investment);
 	    	
 	      }
