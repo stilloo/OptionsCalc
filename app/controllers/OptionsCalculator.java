@@ -3,6 +3,9 @@
  */
 package controllers;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,12 +29,22 @@ public class OptionsCalculator {
 	{
 		double minStrike =Double.MAX_VALUE;
 		double maxStrike = Double.MIN_VALUE;
+		
+		 String myDriver = "com.mysql.jdbc.Driver";
+	      String myUrl = "jdbc:mysql://localhost/optionsDb";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	      
+	      Statement st = conn.createStatement();
+	      
+		
 		for(Map<String,String> map:positionsList)
 		{
 			//System.out.println("map is "+map);
 			int numOfContracts = Integer.parseInt(map.get("contracts"));
 			for(int i = 0;i <numOfContracts;i++)
 			{
+				
 				//System.out.println("map here is "+map);
 				OptionsModel model = new OptionsModel();
 				String buyOrSell =  map.get("buyOrSell");
@@ -54,6 +67,25 @@ public class OptionsCalculator {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 				Date date = dateFormat.parse(expirationDate);
 				model.setOptionDate(date);
+				if(i == 0)
+				{
+					 String sql = "INSERT INTO positionsTb values (";
+					 StringBuilder builder = new StringBuilder();
+					 builder.append(sql);
+					 builder.append("userid").append(",");
+					 builder.append("position1").append(",");
+					 builder.append(ticker).append(",");
+					 builder.append(0.00).append(",");
+					 builder.append("'"+date+"'").append(",");
+					 builder.append(buyOrSell).append(",");
+					 builder.append(numOfContracts).append(",");
+					 builder.append(callOrPut).append(",");
+					 builder.append(Double.parseDouble(strike)).append(",");
+					 builder.append(Double.parseDouble(premium)).append(",");
+					 builder.append(")");
+					 System.out.println("SQL is "+builder.toString());
+					 st.addBatch(builder.toString());
+				}
 				
 				
 			//	System.out.println("Model here option type "+model.getOptionType());
@@ -64,7 +96,14 @@ public class OptionsCalculator {
 		}
 		
 		
-		
+		  st.executeBatch();
+		   
+		   st.close();
+		     
+		    // writer.flush();
+		   //  writer.close();
+		    conn.close();
+		    
 		
 		/*
 		model = new OptionsModel();
