@@ -318,7 +318,7 @@ $(function () {
 	
 	    
     var sin = [], cos = [];
-    var test = "${m}";
+    var test = "${modelData.m}";
     //test = test.replace(/=/g,":");
     var first = test.substring(2,test.indexOf("}"));
 	var second = null;
@@ -330,14 +330,14 @@ $(function () {
    // alert(first);
     var options = first.split(",");
    // alert(options[options.length-1])
-    for (var i = 0; i < options.length; i++) {
+   // for (var i = 0; i < options.length; i++) {
     	//alert(options[i]);
-    	var optionPair = options[i].split("=");
+    //	var optionPair = options[i].split("=");
     	//alert(optionPair[0]);
     	//alert(optionPair[1]);
        //sin.push([1, 300);
         //cos.push([i, Math.cos(i)]);
-    }
+   // }
 
     
     var minVal, maxVal, investment, investment_c;

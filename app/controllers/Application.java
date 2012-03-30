@@ -69,7 +69,7 @@ public class Application extends Controller {
     public static void sayHello(String myName) {
     	//System.out.println("Rendering");
     	Map<String, Double>  renderMap = null;
-   	 
+    	Map<String, Double>  positionsMap = null;
 			List<Map<String,Double>> m = new ArrayList<Map<String,Double>>();
 	    	
     	try {
@@ -124,8 +124,8 @@ public class Application extends Controller {
 			 OptionsCalculator calculator = new OptionsCalculator();
 			 renderMap = calculator.process(positionsList,ticker,stockPrice);
 			 renderMap.put("inv", calculator.getInvestment());
-			 Map<String, Double>  mpe = calculator.getPositions();
-			 m.add(mpe);	
+			 positionsMap= calculator.getPositions();
+			
 			 m.add(renderMap);
 			    
 			
@@ -202,8 +202,11 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
     	}
+    	OptionsModelData modelData = new OptionsModelData();
+    	modelData.m=m;
+    	modelData.positionsMap=positionsMap;
        //System.out.println("M is "+m);
-        render(m);
+        render(modelData);
     }
     
     

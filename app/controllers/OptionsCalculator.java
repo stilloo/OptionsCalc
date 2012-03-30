@@ -255,7 +255,7 @@ public class OptionsCalculator {
 		 double investment = 0.0;
 		for(OptionsModel model:modelList)
 		{
-			System.out.println(model.getOptionType() + " "+model.getTransactionType());
+			//System.out.println(model.getOptionType() + " "+model.getTransactionType());
 			if(model.getOptionType().equals("C") && model.getTransactionType().equals("BUY"))
 			{
 				//ok its call option
