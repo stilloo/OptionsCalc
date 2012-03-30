@@ -79,7 +79,7 @@ public class OptionsCalculator {
 					 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 			         String dateStr = sdf.format(date);
 			     	 builder.append("'"+dateStr+"'").append(",");
-					 builder.append("'"+buyOrSell+"'").append(",");
+					 builder.append("'"+buyOrSell.charAt(0)+"'").append(",");
 					 builder.append(numOfContracts).append(",");
 					 builder.append("'"+callOrPut+"'").append(",");
 					 builder.append(Double.parseDouble(strike)).append(",");
