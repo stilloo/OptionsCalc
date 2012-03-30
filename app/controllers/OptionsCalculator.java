@@ -160,7 +160,10 @@ public class OptionsCalculator {
 	
 	public Map<String,Double> getPositions() throws Exception
 	{
+		
 		Map<String,Double> positionMap = new HashMap<String, Double>();
+		return positionMap;
+		/*
 		 String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
@@ -233,6 +236,7 @@ public class OptionsCalculator {
 		st.close();
 		conn.close();
 	      return positionMap;
+	      */
 	}
 	
 	public double getInvestment()
