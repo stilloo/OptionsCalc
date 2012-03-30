@@ -316,12 +316,10 @@ a:link {
     	java.util.Iterator it = positionsMap.entrySet().iterator();
    		while (it.hasNext()) {
        	 java.util.Map.Entry pairs = (java.util.Map.Entry)it.next();
-       	 String key = pairs.getKey();
-       	 String value = pairs.getValue();
       %}
-      	${key} = ${value}
+      	${pairs.getKey()} = ${pairs.getValue()}
       %{	
-  		  }.
+  		  }
      %}
      
       <br/>
