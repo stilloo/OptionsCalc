@@ -198,8 +198,15 @@ public class OptionsCalculator {
 		    	  model.setOptionDate(expiration);
 		    	  model.setOptionType(type);
 		    	  model.setStrikePrice(strike);
-		    	  model.setTransactionType(buyOrSell);
-	    		  modelList.add(model);
+		    	  if(buyOrSell.equals("B"))
+		    	  {
+		    		  model.setTransactionType("BUY");
+		    	  }
+		    	  else if (buyOrSell.equals("S"))
+		    	  {
+		    		  model.setTransactionType("SELL");
+		    	  }
+		    	  modelList.add(model);
 	    	  }
 	    	  System.out.println("modellist is "+modelList);
 	    	  double investment = getInvestment(modelList);
