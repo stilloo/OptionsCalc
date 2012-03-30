@@ -124,7 +124,8 @@ public class Application extends Controller {
 			 OptionsCalculator calculator = new OptionsCalculator();
 			 renderMap = calculator.process(positionsList,ticker,stockPrice);
 			 renderMap.put("inv", calculator.getInvestment());
-			 
+			 Map<String, Double>  mpe = calculator.getPositions();
+			 m.add(mpe);	
 			 m.add(renderMap);
 			    
 			

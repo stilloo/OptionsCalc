@@ -5,6 +5,8 @@ package controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.sun.tools.javac.util.Position;
 
 /**
  * @author anubha_phadnis
@@ -154,10 +158,93 @@ public class OptionsCalculator {
 		
 	}
 	
+	public Map<String,Double> getPositions() throws Exception
+	{
+		Map<String,Double> positionMap = new HashMap<String, Double>();
+		 String myDriver = "com.mysql.jdbc.Driver";
+	      String myUrl = "jdbc:mysql://localhost/optionsDb";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	      String sql = "select * from positionsTb where userId='sachin' group by positionName";
+	      PreparedStatement st = conn.prepareStatement(sql);
+	      ResultSet rs = st.executeQuery();
+	      String currentPosition=null;
+	      
+	      while(rs.next())
+	      {
+	    	 
+	    	  String positionName = rs.getString("positionName");
+	    	  String userId  = rs.getString("userId");
+	    	  String ticker = rs.getString("Ticker");
+	    	  double longShortStockPrice=rs.getDouble("LongShortStockPrice");
+	    	  java.sql.Date expiration = rs.getDate("Expiration");
+	    	  String buyOrSell = rs.getString("BuyOrSell");
+	    	  int contracts = rs.getInt("Contracts");
+	    	  String type = rs.getString("TYPE");
+	    	  int strike = rs.getInt("Strike");
+	    	  double premium = rs.getDouble("Premium");
+	    	  
+	    	  List<OptionsModel> modelList = null;
+	    	  if(currentPosition ==null || !currentPosition.equals(positionName))
+	    	  {
+	    		  currentPosition=positionName;
+	    		  modelList = new ArrayList<OptionsModel>();
+	    	  }
+	    	
+	    	  for(int i = 0 ; i < contracts ;i++)
+	    	  {
+	    		  OptionsModel model = new OptionsModel();
+	    		  model.setOptionPremium(premium);
+		    	  model.setOptionDate(expiration);
+		    	  model.setOptionType(type);
+		    	  model.setStrikePrice(strike);
+		    	  model.setTransactionType(buyOrSell);
+	    		  modelList.add(model);
+	    	  }
+	    	  double investment = getInvestment(modelList);
+	    	  positionMap.put(positionName, investment);
+	    	
+	      }
+		rs.close();
+		st.close();
+		conn.close();
+	      return positionMap;
+	}
+	
 	public double getInvestment()
 	{
 
 		for(OptionsModel model:optionsModelList)
+		{
+			if(model.getOptionType().equals("C") && model.getTransactionType().equals("BUY"))
+			{
+				//ok its call option
+				investment+=model.getOptionPremium();
+				
+			}
+			else if(model.getOptionType().equals("C") && model.getTransactionType().equals("SELL"))
+			{
+				investment-=model.getOptionPremium();
+				
+			}
+			else if(model.getOptionType().equals("P") && model.getTransactionType().equals("BUY"))
+			{
+				investment+=model.getOptionPremium();
+				
+			}
+			else if(model.getOptionType().equals("P") && model.getTransactionType().equals("SELL"))
+			{
+				investment-=model.getOptionPremium();
+				
+			}
+		}
+		return investment*100;
+	}
+	
+	public double getInvestment(List<OptionsModel> modelList)
+	{
+		 double investment = 0.0;
+		for(OptionsModel model:modelList)
 		{
 			if(model.getOptionType().equals("C") && model.getTransactionType().equals("BUY"))
 			{
