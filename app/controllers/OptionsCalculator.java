@@ -72,8 +72,8 @@ public class OptionsCalculator {
 					 String sql = "INSERT INTO positionsTb values (";
 					 StringBuilder builder = new StringBuilder();
 					 builder.append(sql);
-					 builder.append("userid").append(",");
-					 builder.append("position1").append(",");
+					 builder.append("'sachin'").append(",");
+					 builder.append("'position1'").append(",");
 					 builder.append(ticker).append(",");
 					 builder.append(0.00).append(",");
 					 builder.append("'"+date+"'").append(",");
