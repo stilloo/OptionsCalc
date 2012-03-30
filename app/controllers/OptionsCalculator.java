@@ -165,7 +165,7 @@ public class OptionsCalculator {
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
 	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
-	      String sql = "select * from positionsTb where userId='sachin' group by positionName";
+	      String sql = "select * from positionsTb where userId='sachin' order by positionName";
 	      PreparedStatement st = conn.prepareStatement(sql);
 	      ResultSet rs = st.executeQuery();
 	      String currentPosition=null;
