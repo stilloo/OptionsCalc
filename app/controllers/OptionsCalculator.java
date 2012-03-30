@@ -81,7 +81,7 @@ public class OptionsCalculator {
 					 builder.append(numOfContracts).append(",");
 					 builder.append(callOrPut).append(",");
 					 builder.append(Double.parseDouble(strike)).append(",");
-					 builder.append(Double.parseDouble(premium)).append(",");
+					 builder.append(Double.parseDouble(premium));
 					 builder.append(")");
 					 System.out.println("SQL is "+builder.toString());
 					 st.addBatch(builder.toString());
