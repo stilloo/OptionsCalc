@@ -187,9 +187,19 @@ public class OptionsCalculator {
 	    	  List<OptionsModel> modelList = null;
 	    	  if(currentPosition ==null || !currentPosition.equals(positionName))
 	    	  {
-	    		  currentPosition=positionName;
+	    		  if(currentPosition !=null && rs.isLast())
+	    		  {
+	    			  //if this is last row process
+	    			  double investment = getInvestment(modelList);
+			    	  System.out.println("inv "+investment);
+			    	  positionMap.put(positionName, investment);
+	    		  }
+	    
+	    		  //moving to new position
 	    		  modelList = new ArrayList<OptionsModel>();
+	    		  currentPosition = null;
 	    	  }
+	    	  
 	    	
 	    	  for(int i = 0 ; i < contracts ;i++)
 	    	  {
@@ -209,9 +219,14 @@ public class OptionsCalculator {
 		    	  modelList.add(model);
 	    	  }
 	    	  System.out.println("modellist is "+modelList);
-	    	  double investment = getInvestment(modelList);
-	    	  System.out.println("inv "+investment);
-	    	  positionMap.put(positionName, investment);
+	    	  if((currentPosition ==null || currentPosition.equals(positionName)) && rs.isLast())
+	    	  {
+	    		  double investment = getInvestment(modelList);
+		    	  System.out.println("inv "+investment);
+		    	  positionMap.put(positionName, investment);
+	    	  }
+	    	
+			  currentPosition=positionName;
 	    	
 	      }
 		rs.close();
