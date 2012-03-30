@@ -313,12 +313,15 @@ a:link {
      <br/>
      %{
     	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
+    	if(positionsMap !=null)
+    	{
     	java.util.Iterator posItr = positionsMap.entrySet().iterator();
    		while (posItr.hasNext()) {
        	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
       %}
       	${pairs.getKey()} = ${pairs.getValue()}
       %{	
+  		 }
   		  }
      %}
      
