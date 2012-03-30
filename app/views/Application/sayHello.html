@@ -313,9 +313,9 @@ a:link {
      <br/>
      %{
     	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
-    	java.util.Iterator it = positionsMap.entrySet().iterator();
-   		while (it.hasNext()) {
-       	 java.util.Map.Entry pairs = (java.util.Map.Entry)it.next();
+    	java.util.Iterator posItr = positionsMap.entrySet().iterator();
+   		while (posItr.hasNext()) {
+       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
       %}
       	${pairs.getKey()} = ${pairs.getValue()}
       %{	
