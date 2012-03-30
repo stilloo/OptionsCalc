@@ -76,7 +76,9 @@ public class OptionsCalculator {
 					 builder.append("'position1'").append(",");
 					 builder.append("'"+ticker+"'").append(",");
 					 builder.append(0.00).append(",");
-					 builder.append("'"+expirationDate+"'").append(",");
+					 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+			         String dateStr = sdf.format(date);
+			     	 builder.append("'"+dateStr+"'").append(",");
 					 builder.append("'"+buyOrSell+"'").append(",");
 					 builder.append(numOfContracts).append(",");
 					 builder.append("'"+callOrPut+"'").append(",");
