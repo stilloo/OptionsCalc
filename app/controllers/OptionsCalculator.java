@@ -74,12 +74,12 @@ public class OptionsCalculator {
 					 builder.append(sql);
 					 builder.append("'sachin'").append(",");
 					 builder.append("'position1'").append(",");
-					 builder.append(ticker).append(",");
+					 builder.append("'"+ticker+"'").append(",");
 					 builder.append(0.00).append(",");
 					 builder.append("'"+date+"'").append(",");
-					 builder.append(buyOrSell).append(",");
+					 builder.append("'"+buyOrSell+"'").append(",");
 					 builder.append(numOfContracts).append(",");
-					 builder.append(callOrPut).append(",");
+					 builder.append("'"+callOrPut+"'").append(",");
 					 builder.append(Double.parseDouble(strike)).append(",");
 					 builder.append(Double.parseDouble(premium));
 					 builder.append(")");
