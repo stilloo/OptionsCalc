@@ -171,6 +171,7 @@ public class OptionsCalculator {
 	      ResultSet rs = st.executeQuery();
 	      String currentPosition=null;
 	      Map<String,List<OptionsModel>> l=new HashMap<String, List<OptionsModel>>();
+	      List<OptionsModel> modelList = null;
 	      while(rs.next())
 	      {
 	    	 
@@ -185,7 +186,7 @@ public class OptionsCalculator {
 	    	  int strike = rs.getInt("Strike");
 	    	  double premium = rs.getDouble("Premium");
 	    	  
-	    	  List<OptionsModel> modelList = null;
+	    	
 	    	  if(currentPosition ==null || !currentPosition.equals(positionName))
 	    	  {
 	    		  
