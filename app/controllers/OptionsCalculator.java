@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,10 +161,7 @@ public class OptionsCalculator {
 	
 	public Map<String,Double> getPositions() throws Exception
 	{
-		
 		Map<String,Double> positionMap = new HashMap<String, Double>();
-		return positionMap;
-		/*
 		 String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
@@ -172,7 +170,7 @@ public class OptionsCalculator {
 	      PreparedStatement st = conn.prepareStatement(sql);
 	      ResultSet rs = st.executeQuery();
 	      String currentPosition=null;
-	      
+	      Map<String,List<OptionsModel>> l=new HashMap<String, List<OptionsModel>>();
 	      while(rs.next())
 	      {
 	    	 
@@ -190,18 +188,11 @@ public class OptionsCalculator {
 	    	  List<OptionsModel> modelList = null;
 	    	  if(currentPosition ==null || !currentPosition.equals(positionName))
 	    	  {
-	    		  if(currentPosition !=null && rs.isLast())
-	    		  {
-	    			  //if this is last row process
-	    			  double investment = getInvestment(modelList);
-			    	  System.out.println("inv "+investment);
-			    	  positionMap.put(positionName, investment);
-	    		  }
-	    
+	    		  
 	    		  //moving to new position
 	    		  modelList = new ArrayList<OptionsModel>();
-	    		  currentPosition = null;
-	    	  }
+	    		  l.put(positionName,modelList);
+		      }
 	    	  
 	    	
 	    	  for(int i = 0 ; i < contracts ;i++)
@@ -222,21 +213,26 @@ public class OptionsCalculator {
 		    	  modelList.add(model);
 	    	  }
 	    	  System.out.println("modellist is "+modelList);
-	    	  if((currentPosition ==null || currentPosition.equals(positionName)) && rs.isLast())
-	    	  {
-	    		  double investment = getInvestment(modelList);
-		    	  System.out.println("inv "+investment);
-		    	  positionMap.put(positionName, investment);
-	    	  }
-	    	
-			  currentPosition=positionName;
+	    	  currentPosition=positionName;
 	    	
 	      }
+	     
+	     Iterator<String> itr =  l.keySet().iterator();
+	     while(itr.hasNext())
+	     {
+	    	 String pos = itr.next();
+	    	 List<OptionsModel> opmodel = l.get(pos);
+	    	  double investment = getInvestment(opmodel);
+	    	  System.out.println("inv "+investment);
+	    	  positionMap.put(pos, investment);
+	     }
+	     
+	      
+	      
 		rs.close();
 		st.close();
 		conn.close();
 	      return positionMap;
-	      */
 	}
 	
 	public double getInvestment()
