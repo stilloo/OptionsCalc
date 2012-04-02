@@ -110,8 +110,15 @@ public class OptionsCalculator {
 		
 		if(st !=null && conn!=null)
 		{
+		
+			try
+			{
 		  st.executeBatch();
-		   
+			}
+			catch(Exception e)
+			{
+				
+			}
 		   st.close();
 		     
 		    // writer.flush();
