@@ -78,8 +78,7 @@ public class OptionsCalculator {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 				Date date = dateFormat.parse(expirationDate);
 				model.setOptionDate(date);
-				
-				if(i == 0)
+				if(!StringUtils.isNullOrEmpty(positionName) && i == 0)
 				{
 					 String sql = "INSERT INTO positionsTb values (";
 					 StringBuilder builder = new StringBuilder();
