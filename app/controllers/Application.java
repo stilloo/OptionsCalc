@@ -5,6 +5,10 @@ import play.mvc.*;
 
 import java.util.*;
 
+import org.codehaus.groovy.util.StringUtil;
+
+import antlr.StringUtils;
+
 import models.*;
 
 public class Application extends Controller {
@@ -82,6 +86,8 @@ public class Application extends Controller {
 			 String premium= null;
 			 String ticker = params.get("ticker");
 			 String stockPrice = params.get("stockPrice");
+			 String username = params.get("username");
+			 String positionName=params.get("posname");
 			 Iterator<String> keyItr = params.data.keySet().iterator();
 			
 			// int size = params.data.size() - 2;
@@ -122,10 +128,12 @@ public class Application extends Controller {
 			 }
 			 
 			 OptionsCalculator calculator = new OptionsCalculator();
-			 renderMap = calculator.process(positionsList,ticker,stockPrice);
-			 renderMap.put("inv", calculator.getInvestment());
-			 positionsMap= calculator.getPositions();
-			
+			 renderMap = calculator.process(positionsList,ticker,stockPrice,username,positionName);
+		  	 renderMap.put("inv", calculator.getInvestment());
+		  	 if(!com.mysql.jdbc.StringUtils.isNullOrEmpty(positionName))
+			 {
+		  		 positionsMap= calculator.getPositions(username);
+			 }
 			 m.add(renderMap);
 			    
 			
@@ -189,7 +197,7 @@ public class Application extends Controller {
 			 if(!positionsList.isEmpty())
 			 {
 			 OptionsCalculator calculator = new OptionsCalculator();
-			 renderMap = calculator.process(positionsList,ticker,stockPrice);
+			 renderMap = calculator.process(positionsList,ticker,stockPrice,null,null);
 			 renderMap.put("inv_c",calculator.getInvestment());
 			 //System.out.println("rendermap "+renderMap);
 			 m.add(renderMap);

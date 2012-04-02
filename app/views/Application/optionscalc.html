@@ -50,6 +50,8 @@
 	<script src="@{'/public/javascripts/jquery.ui.core.js'}"></script>
 	<script src="@{'/public/javascripts/jquery.ui.widget.js'}"></script>
 	<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}"></script>
+	
+	
 		
 	<script>
 	$(function() {
@@ -195,6 +197,8 @@
 				 document.getElementById("cmptable").style.display="";
 					  
 				 document.getElementById("subbtn").style.display="";
+				 
+				 document.getElementById("positiondiv").style.display="";
 					  
 				
 				 var combo = document.getElementById("strike_"+x);
@@ -475,6 +479,8 @@
 		   document.getElementById("cmptable").style.display="";
 			  
 		   document.getElementById("subbtn").style.display="";
+		   
+		   document.getElementById("positiondiv").style.display="";
 			  
 		
 		  var option = document.createElement("option");
@@ -706,7 +712,15 @@
 		    document.getElementById("throbber").style.display=mark;
 	   }
 	   
-	  
+
+	   $(function() {
+		   
+		    $("form").bind("keypress", function(e) {
+		            if (e.keyCode == 13) return false;
+		      });
+		 
+		});
+
 	 
 	</script>
 	
@@ -829,7 +843,30 @@
     
     </table>
     </div>
+    <div id="myModal" class="modal hide fade">
+     <div class="modal-header">
+     <a class="close" data-dismiss="modal">x</a>
+     <h3>Modal Heading</h3>
+     </div>
+     <div class="modal-body">
+            Enter Position Name : <input type="text" id="ff" value=""/>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+              <a href="#" class="btn btn-primary">Save changes</a>
+            </div>
+    </div>
+   
      <button style="display:none" id="subbtn" type="submit" class="btn btn-primary">Submit</button>
+     <br/>
+     <br/>
+     <div id="positiondiv" style="display:none"">
+      <b>UserName :</b> <input type="text" size="5" class="span1" name="username" id="username" value="${params.get('username')}" >
+      <b>PositionName :</b> <input type="text" size="15" class="span1" name="posname" id="posname" value="${params.get('posname')}" >
+       
+  	<button   type="submit" id="savebutton" class="btn-mini btn-primary">Add to porfolio</button>
+  	
+     </div>
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
      
@@ -969,6 +1006,8 @@ function insRowCompare()
     <script src="@{'/public/javascripts/bootstrap.js'}"></script>
     <script src="@{'/public/javascripts/bootstrap.min.js'}"></script>
      <script src="@{'/public/javascripts/bootstrap-dropdown.js'}"></script>
+       <script src="@{'/public/javascripts/bootstrap-transition.js'}"></script>
+     
      
 <script src="@{'/public/javascripts/bootstrap-collapse.js'}"></script>
 

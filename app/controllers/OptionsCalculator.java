@@ -18,6 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mysql.jdbc.StringUtils;
+
 
 
 /**
@@ -30,18 +32,22 @@ public class OptionsCalculator {
 	private  Map<String, Double> map = new LinkedHashMap<String, Double>();
 	private double investment = 0.0;
 
-	public  Map<String, Double> process(List<Map<String,String>> positionsList , String ticker,String stockPriceStr) throws Exception
+	public  Map<String, Double> process(List<Map<String,String>> positionsList , String ticker,String stockPriceStr,String username,String positionName) throws Exception
 	{
 		double minStrike =Double.MAX_VALUE;
 		double maxStrike = Double.MIN_VALUE;
 		
+		 Connection conn = null;
+		 Statement st = null;
+		if(!StringUtils.isNullOrEmpty(positionName))
+		{
 		 String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
-	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	       conn = DriverManager.getConnection(myUrl, "root", "einstein123");
 	      
-	      Statement st = conn.createStatement();
-	      
+	       st = conn.createStatement();
+		} 
 		
 		for(Map<String,String> map:positionsList)
 		{
@@ -72,13 +78,14 @@ public class OptionsCalculator {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 				Date date = dateFormat.parse(expirationDate);
 				model.setOptionDate(date);
+				
 				if(i == 0)
 				{
 					 String sql = "INSERT INTO positionsTb values (";
 					 StringBuilder builder = new StringBuilder();
 					 builder.append(sql);
-					 builder.append("'sachin'").append(",");
-					 builder.append("'position1'").append(",");
+					 builder.append(username).append(",");
+					 builder.append(positionName).append(",");
 					 builder.append("'"+ticker+"'").append(",");
 					 builder.append(0.00).append(",");
 					 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -102,15 +109,17 @@ public class OptionsCalculator {
 			
 		}
 		
-		
+		if(st !=null && conn!=null)
+		{
 		  st.executeBatch();
 		   
 		   st.close();
 		     
 		    // writer.flush();
 		   //  writer.close();
-		    conn.close();
+		   conn.close();
 		    
+		}
 		
 		/*
 		model = new OptionsModel();
@@ -159,14 +168,14 @@ public class OptionsCalculator {
 		
 	}
 	
-	public Map<String,Double> getPositions() throws Exception
+	public Map<String,Double> getPositions(String username) throws Exception
 	{
 		Map<String,Double> positionMap = new HashMap<String, Double>();
 		 String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
 	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
-	      String sql = "select * from positionsTb where userId='sachin' order by positionName";
+	      String sql = "select * from positionsTb where userId='"+username+"' order by positionName";
 	      PreparedStatement st = conn.prepareStatement(sql);
 	      ResultSet rs = st.executeQuery();
 	      String currentPosition=null;
