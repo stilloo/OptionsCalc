@@ -83,8 +83,8 @@ public class OptionsCalculator {
 					 String sql = "INSERT INTO positionsTb values (";
 					 StringBuilder builder = new StringBuilder();
 					 builder.append(sql);
-					 builder.append(username).append(",");
-					 builder.append(positionName).append(",");
+					 builder.append("'"+username+"'").append(",");
+					 builder.append("'"+positionName+"'").append(",");
 					 builder.append("'"+ticker+"'").append(",");
 					 builder.append(0.00).append(",");
 					 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
