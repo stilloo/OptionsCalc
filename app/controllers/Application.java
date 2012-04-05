@@ -28,6 +28,33 @@ public class Application extends Controller {
     public static void history() {
         render(params);
     }
+    
+    public static void login() {
+        render(params);
+    }
+
+    public static void checkLogin() {
+    	Map<String,String> map = new HashMap<String, String>();
+    	map.put("user", params.get("user"));
+    	map.put("pass", params.get("pass"));
+    	boolean loginFound = false;
+    	try {
+			loginFound=  LoginHandler.checkLogin(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	if(loginFound)
+    	{
+    		//redirect to optionscalc
+    		redirect("optionscalc");
+    	}
+    	else
+    	{
+    		redirect("login");
+    	}
+    }
+    
   
 //    public static void showHistory(String ticker, String optionsdate) {
 //    	System.out.println(ticker);
