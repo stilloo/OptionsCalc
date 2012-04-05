@@ -46,12 +46,13 @@ public class Application extends Controller {
 		}
     	if(loginFound)
     	{
+    		 session.put("username", params.get("user"));
     		//redirect to optionscalc
     		redirect("/application/optionscalc");
     	}
     	else
     	{
-    		redirect("/application/login");
+    		flash.keep("url");
     	}
     }
     
