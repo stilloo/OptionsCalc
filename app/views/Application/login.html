@@ -1,0 +1,135 @@
+#{extends 'main.html' /}
+#{set title:'Options Strategy Builder' /}
+
+  <!-- Le styles -->
+    <link href="@{'/public/stylesheets/bootstrap.css'}" rel="stylesheet">
+   
+    <link href="@{'/public/stylesheets/bootstrap-responsive.css'}" rel="stylesheet">
+
+ <style type="text/css">
+  .throbber {
+    background: url("data:image/gif;base64,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") no-repeat scroll center center gray;
+    height: 100%;
+    opacity: 0.2;
+    position: absolute;
+    width: 100%;
+}
+ 
+ </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@{'/public/images/apple-touch-icon-114-precomposed.png'}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@{'/public/images/apple-touch-icon-72-precomposed.png'}">
+    <link rel="apple-touch-icon-precomposed" href="@{'/public/images/apple-touch-icon-57-precomposed.png'}">
+   <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Options Earnings</a>
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+               <li class="dropdown">
+       			 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Software <b class="caret"></b></a>
+      			 <ul class="dropdown-menu">
+          			<li><a href="/application/optionscalc">Strategy Builder</a></li>
+         			<li><a href="/application/history">Historic Viewer</a></li>
+       			 </ul>
+      		</li>
+      		  <li><a href="#education">Education</a></li>
+              <li><a href="#contact">Contact Us</a></li>
+              <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    	<script  type="text/javascript" src="@{'/public/javascripts/jquery-1.7.1.js'}"></script>
+	<script src="@{'/public/javascripts/jquery.ui.core.js'}"></script>
+	<script src="@{'/public/javascripts/jquery.ui.widget.js'}"></script>
+	<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}"></script>
+	
+	
+		
+	<script>
+	$(function() {
+		 $("#ticker").keyup(function(event){
+			    if(event.keyCode == 13){
+			        $("#gobutton").click();
+			    }
+			});
+		
+	});
+	
+	</script>
+	<script>
+function validate(){
+var username=document.form.user.value;
+var password=document.form.pass.value;
+if(username==""){
+ alert("Enter Username!");
+  return false;
+}
+if(password==""){
+ alert("Enter Password!");
+  return false;
+}
+return true;
+}
+</script>
+	
+
+<div class="throbber" style="display:none" id="throbber"></div>
+	
+<div  align="center"><h2>Login to OptionsEarning</h2></div>
+    <div class="container">
+    <body>
+    <form name="form" method="post" action="checkLogin" onsubmit="javascript:return validate();">
+    <br/>
+    <br/>
+<table align="center">
+<tr><td>Username:</td><td><input type="text" name="user"></td></tr>
+<tr><td>Password:</td><td><input type="password" name="pass"></td></tr>
+<tr><td></td><td><button type="submit">Login</button></td></tr>
+<tr><td></td><td><a href="register.jsp">Register Here</a></td></tr>
+</table>
+</form>
+
+</body>
+
+
+<div align="center">
+<iframe name="my_iframe" width="800"  height="600" frameborder="0"></iframe>
+</div>
+     
+   <div class="subnav">
+    <ul class="nav nav-pills">
+      <li><a href="#labels">Home</a></li>
+      <li><a href="#badges">Software</a></li>
+      <li><a href="#typography">Contact Us</a></li>
+      <li><a href="#thumbnails">About</a></li>
+    </ul>
+  </div>
+    
+
+    </div> <!-- /container -->
+     <script type="text/javascript">
+    
+</script>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="@{'/public/javascripts/jquery-1.7.1.js'}"></script>
+    <script src="@{'/public/javascripts/bootstrap.js'}"></script>
+    <script src="@{'/public/javascripts/bootstrap.min.js'}"></script>
+     <script src="@{'/public/javascripts/bootstrap-dropdown.js'}"></script>
+       <script src="@{'/public/javascripts/bootstrap-transition.js'}"></script>
+     
+     
+<script src="@{'/public/javascripts/bootstrap-collapse.js'}"></script>
+
+
+
