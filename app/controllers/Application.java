@@ -47,11 +47,11 @@ public class Application extends Controller {
     	if(loginFound)
     	{
     		//redirect to optionscalc
-    		redirect("optionscalc");
+    		redirect("application/optionscalc");
     	}
     	else
     	{
-    		redirect("login");
+    		redirect("application/login");
     	}
     }
     
