@@ -330,6 +330,7 @@
 			   if(data.query.results == null)
 				   {
 				     // randomly yql returns null or invalid, in this case ignore and do not populate premium
+				   nodes[5].childNodes[0].value='';
 				   Change_Cursor('none');
 				   return;
 				   }
@@ -383,6 +384,8 @@
 				par=par.parentNode; 
 				} 
 			x=par.rowIndex;
+			var nodes = par.getElementsByTagName("td");
+			
 		x=x+1;
 		var e = document.getElementById("strike_"+x+"c");
 		var strUser = e.options[e.selectedIndex].value;
