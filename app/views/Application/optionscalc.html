@@ -170,14 +170,22 @@
 			ajaxianPosts.fetch(); // Go!!
 	}
 	
-	
+	function deleteTable() {
+		$('#POITable tr:gt(1)').remove()
+	}
 	   
 	function queryYQL2()
 	{
 		//Construct your query:
+		
 	    var x =  1;
 		var size = document.getElementById('POITable').rows.length - 1;
 
+		if(size > 1)
+		{
+			deleteTable();
+		}
+		
 		//var e1 = document.getElementById("type_"+x);
 		//var strUser1 = e1.options[e1.selectedIndex].value;
 		var expiration = "expiration_1";
@@ -297,13 +305,17 @@
 				par=par.parentNode; 
 				} 
 			x=par.rowIndex;
-		
-		var e = document.getElementById("strike_"+x);
+			var nodes = par.getElementsByTagName("td");
+	
+		//var e = document.getElementById("strike_"+x);
+	
+		var e = nodes[3].childNodes[0];
 		var strUser = e.options[e.selectedIndex].value;
-		var e1 = document.getElementById("type_"+x);
+		//var e1 = document.getElementById("type_"+x);
+		var e1 = nodes[2].childNodes[0];
 		var strUser1 = e1.options[e1.selectedIndex].value;
-		var buy = document.getElementById("longshort_"+x).value;
-		
+		//var buy = document.getElementById("longshort_"+x).value;
+		var buy = nodes[0].childNodes[0];
 		if(strUser == "--" || strUser1 == "--" || buy == "--")
 		{
 			Change_Cursor('none');
@@ -315,6 +327,12 @@
 
 		// Define your callback:
 			var callback = function(data) {
+			   if(data.query.results == null)
+				   {
+				     // randomly yql returns null or invalid, in this case ignore and do not populate premium
+				   Change_Cursor('none');
+				   return;
+				   }
 				var len = data.query.results.optionsChain.option.length;
 				
 				for(var i=0;i<len;i++)
@@ -327,15 +345,16 @@
 						
 							if(data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].ask == "" || data.query.results.optionsChain.option[i].bid == "NaN" || data.query.results.optionsChain.option[i].ask == "NaN")
 							{
-								document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
+								//document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
+								nodes[5].childNodes[0].value = data.query.results.optionsChain.option[i].lastPrice;
 							}
 							else if (data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].bid == "NaN")
 								{
-								document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].ask;
+								nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].ask;
 								}
 							else
 								{
-								document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].bid;
+								nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].bid;
 								}
 							break;
 						}
@@ -486,7 +505,10 @@
 		  var option = document.createElement("option");
 		    option.text = "${params.get('expiration_1')}";
 		    option.value = "${params.get('expiration_1')}";
-		    
+		    if(exp == null)
+		    	{
+		    	  return;
+		    	}
 		    try {
 		    	exp.add(option, null); //Standard
 		      
@@ -797,7 +819,7 @@ Welcome ${username}
     <table id="addrw" style="display:none" >
      <tr>
       		 <td>
-      		 <input class="btn-mini btn-primary" type="button" id="addmoreOIbutton" value="Add" onclick="insRow()" style="margin-left: 450px;"/>
+      		 <input class="btn-mini btn-primary" type="button" id="addmorePOIbutton" value="Add" onclick="insRow()" style="margin-left: 450px;"/>
       		 </td>
         </tr>
     
@@ -885,37 +907,42 @@ function deleteRowAtIndex(rownum)
     document.getElementById('POITable').deleteRow(rownum);
 }
 
+var rowcounter = 1;
 function insRow()
 {
+//rowcounter has previous row
+   
     var x=document.getElementById('POITable').getElementsByTagName('tbody')[0];
-    var new_row = x.rows[0].cloneNode(true);
-    
-    var len = x.rows.length+1;
+    var new_row = x.rows[x.rows.length-1].cloneNode(true);
+	rowcounter=rowcounter+1;
+	
+   // var len = x.rows.length+1;
+    var len = rowcounter;
     var inp1 = new_row.cells[0].getElementsByTagName('select')[0];
     inp1.id = inp1.id.split("_")[0] + "_" + len;
     inp1.name = inp1.name.split("_")[0]+ "_"+len;
-    inp1.selectedIndex=x.rows[0].cells[0].getElementsByTagName('select')[0].selectedIndex;
+    inp1.selectedIndex=x.rows[x.rows.length-1].cells[0].getElementsByTagName('select')[0].selectedIndex;
     //inp1.value = '';
     var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
     inp2.id = inp2.id.split("_")[0] + "_"+ len;
     inp2.name = inp2.name.split("_")[0]+ "_"+len;
-    inp2.value=x.rows[0].cells[1].getElementsByTagName('input')[0].value;
+    inp2.value=x.rows[x.rows.length-1].cells[1].getElementsByTagName('input')[0].value;
     
    // inp2.value = '';
     var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
     inp3.id = inp3.id.split("_")[0] + "_"+ len;
     inp3.name = inp3.name.split("_")[0]+ "_"+len;
-    inp3.selectedIndex=x.rows[0].cells[2].getElementsByTagName('select')[0].selectedIndex;
+    inp3.selectedIndex=x.rows[x.rows.length-1].cells[2].getElementsByTagName('select')[0].selectedIndex;
     
     var inp4 = new_row.cells[3].getElementsByTagName('select')[0];
     inp4.id = inp4.id.split("_")[0] + "_"+ len;
     inp4.name = inp4.name.split("_")[0]+ "_"+len;
-    inp4.selectedIndex=x.rows[0].cells[3].getElementsByTagName('select')[0].selectedIndex;
+    inp4.selectedIndex=x.rows[x.rows.length-1].cells[3].getElementsByTagName('select')[0].selectedIndex;
     
     var inp6 = new_row.cells[5].getElementsByTagName('input')[0];
     inp6.id = inp6.id.split("_")[0] + "_"+ len;
     inp6.name = inp6.name.split("_")[0]+ "_"+len;
-    inp6.value=x.rows[0].cells[5].getElementsByTagName('input')[0].value;;
+    inp6.value=x.rows[x.rows.length-1].cells[5].getElementsByTagName('input')[0].value;;
     
     x.appendChild( new_row );
     
@@ -923,41 +950,44 @@ function insRow()
     
 }
 
+var rowcountcmp=1;
 function insRowCompare()
 {
-    var x=document.getElementById('POITable1').getElementsByTagName('tbody')[0];
-    var new_row = x.rows[0].cloneNode(true);
-    
-    var len = x.rows.length+1;
+	 var x=document.getElementById('POITable1').getElementsByTagName('tbody')[0];
+	    var new_row = x.rows[x.rows.length-1].cloneNode(true);
+		rowcounter=rowcounter+1;
+		
+	   // var len = x.rows.length+1;
+	    var len = rowcountcmp;
     var inp1 = new_row.cells[0].getElementsByTagName('select')[0];
     inp1.id = inp1.id.split("_")[0] + "_" + len+"c";
     inp1.name = inp1.name.split("_")[0]+ "_"+len+"c";
-    inp1.selectedIndex=x.rows[0].cells[0].getElementsByTagName('select')[0].selectedIndex;
+    inp1.selectedIndex=x.rows[x.rows.length-1].cells[0].getElementsByTagName('select')[0].selectedIndex;
     
     //inp1.value = '';
     var inp2 = new_row.cells[1].getElementsByTagName('input')[0];
     inp2.id = inp2.id.split("_")[0] + "_"+ len+"c";
     inp2.name = inp2.name.split("_")[0]+ "_"+len+"c";
-    inp2.value=x.rows[0].cells[1].getElementsByTagName('input')[0].value;
+    inp2.value=x.rows[x.rows.length-1].cells[1].getElementsByTagName('input')[0].value;
     
    
    // inp2.value = '';
     var inp3 = new_row.cells[2].getElementsByTagName('select')[0];
     inp3.id = inp3.id.split("_")[0] + "_"+ len+"c";
     inp3.name = inp3.name.split("_")[0]+ "_"+len+"c";
-    inp3.selectedIndex=x.rows[0].cells[2].getElementsByTagName('select')[0].selectedIndex;
+    inp3.selectedIndex=x.rows[x.rows.length-1].cells[2].getElementsByTagName('select')[0].selectedIndex;
     
    
     var inp4 = new_row.cells[3].getElementsByTagName('select')[0];
     inp4.id = inp4.id.split("_")[0] + "_"+ len+"c";
     inp4.name = inp4.name.split("_")[0]+ "_"+len+"c";
-    inp4.selectedIndex=x.rows[0].cells[3].getElementsByTagName('select')[0].selectedIndex;
+    inp4.selectedIndex=x.rows[x.rows.length-1].cells[3].getElementsByTagName('select')[0].selectedIndex;
     
    
     var inp6 = new_row.cells[4].getElementsByTagName('input')[0];
     inp6.id = inp6.id.split("_")[0] + "_"+ len+"c";
     inp6.name = inp6.name.split("_")[0]+ "_"+len+"c";
-    inp6.value=x.rows[0].cells[4].getElementsByTagName('input')[0].value;;
+    inp6.value=x.rows[x.rows.length-1].cells[4].getElementsByTagName('input')[0].value;;
     
     
     x.appendChild( new_row );
