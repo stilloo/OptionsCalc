@@ -549,8 +549,44 @@ $(function () {
     
      <span class="tafShareText">Share</span>
    
+   %{
+  
+
+    String url = request.base+request.url;
+    System.out.println("URL is "+url);
+   	 String [] parameters=url.split("&");
+	   	 String newurl = "";
+	   	 int cnt=1;
+	   	 int loopcnt=0;
+	    for(int i = 3;i < parameters.length ; i++ )
+	   	 {
+	   	    String[] keyval=parameters[i].split("=");
+	   	 	
+	   	 		String [] split = keyval[0].split("_");
+	   	 		System.out.println("incrementing to "+cnt);
+	   	 			
+	   	 		loopcnt++;
+	   	 	if(loopcnt % 6 ==0)
+	   	 	{
+   	 			cnt++;
+   	 		loopcnt=1;
+	   	 	}
+	   	 		if(split.length == 1 || keyval.length == 1)
+	   	 		{
+	   	 			newurl+=parameters[i]+"&";
+	   	 		}
+	   	 		else
+	   	 		{
+	   	 			newurl+=split[0]+"_"+cnt+"="+keyval[1]+"&";
+	   	 		}
+	   	 	
+	   	 }
+	    newurl=parameters[0]+"&"+parameters[1]+"&"+parameters[2]+"&"+newurl;
+	    
+   	 
+   %}
     
-     <a class="tafSocialButton" id="fb" href="${request.base}${request.url}" target="_blank">	
+     <a class="tafSocialButton" id="fb" href="${newurl}" target="_blank">	
        <img src="@{'/public/images/fb.jpg'}" height="18" width="18"/>
      </a>
      <a class="tafSocialButton" id="twitter" href="${request.base}${request.url}" target="_blank">

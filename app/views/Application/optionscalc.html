@@ -545,19 +545,27 @@
 				for(int i = 1;i<=indexcounts;i++)
 					{
 			%}
+				//alert("Callingfff click for "+"${i}" + "${params.get('contracts_'+i)}");
 				%{
-					if(i < indexcounts)
-						{
+					
+					if(i>1 && i < indexcounts && params.get('contracts_'+i) != null && !"".equals(params.get('contracts_'+i)) )
+				  	{
 						%}
+					//alert("Calling click for "+"${i}");
 						document.getElementById("addmorePOIbutton").onclick();
 						%{ 
 				   }
+						else if(i>1)
+							{
+							continue;
+							}
+						
 				%}
 			var buysell =  document.getElementById("longshort_"+${i});
 			   option = document.createElement("option");
 			    option.text = "${params.get('longshort_'+i)}";
 			    option.value = "${params.get('longshort_'+i)}";
-			    
+			  
 			    try {
 			    	buysell.add(option, null); //Standard
 			      
