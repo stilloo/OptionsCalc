@@ -887,7 +887,8 @@ Welcome ${session.get("username")}
      <a href="login">Login </a>  to Save position
      %{
      }
-    
+    else
+    {
      %}
      <div id="positiondiv" style="display:none">
      <input type="hidden" name="username" id="username" value="${session.get('username')}" >
@@ -896,6 +897,9 @@ Welcome ${session.get("username")}
   	<button   type="submit" id="savebutton" class="btn-mini btn-primary">Add to porfolio</button>
   	
      </div>
+     %{
+     }
+     %}
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
      
