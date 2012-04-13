@@ -880,7 +880,14 @@ Welcome ${session.get("username")}
      <button style="display:none" id="subbtn" type="submit" class="btn btn-primary">Submit</button>
      <br/>
      <br/>
+     %{
+     if(session.get("username") ==null)
+     {
+     %}
      <a href="login">Login </a>  to Save position
+     %{
+     }
+     %}
      <div id="positiondiv" style="display:none"">
       <b>UserName :</b> <input type="text" size="5" class="span1" name="username" id="username" value="${params.get('username')}" >
       <b>PositionName :</b> <input type="text" size="15" class="span1" name="posname" id="posname" value="${params.get('posname')}" >
