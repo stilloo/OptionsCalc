@@ -765,7 +765,7 @@
     <body onload="loadAllValues()">
 <form class="form-inline" name="optionform" action="@{Application.sayHello()}"  target="my_iframe" method="GET">
 <br/>
-Welcome ${username}
+Welcome ${session.get("username")}
   <div id="POItablediv" align="center">
   <div class="row">
   <div class="span4 offset4" align="center">
