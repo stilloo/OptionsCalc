@@ -205,6 +205,7 @@
 				 document.getElementById("cmptable").style.display="";
 					  
 				 document.getElementById("subbtn").style.display="";
+				 document.getElementById("savebtn").style.display="";
 				 
 				 if(document.getElementById("positiondiv")!=null)
 				 document.getElementById("positiondiv").style.display="";
@@ -529,6 +530,9 @@
 		   document.getElementById("cmptable").style.display="";
 			  
 		   document.getElementById("subbtn").style.display="";
+		   
+		   document.getElementById("savebtn").style.display="";
+		   
 		   
 		   if(document.getElementById("positiondiv") !=null)
 		   document.getElementById("positiondiv").style.display="";
@@ -937,7 +941,7 @@
        
        <input type="hidden" id="savepos" name="savepos" value="false"/>
        
-         <button style="display:none" id="subbtn" type="submit" class="btn btn-primary" onclick="document.getElementById('savepos').value='true';">Save Position</button>
+         <button style="display:none" id="savebtn" type="submit" class="btn btn-primary" onclick="document.getElementById('savepos').value='true';">Save Position</button>
      
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
