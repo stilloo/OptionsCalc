@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -104,9 +105,11 @@ public class OptionsCalculator {
 					 ps.setString(1, username);
 					 ps.setString(2, positionName);
 					 ps.setString(3, url);
-					 java.util.Date today = new java.util.Date();
-					 java.sql.Date datesql =   new java.sql.Date(today.getTime());
-					 ps.setDate(4, datesql);
+					 long timeNow = Calendar.getInstance().getTimeInMillis();
+					 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
+
+					 ps.setTimestamp(4, ts);
+
 					 ps.executeUpdate();
 					 ps.close();
 					 
