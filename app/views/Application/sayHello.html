@@ -51,21 +51,7 @@ a:link {
     Net Initial Position Value ($) :  <label for="inv" id="inv"></label> 
 
  	<label for="inv_c" id="inv_c"></label>
-     <br/>
-     %{
-    	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
-    	java.util.Map<String,String> positionsURLProfitMap = modelData.positionURLProfitMap;
-    	if(positionsURLProfitMap !=null)
-    	{
-    	java.util.Iterator posItr = positionsURLProfitMap.entrySet().iterator();
-   		while (posItr.hasNext()) {
-       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
-      %}
-      	<a href="${pairs.getValue()}">${pairs.getKey()}</a>
-      %{	
-  		 }
-  		  }
-     %}
+    
      <br/>
       <br/>
      </center>
@@ -114,6 +100,24 @@ a:link {
   function loadAllValues()
   {
 	  share();
+	
+	    
+	     %{
+	    	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
+	    	java.util.Map<String,String> positionsURLProfitMap = modelData.positionURLProfitMap;
+	    	if(positionsURLProfitMap !=null)
+	    	{
+	    	java.util.Iterator posItr = positionsURLProfitMap.entrySet().iterator();
+	   		while (posItr.hasNext()) {
+	       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
+	      %}
+	   		parent.document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'>${pairs.getKey()}</a><br>";
+	      	
+	      %{	
+	  		 }
+	  		  }
+	     %}
+	     
 	  var exp =  document.getElementById("expiration_1");
 	  var option = document.createElement("option");
 	    option.text = "${params.get('expiration_1')}";

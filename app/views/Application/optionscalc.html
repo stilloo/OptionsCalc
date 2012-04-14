@@ -763,12 +763,14 @@
 <div class="throbber" style="display:none" id="throbber"></div>
 	
 <div  align="center"><h2>Strategy Builder</h2></div>
-    <div class="container">
+    <div class="container" style="border-right: 1px solid black; padding: 5px;">
     <body onload="loadAllValues()">
 <form class="form-inline" name="optionform" action="@{Application.sayHello()}"  target="my_iframe" method="GET">
-<br/>
-Welcome ${session.get("username")}
-  <div id="POItablediv" align="center">
+
+  <div id="POItablediv" align="center" class="span8">
+  <div class="row">
+  Welcome ${session.get("username")} 
+  </div>
   <div class="row">
   <div class="span4 offset4" align="center">
    <br>
@@ -776,6 +778,7 @@ Welcome ${session.get("username")}
   	<input type="button"  onclick="Change_Cursor('');queryYQL();queryYQL1(); " value="Go" id="gobutton" class="btn-mini btn-primary">
   	
   	</div>
+  	
   	</div>
   	<br/>
   	<div class="row">
@@ -908,7 +911,9 @@ Welcome ${session.get("username")}
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
      
   </div>
-   
+    <div id="positionsdiv" class="offset12" >
+    <b> Positions</b>
+    </div>
 </form>
 </body>
 
@@ -1040,6 +1045,7 @@ function insRowCompare()
     
 
     </div> <!-- /container -->
+   
      <script type="text/javascript">
     
 </script>
