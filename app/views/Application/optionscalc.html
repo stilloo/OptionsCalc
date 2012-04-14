@@ -481,6 +481,33 @@
 	   function loadAllValues()
 	   {
 	
+		  %{
+			  
+			  if(session.get("username") != null && "".equals(session.get("username")))
+			  {
+				  controllers.OptionsCalculator calculator = new controllers.OptionsCalculator();
+		     		try {
+		 				Map<String, String> positionsURLProfitMap=calculator.getPositionsURLProfit(params.get("user"));
+		 				if(positionsURLProfitMap !=null)
+		 				{
+		 				    	java.util.Iterator posItr = positionsURLProfitMap.entrySet().iterator();
+		 				   		while (posItr.hasNext()) {
+		 				       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
+		 		%}		      
+		 			   document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'>${pairs.getKey()}</a><br>";
+		 			%{	      	
+		 				      	
+		 				  		 }
+		 				 }
+		 				    
+		 			} catch (Exception e) {
+		 				// TODO Auto-generated catch block
+		 				e.printStackTrace();
+		 			}
+			   }
+			  
+		  %}
+		   
 		 
 		  var exp =  document.getElementById("expiration_1");
 		  %{
@@ -770,6 +797,7 @@
   <div id="POItablediv" align="center" class="span8">
   <div class="row">
   Welcome ${session.get("username")} 
+  
   </div>
   <div class="row">
   <div class="span4 offset4" align="center">

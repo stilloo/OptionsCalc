@@ -48,6 +48,7 @@ public class Application extends Controller {
     	{
     		 session.put("username", params.get("user"));
     		//redirect to optionscalc
+    		
     		redirect("/application/optionscalc");
     	}
     	else
