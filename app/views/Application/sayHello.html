@@ -47,7 +47,28 @@ a:link {
 </style>
  </head>
     <body onload="loadAllValues()">
+  <center>
+    Net Initial Position Value ($) :  <label for="inv" id="inv"></label> 
 
+ 	<label for="inv_c" id="inv_c"></label>
+     <br/>
+     %{
+    	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
+    	java.util.Map<String,String> positionsURLProfitMap = modelData.positionURLProfitMap;
+    	if(positionsURLProfitMap !=null)
+    	{
+    	java.util.Iterator posItr = positionsURLProfitMap.entrySet().iterator();
+   		while (posItr.hasNext()) {
+       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
+      %}
+      	<a href="${pairs.getValue()}">${pairs.getKey()}</a>
+      %{	
+  		 }
+  		  }
+     %}
+     <br/>
+      <br/>
+     </center>
     <div id="placeholder" style="width:600px;height:300px"></div>
 
  <script type="text/javascript">
@@ -304,29 +325,7 @@ a:link {
 	 }
   
  </script>
- <center>
- <br/>
- <br/>
-    Net Initial Position Value ($) :  <label for="inv" id="inv"></label> 
- <br/>
- 	<label for="inv_c" id="inv_c"></label>
-     <br/>
-     %{
-    	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
-    	if(positionsMap !=null)
-    	{
-    	java.util.Iterator posItr = positionsMap.entrySet().iterator();
-   		while (posItr.hasNext()) {
-       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
-      %}
-      	${pairs.getKey()} = ${pairs.getValue()}
-      %{	
-  		 }
-  		  }
-     %}
-     
-      <br/>
-     </center>
+ 
 <script type="text/javascript">
 
 $(function () {

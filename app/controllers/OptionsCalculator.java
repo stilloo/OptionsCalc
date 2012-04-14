@@ -263,6 +263,35 @@ public class OptionsCalculator {
 	      return positionMap;
 	}
 	
+	public Map<String,String> getPositionsURLProfit(String username) throws Exception
+	{
+		Map<String,String> positionMap = new HashMap<String, String>();
+		 String myDriver = "com.mysql.jdbc.Driver";
+	      String myUrl = "jdbc:mysql://localhost/optionsDb";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	      String sql = "select * from positionsURLTb where userId='"+username+"' order by positionName";
+	      PreparedStatement st = conn.prepareStatement(sql);
+	      ResultSet rs = st.executeQuery();
+	      String currentPosition=null;
+	      Map<String,List<OptionsModel>> l=new HashMap<String, List<OptionsModel>>();
+	      List<OptionsModel> modelList = null;
+	      while(rs.next())
+	      {
+	    	 
+	    	  String positionName = rs.getString("positionName");
+	    	  String userId  = rs.getString("userId");
+	    	  String url = rs.getString("URL");
+	    	
+	    	  positionMap.put(positionName, url);
+	      }
+	      
+		rs.close();
+		st.close();
+		conn.close();
+	    return positionMap;
+	}
+	
 	public double getInvestment()
 	{
 

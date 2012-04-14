@@ -102,6 +102,7 @@ public class Application extends Controller {
     	//System.out.println("Rendering");
     	Map<String, Double>  renderMap = null;
     	Map<String, Double>  positionsMap = null;
+    	Map<String, String>  positionsURLProfitMap = null;
 			List<Map<String,Double>> m = new ArrayList<Map<String,Double>>();
 			String url = request.getBase() + request.url ;
 		        	
@@ -163,6 +164,7 @@ public class Application extends Controller {
 		  	 if(!com.mysql.jdbc.StringUtils.isNullOrEmpty(positionName))
 			 {
 		  		 positionsMap= calculator.getPositions(username);
+		  		positionsURLProfitMap=calculator.getPositionsURLProfit(username);
 			 }
 			 m.add(renderMap);
 			    
@@ -243,6 +245,7 @@ public class Application extends Controller {
     	OptionsModelData modelData = new OptionsModelData();
     	modelData.m=m;
     	modelData.positionsMap=positionsMap;
+    	modelData.positionURLProfitMap=positionsURLProfitMap;
        //System.out.println("M is "+m);
         render(modelData);
     }

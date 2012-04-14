@@ -9,5 +9,7 @@ public class OptionsModelData {
 	
 	public Map<String,Double> positionsMap;
 	
+	public Map<String,String> positionURLProfitMap;
+	
 }
  
