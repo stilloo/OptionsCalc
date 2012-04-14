@@ -100,10 +100,13 @@ public class OptionsCalculator {
 					 st.addBatch(builder.toString());
 					 
 					 //insert into positionsURLTb for position name and url
-					 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?)");
+					 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?)");
 					 ps.setString(1, username);
 					 ps.setString(2, positionName);
 					 ps.setString(3, url);
+					 java.util.Date today = new java.util.Date();
+					 java.sql.Date datesql =   new java.sql.Date(today.getTime());
+					 ps.setDate(4, datesql);
 					 ps.executeUpdate();
 					 ps.close();
 					 
@@ -273,7 +276,7 @@ public class OptionsCalculator {
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
 	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
-	      String sql = "select * from positionsURLTb where userId='"+username+"' order by positionName";
+	      String sql = "select * from positionsURLTb where userId='"+username+"' order by CreationDate desc";
 	      PreparedStatement st = conn.prepareStatement(sql);
 	      ResultSet rs = st.executeQuery();
 	      String currentPosition=null;
