@@ -107,6 +107,7 @@ public class Application extends Controller {
 		        	
     	try {
     		System.out.println("URLLLL is "+url);
+    		url = url.replaceAll("sayhello","optionscalc");
     		 String buyOrSell =  null;
 			 String contracts =  null;
 			 String expirationDate =  null;
