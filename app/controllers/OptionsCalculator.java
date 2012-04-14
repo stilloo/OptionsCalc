@@ -32,7 +32,7 @@ public class OptionsCalculator {
 	private  Map<String, Double> map = new LinkedHashMap<String, Double>();
 	private double investment = 0.0;
 
-	public  Map<String, Double> process(List<Map<String,String>> positionsList , String ticker,String stockPriceStr,String username,String positionName) throws Exception
+	public  Map<String, Double> process(List<Map<String,String>> positionsList , String ticker,String stockPriceStr,String username,String positionName,String url) throws Exception
 	{
 		double minStrike =Double.MAX_VALUE;
 		double maxStrike = Double.MIN_VALUE;
@@ -98,7 +98,17 @@ public class OptionsCalculator {
 					 builder.append(")");
 					 System.out.println("SQL is "+builder.toString());
 					 st.addBatch(builder.toString());
+					 
+					 //insert into positionsURLTb for position name and url
+					 PreparedStatement ps = conn.prepareStatement("");
+					 ps.setString(1, username);
+					 ps.setString(2, positionName);
+					 ps.setString(3, url);
+					 
 				}
+				
+				
+				//now insert into positionsURLTb for position name and url
 				
 				
 			//	System.out.println("Model here option type "+model.getOptionType());
