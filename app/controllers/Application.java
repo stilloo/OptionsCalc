@@ -106,7 +106,7 @@ public class Application extends Controller {
     	Map<String, String>  positionsURLProfitMap = null;
 			List<Map<String,Double>> m = new ArrayList<Map<String,Double>>();
 			String url = request.getBase() + request.url ;
-		        	
+		    boolean isSave = Boolean.parseBoolean(params.get("savepos"));    	
     	try {
     		System.out.println("URLLLL is "+url);
     		url = url.replaceAll("sayhello","optionscalc");
@@ -160,7 +160,7 @@ public class Application extends Controller {
 			 }
 			 
 			 OptionsCalculator calculator = new OptionsCalculator();
-			 renderMap = calculator.process(positionsList,ticker,stockPrice,username,positionName,url);
+			 renderMap = calculator.process(positionsList,ticker,stockPrice,username,positionName,url,isSave);
 		  	 renderMap.put("inv", calculator.getInvestment());
 		  	 if(!com.mysql.jdbc.StringUtils.isNullOrEmpty(positionName))
 			 {
@@ -230,7 +230,7 @@ public class Application extends Controller {
 			 if(!positionsList.isEmpty())
 			 {
 			 OptionsCalculator calculator = new OptionsCalculator();
-			 renderMap = calculator.process(positionsList,ticker,stockPrice,null,null,url);
+			 renderMap = calculator.process(positionsList,ticker,stockPrice,null,null,url,isSave);
 			 renderMap.put("inv_c",calculator.getInvestment());
 			 //System.out.println("rendermap "+renderMap);
 			 m.add(renderMap);
