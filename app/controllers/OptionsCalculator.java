@@ -32,14 +32,14 @@ public class OptionsCalculator {
 	private  Map<String, Double> map = new LinkedHashMap<String, Double>();
 	private double investment = 0.0;
 
-	public  Map<String, Double> process(List<Map<String,String>> positionsList , String ticker,String stockPriceStr,String username,String positionName,String url) throws Exception
+	public  Map<String, Double> process(List<Map<String,String>> positionsList , String ticker,String stockPriceStr,String username,String positionName,String url,boolean isSave) throws Exception
 	{
 		double minStrike =Double.MAX_VALUE;
 		double maxStrike = Double.MIN_VALUE;
 		
 		 Connection conn = null;
 		 Statement st = null;
-		if(!StringUtils.isNullOrEmpty(positionName))
+		if(!StringUtils.isNullOrEmpty(positionName)  && isSave)
 		{
 		 String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
@@ -78,7 +78,7 @@ public class OptionsCalculator {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 				Date date = dateFormat.parse(expirationDate);
 				model.setOptionDate(date);
-				if(!StringUtils.isNullOrEmpty(positionName) && i == 0)
+				if(!StringUtils.isNullOrEmpty(positionName) && i == 0 && isSave)
 				{
 					 String sql = "INSERT INTO positionsTb values (";
 					 StringBuilder builder = new StringBuilder();
@@ -120,17 +120,20 @@ public class OptionsCalculator {
 			
 		}
 		
-		if(st !=null && conn!=null)
+		if(st !=null && conn!=null )
 		{
+		
 		
 			try
 			{
+				
 		  st.executeBatch();
 			}
 			catch(Exception e)
 			{
 				
 			}
+			
 		   st.close();
 		     
 		    // writer.flush();
