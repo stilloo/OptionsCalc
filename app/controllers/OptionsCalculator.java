@@ -274,7 +274,7 @@ public class OptionsCalculator {
 	
 	public Map<String,String> getPositionsURLProfit(String username) throws Exception
 	{
-		Map<String,String> positionMap = new HashMap<String, String>();
+		Map<String,String> positionMap = new LinkedHashMap<String, String>();
 		 String myDriver = "com.mysql.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost/optionsDb";
 	      Class.forName(myDriver);
