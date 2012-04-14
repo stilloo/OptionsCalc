@@ -100,7 +100,7 @@ public class OptionsCalculator {
 					 st.addBatch(builder.toString());
 					 
 					 //insert into positionsURLTb for position name and url
-					 PreparedStatement ps = conn.prepareStatement(url);
+					 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?)");
 					 ps.setString(1, username);
 					 ps.setString(2, positionName);
 					 ps.setString(3, url);
