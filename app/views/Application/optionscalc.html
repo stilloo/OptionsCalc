@@ -819,12 +819,14 @@
 	  
 	   function validateAndSavePosition()
 	   {
-	   	if(document.getElementById("posname").value == null || document.getElementById("posname").value=="")
-	   	{
-	   		alert("Position Name is required to save");
-	   		return false;
-	   	}
-	   	document.getElementById('savepos').value='true';
+		  if(document.getElementById('savepos').value == "true")
+		  {
+		   	if(document.getElementById("posname").value == null || document.getElementById("posname").value=="")
+		   	{
+		   		alert("Position Name is required to save");
+		   		return false;
+		   	}
+		  }
 	   	document.optionform.submit();
 	   }
 	   
@@ -851,7 +853,7 @@
 <div  align="center"><h2>Strategy Builder</h2></div>
     <div class="container" style="border-right: 1px solid black; padding: 5px;">
     <body onload="loadAllValues()">
-<form class="form-inline" name="optionform" action="@{Application.sayHello()}"  target="my_iframe" method="GET">
+<form class="form-inline" name="optionform" action="@{Application.sayHello()}"  onsubmit="return validateAndSavePosition()"  target="my_iframe" method="GET">
 
   <div id="POItablediv" align="center" class="span8">
   <div class="row">
@@ -1007,7 +1009,7 @@
        
        <input type="hidden" id="savepos" name="savepos" value="false"/>
        
-         <button style="display:none" id="savebtn"  class="btn btn-primary" onclick="validateAndSavePosition()">Save Position</button>
+         <button style="display:none" id="savebtn" type="submit" class="btn btn-primary" onclick="document.getElementById('savepos').value='true';">Save Position</button>
      </div>
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
