@@ -100,18 +100,7 @@ public class OptionsCalculator {
 					 System.out.println("SQL is "+builder.toString());
 					 st.addBatch(builder.toString());
 					 
-					 //insert into positionsURLTb for position name and url
-					 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?)");
-					 ps.setString(1, username);
-					 ps.setString(2, positionName);
-					 ps.setString(3, url);
-					 long timeNow = Calendar.getInstance().getTimeInMillis();
-					 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
-
-					 ps.setTimestamp(4, ts);
-
-					 ps.executeUpdate();
-					 ps.close();
+					
 					 
 				}
 				
@@ -122,6 +111,23 @@ public class OptionsCalculator {
 			//	System.out.println("Model here option type "+model.getOptionType());
 			//System.out.println("Model here tran type "+model.getTransactionType());
 				optionsModelList.add(model);
+			}
+			
+			if(!StringUtils.isNullOrEmpty(positionName) && isSave)
+			{
+			 //insert into positionsURLTb for position name and url
+			 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?,?)");
+			 ps.setString(1, username);
+			 ps.setString(2, positionName);
+			 ps.setString(3, url);
+			 long timeNow = Calendar.getInstance().getTimeInMillis();
+			 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
+
+			 ps.setTimestamp(4, ts);
+			 double positionValue = getInvestment();
+			 ps.setDouble(5, positionValue);
+			 ps.executeUpdate();
+			 ps.close();
 			}
 			
 		}
