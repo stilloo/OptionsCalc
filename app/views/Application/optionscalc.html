@@ -996,7 +996,7 @@
        
        <input type="hidden" id="savepos" name="savepos" value="false"/>
        
-         <button style="display:none" id="savebtn" type="submit" class="btn btn-primary" onclick="document.getElementById('savepos').value='true';">Save Position</button>
+         <button style="display:none" id="savebtn"  class="btn btn-primary" onclick="validateAndSavePosition()">Save Position</button>
      </div>
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
@@ -1010,6 +1010,16 @@
 
 <script type='text/javascript'>//<![CDATA[ 
 
+function validateAndSavePosition()
+{
+	if(document.getElementById("posname").value == null || document.getElementById("posname").value="")
+	{
+		alert("Position Name is required to save");
+		return
+	}
+	document.getElementById('savepos').value='true';
+	document.optionform.submit();
+}
 
 function deleteRow(row)
 {
