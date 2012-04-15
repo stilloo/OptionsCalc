@@ -908,6 +908,7 @@
     </div>
      </div>
       <div class="row">
+      	<div class="offset4" align="right">
     <table id="addrw" style="display:none" >
      <tr>
       		 <td>
@@ -917,7 +918,9 @@
     
     </table>
     </div>
+    </div>
      <div class="row">
+     <div class="offset3" align="right">
      <table id ="cmptable" style="display:none" >
      <tr>
     
@@ -928,6 +931,7 @@
      </tr>
     
     </table>
+    </div>
     </div>
     <div class="row">
     <div class="span3 offset3" align="center">
@@ -950,6 +954,7 @@
     </div>
     </div>
      <div class="row">
+     <div class="offset4" align="right">
      <table id ="POITable1Add" style="display:none">
      <tr>
       		 <td><input type="button" class="btn-mini btn-primary" id="addmorePOIbuttonCompare" value="Add" onclick="insRowCompare()" style="margin-left: 450px;"/></td>
@@ -957,20 +962,24 @@
     
     </table>
     </div>
+    </div>
+    
     <br/>
      <br/>
-   
+
      %{
      if(session.get("username") ==null)
      {
      %}
+     <div class="offset4" align="center">   
      <a href="login">Login </a>  to Save position
+     </div>
      %{
      }
     else
     {
      %}
-     <div id="positiondiv" style="display:none">
+     <div class="offset4" align="center" id="positiondiv" style="display:none">
      <input type="hidden" name="username" id="username" value="${session.get('username')}" >
       <b>Enter PositionName :</b> <input type="text" size="15" class="span1" name="posname" id="posname" value="${params.get('posname')}" >
        
@@ -981,12 +990,13 @@
      %}
  
      <br/>
+     <div class="offset4" align="center">   
        <button style="display:none" id="subbtn" type="submit" onclick="document.getElementById('savepos').value='false';" class="btn btn-primary">Submit</button>
        
        <input type="hidden" id="savepos" name="savepos" value="false"/>
        
          <button style="display:none" id="savebtn" type="submit" class="btn btn-primary" onclick="document.getElementById('savepos').value='true';">Save Position</button>
-     
+     </div>
      <input type="hidden" id="POITableCount" name="POITableCount" value="1"/>
      <input type="hidden" id="POITable1Count" name="POITable1Count" value="0"/>
      
