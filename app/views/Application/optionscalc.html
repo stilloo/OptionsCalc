@@ -822,7 +822,7 @@
 	   	if(document.getElementById("posname").value == null || document.getElementById("posname").value=="")
 	   	{
 	   		alert("Position Name is required to save");
-	   		return;
+	   		return false;
 	   	}
 	   	document.getElementById('savepos').value='true';
 	   	document.optionform.submit();
