@@ -48,8 +48,14 @@ public class Application extends Controller {
     	{
     		 session.put("username", params.get("user"));
     		//redirect to optionscalc
-    		
-    		redirect("/application/optionscalc");
+    		if(session.get("mainpageURL") !=null)
+    		{
+    			redirect(session.get("mainpageURL"));
+    		}
+    		else
+    		{
+    			redirect("/application/optionscalc");
+    		}
     	}
     	else
     	{
