@@ -59,7 +59,8 @@ public class Application extends Controller {
     	}
     	else
     	{
-    		flash.keep("url");
+    		flash.put("loginerror", "Invalid userid or password");
+    		redirect("/application/login");
     	}
     }
     

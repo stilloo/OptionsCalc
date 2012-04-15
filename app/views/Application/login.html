@@ -88,6 +88,18 @@ return true;
     <body>
     <form name="form" method="post" action="checkLogin" onsubmit="javascript:return validate();">
     <br/>
+    %{
+    	 if(flash.get("loginerror") !=null)
+    	 {
+    %}
+    <div class="offset5">
+    <span class="label label-important" align="center">
+    	${flash.get("loginerror")}
+    </span>
+    </div>
+    %{
+    	}
+    %}
     <br/>
 <table align="center">
 <tr><td>Username:</td><td><input type="text" name="user"></td></tr>
