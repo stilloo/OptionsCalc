@@ -79,7 +79,7 @@
 	 
 	        var scriptEl = document.createElement('script'),
 	            uid = 'yql' + +new Date(),
-	            encodedQuery = encodeURIComponent(this.query.toLowerCase()),
+	            encodedQuery = encodeURIComponent(this.query),
 	            instance = this;
 	 
 	        YQLQuery[uid] = function(json) {
@@ -332,7 +332,7 @@
 		}
 		//Construct your query:
 	//var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' AND " + " option.type='"+strUser1+"'";
-	var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "'";
+	var optionsquery = "SELECT option FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' and option.strikePrice="+strUser+" and  option.type='"+strUser1+"'";
 
 		// Define your callback:
 			var callback = function(data) {
@@ -343,32 +343,54 @@
 				   Change_Cursor('none');
 				   return;
 				   }
+			   
 				var len = data.query.results.optionsChain.option.length;
 				
-				for(var i=0;i<len;i++)
+				if(len > 0)
 				{
-					var strike = data.query.results.optionsChain.option[i].strikePrice;	
-					if(strUser1==data.query.results.optionsChain.option[i].type)
+					for(var i=0;i<len;i++)
 					{
-						if(strike == strUser)
+						var strike = data.query.results.optionsChain.option[i].strikePrice;	
+						if(strUser1==data.query.results.optionsChain.option[i].type)
 						{
-						
-							if(data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].ask == "" || data.query.results.optionsChain.option[i].bid == "NaN" || data.query.results.optionsChain.option[i].ask == "NaN")
+							if(strike == strUser)
 							{
-								//document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
-								nodes[5].childNodes[0].value = data.query.results.optionsChain.option[i].lastPrice;
+							
+								if(data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].ask == "" || data.query.results.optionsChain.option[i].bid == "NaN" || data.query.results.optionsChain.option[i].ask == "NaN")
+								{
+									//document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
+									nodes[5].childNodes[0].value = data.query.results.optionsChain.option[i].lastPrice;
+								}
+								else if (data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].bid == "NaN")
+									{
+									nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].ask;
+									}
+								else
+									{
+									nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].bid;
+									}
+								break;
 							}
-							else if (data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].bid == "NaN")
-								{
-								nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].ask;
-								}
-							else
-								{
-								nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].bid;
-								}
-							break;
 						}
 					}
+				}
+				else
+				{
+					//okay lets get only element got
+					if(data.query.results.optionsChain.option.bid == "" || data.query.results.optionsChain.option.ask == "" || data.query.results.optionsChain.option.bid == "NaN" || data.query.results.optionsChain.option.ask == "NaN")
+					{
+						//document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
+						nodes[5].childNodes[0].value = data.query.results.optionsChain.option.lastPrice;
+					}
+					else if (data.query.results.optionsChain.option.bid == "" || data.query.results.optionsChain.option.bid == "NaN")
+						{
+						nodes[5].childNodes[0].value  = data.query.results.optionsChain.option.ask;
+						}
+					else
+						{
+						nodes[5].childNodes[0].value  = data.query.results.optionsChain.option.bid;
+						}
+					
 				}
 				Change_Cursor('none');
 				
@@ -408,25 +430,33 @@
 		}
 		//Construct your query:
 	//var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' AND " + " option.type='"+strUser1+"'";
-	var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "'";
+	//var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "'";
+	var optionsquery = "SELECT option FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' and option.strikePrice="+strUser+" and  option.type='"+strUser1+"'";
 
 		// Define your callback:
 			var callback = function(data) {
 				var len = data.query.results.optionsChain.option.length;
 				
-				for(var i=0;i<len;i++)
+				if(len> 0 )
 				{
-					var strike = data.query.results.optionsChain.option[i].strikePrice;	
-					if(strUser1==data.query.results.optionsChain.option[i].type)
+					for(var i=0;i<len;i++)
 					{
-						if(strike == strUser)
+						var strike = data.query.results.optionsChain.option[i].strikePrice;	
+						if(strUser1==data.query.results.optionsChain.option[i].type)
 						{
-						
-							document.getElementById('premium_'+x+"c").value = data.query.results.optionsChain.option[i].lastPrice;
-							break;
+							if(strike == strUser)
+							{
+							
+								document.getElementById('premium_'+x+"c").value = data.query.results.optionsChain.option[i].lastPrice;
+								break;
+							}
 						}
 					}
 				}
+				else
+					{
+					document.getElementById('premium_'+x+"c").value = data.query.results.optionsChain.option.lastPrice;
+					}
 				Change_Cursor('none');
 				
 			};
