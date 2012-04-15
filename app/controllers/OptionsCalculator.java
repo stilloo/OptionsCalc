@@ -124,7 +124,7 @@ public class OptionsCalculator {
 			 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
 
 			 ps.setTimestamp(4, ts);
-			 double positionValue = getInvestment();
+			 double positionValue = getInvestment(optionsModelList);
 			 ps.setDouble(5, positionValue);
 			 ps.executeUpdate();
 			 ps.close();
