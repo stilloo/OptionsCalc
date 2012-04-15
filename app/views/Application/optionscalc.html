@@ -816,6 +816,17 @@
 				 
 			
 		 }
+	  
+	   function validateAndSavePosition()
+	   {
+	   	if(document.getElementById("posname").value == null || document.getElementById("posname").value="")
+	   	{
+	   		alert("Position Name is required to save");
+	   		return;
+	   	}
+	   	document.getElementById('savepos').value='true';
+	   	document.optionform.submit();
+	   }
 	   
 	   function Change_Cursor(mark)
 	   {
@@ -1010,16 +1021,7 @@
 
 <script type='text/javascript'>//<![CDATA[ 
 
-function validateAndSavePosition()
-{
-	if(document.getElementById("posname").value == null || document.getElementById("posname").value="")
-	{
-		alert("Position Name is required to save");
-		return
-	}
-	document.getElementById('savepos').value='true';
-	document.optionform.submit();
-}
+
 
 function deleteRow(row)
 {
