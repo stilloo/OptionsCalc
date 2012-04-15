@@ -168,7 +168,7 @@ public class Application extends Controller {
 			 OptionsCalculator calculator = new OptionsCalculator();
 			 renderMap = calculator.process(positionsList,ticker,stockPrice,username,positionName,url,isSave);
 		  	 renderMap.put("inv", calculator.getInvestment());
-		  	 if(!com.mysql.jdbc.StringUtils.isNullOrEmpty(positionName))
+		  	 if(session.get("username") !=null)
 			 {
 		  		 positionsMap= calculator.getPositions(username);
 		  		positionsURLProfitMap=calculator.getPositionsURLProfit(username);
