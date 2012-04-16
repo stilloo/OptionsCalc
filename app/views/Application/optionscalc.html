@@ -686,7 +686,7 @@
 				//alert("Callingfff click for "+"${i}" + "${params.get('contracts_'+i)}");
 				%{
 					
-					if(i>1 && i < indexcounts && params.get('contracts_'+i) != null && !"".equals(params.get('contracts_'+i)) )
+					if(i>1 && i <= indexcounts && params.get('contracts_'+i) != null && !"".equals(params.get('contracts_'+i)) )
 				  	{
 						%}
 					//alert("Calling click for "+"${i}");
