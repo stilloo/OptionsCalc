@@ -173,19 +173,24 @@
 	function deleteTable() {
 		$('#POITable tr:gt(1)').remove()
 	}
-	   
-	function queryYQL2()
+	
+	function queryYQL2Refresh(obj)
 	{
-		//Construct your query:
-		
+		var par = obj.parentNode;
+		while(par.nodeName.toLowerCase()!='tr'){ 
+			par=par.parentNode; 
+			} 
+		x=par.rowIndex;
+		var nodes = par.getElementsByTagName("td");
+
+	//var e = document.getElementById("strike_"+x);
+
+	var e = nodes[3].childNodes[0];
+	var strUser = e.options[e.selectedIndex].value;
+	
 	    var x =  1;
 		var size = document.getElementById('POITable').rows.length - 1;
 
-		if(size > 1)
-		{
-			deleteTable();
-		}
-		
 		//var e1 = document.getElementById("type_"+x);
 		//var strUser1 = e1.options[e1.selectedIndex].value;
 		var expiration = "expiration_1";
@@ -218,15 +223,16 @@
 				 document.getElementById("positiondiv").style.display="";
 					  
 				
-				 var combo = document.getElementById("strike_"+x);
-				 var combo1 = document.getElementById("strike_"+x+"c");
+				 var combo = e;
+				// var combo1 = document.getElementById("strike_"+x+"c");
 				 combo.options.length=0;
-				 combo1.options.length=0;
+				 //combo1.options.length=0;
 				  var option = document.createElement("option");
 				    option.text = "--";
 				    option.value = "--";
 				    try {
 				        combo.add(option, null); //Standard
+				        /*
 				        if(combo1 !=null)
 				        	{
 				        	var option1 = document.createElement("option");
@@ -235,13 +241,10 @@
 				        	  combo1.add(option1, null); //Standard
 						      	
 				        	}
+				        */
 				    }catch(error) {
 				        combo.add(option); // IE only
-				        if(combo1 !=null)
-			        	{
-				        combo1.add(option); 
-			        	}
-					      
+				       
 				    }
 				 //alert(data.query.results.optionsChain.option.length);
 					for(var i=0; i<data.query.results.optionsChain.option.length; i++)
@@ -256,6 +259,7 @@
 						    
 						    try {
 						        combo.add(option, null); //Standard
+						        /*
 						        if(combo1 !=null)
 						        	{
 						        	var option1 = document.createElement("option");
@@ -264,21 +268,15 @@
 						        	  combo1.add(option1, null); //Standard
 								      	
 						        	}
+						        */
 						    }catch(error) {
 						        combo.add(option); // IE only
-						        if(combo1 !=null)
-					        	{
-						        combo1.add(option); 
-					        	}
+						      
 							      
 						    }
 							combo.options[0].selected=true;
-							if(combo1 !=null)
-				        	{
-								combo1.options[0].selected=true;
-								
-				        	}
-							document.getElementById('premium_'+x).value='';
+							
+							nodes[5].childNodes[0].value='';
 							/*
 							if(size > 1)
 								{
@@ -301,6 +299,135 @@
 			 
 			// If you're ready then go:
 			ajaxianPosts.fetch(); // Go!!
+	}
+	
+	function queryYQL2()
+	{
+		//Construct your query:
+		
+	    var x =  1;
+		var size = document.getElementById('POITable').rows.length - 1;
+
+		if(size > 1)
+		{
+			deleteTable();
+		}
+		
+		var expiration = "expiration_1";
+		
+		//var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' AND option.type='"+strUser1+"'";
+		var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById(expiration).value + "'";
+		//alert("callback");
+		// Define your callback:
+				var callback = function(data) {
+				  
+					 if(document.getElementById("POITable").style.display=="none"){
+						   document.getElementById("POITable").style.display="";
+					 }
+					 
+					 document.getElementById("addrw").style.display="";
+					  
+					 document.getElementById("cmptable").style.display="";
+						  
+					 document.getElementById("subbtn").style.display="";
+					 %{
+						   if(session.get("username") != null)
+							  {
+							 %}
+						   document.getElementById("savebtn").style.display="";
+						   %{
+						   } 
+							  %}
+					 
+					 if(document.getElementById("positiondiv")!=null)
+					 document.getElementById("positiondiv").style.display="";
+						  
+					
+					 var combo = document.getElementById("strike_"+x);
+					 var combo1 = document.getElementById("strike_"+x+"c");
+					 combo.options.length=0;
+					 combo1.options.length=0;
+					  var option = document.createElement("option");
+					    option.text = "--";
+					    option.value = "--";
+					    try {
+					        combo.add(option, null); //Standard
+					        if(combo1 !=null)
+					        	{
+					        	var option1 = document.createElement("option");
+							    option1.text = "--";
+							    option1.value = "--";
+					        	  combo1.add(option1, null); //Standard
+							      	
+					        	}
+					    }catch(error) {
+					        combo.add(option); // IE only
+					        if(combo1 !=null)
+				        	{
+					        combo1.add(option); 
+				        	}
+						      
+					    }
+					 //alert(data.query.results.optionsChain.option.length);
+						for(var i=0; i<data.query.results.optionsChain.option.length; i++)
+						{
+						
+								var strike = data.query.results.optionsChain.option[i].strikePrice;
+								//alert(contract);
+								
+							     option = document.createElement("option");
+							    option.text = strike;
+							    option.value = strike;
+							    
+							    try {
+							        combo.add(option, null); //Standard
+							        if(combo1 !=null)
+							        	{
+							        	var option1 = document.createElement("option");
+									    option1.text = strike;
+									    option1.value = strike;
+							        	  combo1.add(option1, null); //Standard
+									      	
+							        	}
+							    }catch(error) {
+							        combo.add(option); // IE only
+							        if(combo1 !=null)
+						        	{
+							        combo1.add(option); 
+						        	}
+								      
+							    }
+								combo.options[0].selected=true;
+								if(combo1 !=null)
+					        	{
+									combo1.options[0].selected=true;
+									
+					        	}
+								document.getElementById('premium_'+x).value='';
+								/*
+								if(size > 1)
+									{
+								for(var g=2;g<x;g++)
+								{
+									RemoveItems(document.getElementById("strike_"+g));
+									CopyItem(combo,document.getElementById("strike_"+g))
+									//document.getElementById("strike_"+g) = combo.cloneNode(true);	
+									document.getElementById("strike_"+g).options[0].selected=true;
+								}
+									}
+								*/
+								Change_Cursor('none');
+						}
+						
+				};
+				 
+				// Instantiate with the query:
+				var ajaxianPosts = new YQLQuery(optionsquery, callback);
+				 
+				// If you're ready then go:
+				ajaxianPosts.fetch(); // Go!!
+		
+		
 	}
 	
 	
@@ -405,73 +532,7 @@
 			
 	}
 	
-	
-	function queryYQL31(obj)
-	{
-		// var x = document.getElementById('POITable').rows.length - 1;
-		
-			var par = obj.parentNode;
-			while(par.nodeName.toLowerCase()!='tr'){ 
-				par=par.parentNode; 
-				} 
-			x=par.rowIndex;
-			var nodes = par.getElementsByTagName("td");
-			
-		x=x+1;
-		var e = document.getElementById("strike_"+x+"c");
-		var strUser = e.options[e.selectedIndex].value;
-		var e1 = document.getElementById("type_"+x+"c");
-		var strUser1 = e1.options[e1.selectedIndex].value;
-		var buy = document.getElementById("longshort_"+x+"c").value;
-		
-		if(strUser == "--" || strUser1 == "--" || buy == "--")
-		{
-			return;	
-		}
-		//Construct your query:
-	//var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' AND " + " option.type='"+strUser1+"'";
-	//var optionsquery = "SELECT * FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "'";
-	var optionsquery = "SELECT option FROM yahoo.finance.options WHERE symbol='"+document.getElementById('ticker').value+"' AND expiration='"+document.getElementById('expiration_1').value + "' and option.strikePrice="+strUser+" and  option.type='"+strUser1+"'";
-
-		// Define your callback:
-			var callback = function(data) {
-				var len = data.query.results.optionsChain.option.length;
-				
-				if(len> 0 )
-				{
-					for(var i=0;i<len;i++)
-					{
-						var strike = data.query.results.optionsChain.option[i].strikePrice;	
-						if(strUser1==data.query.results.optionsChain.option[i].type)
-						{
-							if(strike == strUser)
-							{
-							
-								document.getElementById('premium_'+x+"c").value = data.query.results.optionsChain.option[i].lastPrice;
-								break;
-							}
-						}
-					}
-				}
-				else
-					{
-					document.getElementById('premium_'+x+"c").value = data.query.results.optionsChain.option.lastPrice;
-					}
-				Change_Cursor('none');
-				
-			};
-			 
-			// Instantiate with the query:
-			var ajaxianPosts = new YQLQuery(optionsquery, callback);
-			 
-			// If you're ready then go:
-			ajaxianPosts.fetch(); // Go!!
-			 
-			
-	}
-	
-
-	   function CopyItem(firstListBox, secondListBox ) {
+	 function CopyItem(firstListBox, secondListBox ) {
         for (var i = 0; i < firstListBox.options.length; i++) {
                 var newOption = document.createElement("option");
                 newOption.text = firstListBox.options[i].text;
@@ -909,7 +970,7 @@
             <td><input size=5  class="span1" type="text" name="contracts_1" id="contracts_1" /></td>
             <td><select class="span2" id="type_1" name="type_1" onchange="Change_Cursor('');queryYQL3(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
 	        <td><select class="span2" name="strike_1" id="strike_1"  onchange="Change_Cursor('');queryYQL3(this)"><option value="--">--</option></select></td>
-	        <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL2()"/> </td>
+	        <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL2Refresh(this)"/> </td>
             <td><input class="span1" size=10 type="text" name="premium_1" id="premium_1" /></td>
 		    <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL3(this)"/></td>
         	
@@ -955,10 +1016,11 @@
         <tr>
         	<td><select class="span2"id="longshort_1c" name="longshort_1c"><option value="--">--</option><option value="BUY">Buy</option><option value="SELL">Sell</option></select></td>
             <td><input class="span1" size=5 type="text" name="contracts_1c" id="contracts_1c" /></td>
-            <td><select class="span2" id="type_1c" name="type_1c" onchange="Change_Cursor('');queryYQL31(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
-	        <td><select class="span2" name="strike_1c" id="strike_1c"  onchange="Change_Cursor('');queryYQL31(this)"><option value="--">--</option></select></td>
+            <td><select class="span2" id="type_1c" name="type_1c" onchange="Change_Cursor('');queryYQL3(this)"><option value="--" >--</option><option value="C">CALL</option><option value="P">PUT</option></select></td>
+	        <td><select class="span2" name="strike_1c" id="strike_1c"  onchange="Change_Cursor('');queryYQL3(this)"><option value="--">--</option></select></td>
+	        <td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL2Refresh(this)"/> </td>
             <td><input size=10 class="span1" type="text" name="premium_1c" id="premium_1c" /></td>
-        	<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL31(this)"/></td>
+        	<td valign="top"><img src="@{'/public/images/refresh.gif'}" alt="Refresh" height="15" width="10" onclick="Change_Cursor('');queryYQL3(this)"/></td>
             <td><input type="button" class="btn-mini btn-danger" id="delPOIbutton" value="Delete" onclick="deleteRowCompare(this)"/></td>
            
         </tr>
