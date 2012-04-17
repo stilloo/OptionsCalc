@@ -116,7 +116,7 @@ public class OptionsCalculator {
 			if(!StringUtils.isNullOrEmpty(positionName) && isSave)
 			{
 			 //insert into positionsURLTb for position name and url
-			 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?,?)");
+			 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?,?,?)");
 			 ps.setString(1, username);
 			 ps.setString(2, positionName);
 
@@ -158,6 +158,7 @@ public class OptionsCalculator {
 			 ps.setTimestamp(4, ts);
 			 double positionValue = getInvestment(optionsModelList);
 			 ps.setDouble(5, positionValue);
+			 ps.setString(6, ticker);
 			 ps.executeUpdate();
 			 ps.close();
 			}
