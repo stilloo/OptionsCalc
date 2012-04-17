@@ -113,56 +113,58 @@ public class OptionsCalculator {
 				optionsModelList.add(model);
 			}
 			
-			if(!StringUtils.isNullOrEmpty(positionName) && isSave)
-			{
-			 //insert into positionsURLTb for position name and url
-			 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?,?,?)");
-			 ps.setString(1, username);
-			 ps.setString(2, positionName);
-
-			  // System.out.println("URL is "+url);
-			   	 String [] parameters=url.split("&");
-				   	 String newurl = "";
-				   	 int cnt=1;
-				   	 int loopcnt=0;
-				    for(int i = 3;i < parameters.length ; i++ )
-				   	 {
-				   	    String[] keyval=parameters[i].split("=");
-				   	 	
-				   	 		String [] split = keyval[0].split("_");
-				   	 		System.out.println("incrementing to "+cnt);
-				   	 			
-				   	 		loopcnt++;
-				   	 	if(loopcnt % 6 ==0)
-				   	 	{
-			   	 			cnt++;
-			   	 		loopcnt=1;
-				   	 	}
-				   	 		if(split.length == 1 || keyval.length == 1)
-				   	 		{
-				   	 			newurl+=parameters[i]+"&";
-				   	 		}
-				   	 		else
-				   	 		{
-				   	 			newurl+=split[0]+"_"+cnt+"="+keyval[1]+"&";
-				   	 		}
-				   	 	
-				   	 }
-				    newurl=parameters[0]+"&"+parameters[1]+"&"+parameters[2]+"&"+newurl;
-				    String mainURL=newurl.replaceAll("sayhello","optionscalc");
-				 
-			 ps.setString(3, mainURL);
-			 long timeNow = Calendar.getInstance().getTimeInMillis();
-			 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
-
-			 ps.setTimestamp(4, ts);
-			 double positionValue = getInvestment(optionsModelList);
-			 ps.setDouble(5, positionValue);
-			 ps.setString(6, ticker);
-			 ps.executeUpdate();
-			 ps.close();
-			}
 			
+			
+		}
+		
+		if(!StringUtils.isNullOrEmpty(positionName) && isSave)
+		{
+		 //insert into positionsURLTb for position name and url
+		 PreparedStatement ps = conn.prepareStatement("insert into positionsURLTb values (?,?,?,?,?,?)");
+		 ps.setString(1, username);
+		 ps.setString(2, positionName);
+
+		  // System.out.println("URL is "+url);
+		   	 String [] parameters=url.split("&");
+			   	 String newurl = "";
+			   	 int cnt=1;
+			   	 int loopcnt=0;
+			    for(int i = 3;i < parameters.length ; i++ )
+			   	 {
+			   	    String[] keyval=parameters[i].split("=");
+			   	 	
+			   	 		String [] split = keyval[0].split("_");
+			   	 		System.out.println("incrementing to "+cnt);
+			   	 			
+			   	 		loopcnt++;
+			   	 	if(loopcnt % 6 ==0)
+			   	 	{
+		   	 			cnt++;
+		   	 		loopcnt=1;
+			   	 	}
+			   	 		if(split.length == 1 || keyval.length == 1)
+			   	 		{
+			   	 			newurl+=parameters[i]+"&";
+			   	 		}
+			   	 		else
+			   	 		{
+			   	 			newurl+=split[0]+"_"+cnt+"="+keyval[1]+"&";
+			   	 		}
+			   	 	
+			   	 }
+			    newurl=parameters[0]+"&"+parameters[1]+"&"+parameters[2]+"&"+newurl;
+			    String mainURL=newurl.replaceAll("sayhello","optionscalc");
+			 
+		 ps.setString(3, mainURL);
+		 long timeNow = Calendar.getInstance().getTimeInMillis();
+		 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
+
+		 ps.setTimestamp(4, ts);
+		 double positionValue = getInvestment(optionsModelList);
+		 ps.setDouble(5, positionValue);
+		 ps.setString(6, ticker);
+		 ps.executeUpdate();
+		 ps.close();
 		}
 		
 		if(st !=null && conn!=null )
