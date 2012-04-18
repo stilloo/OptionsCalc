@@ -37,5 +37,12 @@ public class OptionsModel {
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
+	public String getTicker() {
+		return ticker;
+	}
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
 	private String transactionType; // buy or sell
+	private String ticker;
 }

@@ -3,6 +3,9 @@
  */
 package controllers;
 
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,6 +21,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 import com.mysql.jdbc.StringUtils;
 
@@ -313,6 +323,73 @@ public class OptionsCalculator {
 	      return positionMap;
 	}
 	
+	public Map<String,List<OptionsModel>> getPositionsModel(String username) throws Exception
+	{
+		  String myDriver = "com.mysql.jdbc.Driver";
+	      String myUrl = "jdbc:mysql://localhost/optionsDb";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	      String sql = "select * from positionsTb where userId='"+username+"' order by positionName";
+	      PreparedStatement st = conn.prepareStatement(sql);
+	      ResultSet rs = st.executeQuery();
+	      String currentPosition=null;
+	      Map<String,List<OptionsModel>> l=new HashMap<String, List<OptionsModel>>();
+	      List<OptionsModel> modelList = null;
+	      while(rs.next())
+	      {
+	    	 
+	    	  String positionName = rs.getString("positionName");
+	    	  String userId  = rs.getString("userId");
+	    	  String ticker = rs.getString("Ticker");
+	    	  double longShortStockPrice=rs.getDouble("LongShortStockPrice");
+	    	  java.sql.Date expiration = rs.getDate("Expiration");
+	    	  String buyOrSell = rs.getString("BuyOrSell");
+	    	  int contracts = rs.getInt("Contracts");
+	    	  String type = rs.getString("TYPE");
+	    	  int strike = rs.getInt("Strike");
+	    	  double premium = rs.getDouble("Premium");
+	    	  
+	    	
+	    	  if(currentPosition ==null || !currentPosition.equals(positionName))
+	    	  {
+	    		  
+	    		  //moving to new position
+	    		  modelList = new ArrayList<OptionsModel>();
+	    		  l.put(positionName,modelList);
+		      }
+	    	  
+	    	
+	    	  for(int i = 0 ; i < contracts ;i++)
+	    	  {
+	    		  OptionsModel model = new OptionsModel();
+	    		  model.setOptionPremium(premium);
+		    	  model.setOptionDate(expiration);
+		    	  model.setOptionType(type);
+		    	  model.setStrikePrice(strike);
+		    	  model.setTicker(ticker);
+		    	  if(buyOrSell.equals("B"))
+		    	  {
+		    		  model.setTransactionType("BUY");
+		    	  }
+		    	  else if (buyOrSell.equals("S"))
+		    	  {
+		    		  model.setTransactionType("SELL");
+		    	  }
+		    	  modelList.add(model);
+	    	  }
+	    	  System.out.println("modellist is "+modelList);
+	    	  currentPosition=positionName;
+	    	
+	      }
+	   
+	      
+	      
+		rs.close();
+		st.close();
+		conn.close();
+	      return l;
+	}
+	
 	public Map<String,String> getPositionsURLProfit(String username) throws Exception
 	{
 		Map<String,String> positionMap = new LinkedHashMap<String, String>();
@@ -338,10 +415,55 @@ public class OptionsCalculator {
 	      
 		rs.close();
 		st.close();
+		  
 		conn.close();
+			
+		Map<String,List<OptionsModel>> model = getPositionsModel(username);
+		Iterator<String> keyModelStr = model.keySet().iterator();
+		while(keyModelStr.hasNext())
+		{
+			String posName= keyModelStr.next();
+			List<OptionsModel> positionModel = model.get(posName);
+			//now get P & L for each object in model, for this we need to get updated premium from yql !
+			for(OptionsModel opModel:positionModel)
+			{
+				
+				calculateYQLPremium(opModel);
+			}
+			double investment = getInvestment(positionModel);
+			System.out.println("inv dynamic position"+investment);
+			//positionMap.put(pos, investment);
+		}
+		
+	
+		
 	    return positionMap;
 	}
 	
+	private void calculateYQLPremium(OptionsModel opModel) {
+		// TODO Auto-generated method stub
+		String newstring = new SimpleDateFormat("yyyy-MM").format(opModel.getOptionDate());
+		
+		 try {
+			URL url = new URL("http://query.yahooapis.com/v1/public/yql?q=SELECT%20option%20FROM%20yahoo.finance.options%20WHERE%20symbol%3D'"+opModel.getTicker()+"'%20AND%20expiration%3D'"+newstring+"'%20and%20option.strikePrice%3D"+(long)opModel.getStrikePrice()+"%20and%20%20option.type%3D'"+opModel.getOptionType()+"'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
+			System.out.println("url is "+url);
+			InputStream xmlStream = url.openStream();
+			  XPathFactory  factory=XPathFactory.newInstance();
+			     XPath xPath=factory.newXPath();
+			     InputSource inputSource = 
+			    		    new InputSource(xmlStream);
+			     Node root = (Node) xPath.evaluate("//option", inputSource, XPathConstants.NODE);
+			     String premium = xPath.evaluate("lastPrice", root);
+			     System.out.println("root "+root + " premium "+premium);
+			     opModel.setOptionPremium(Double.parseDouble(premium));
+			    xmlStream.close();
+		 } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   
+	}
+
 	public double getInvestment()
 	{
 
