@@ -417,10 +417,10 @@ public class OptionsCalculator {
 		st.close();
 		  
 		conn.close();
-			
+		/*	
 		Map<String,List<OptionsModel>> model = getPositionsModel(username);
 		System.out.println("PositionModel is "+model);
-		/*
+	
 		Iterator<String> keyModelStr = model.keySet().iterator();
 		while(keyModelStr.hasNext())
 		{
