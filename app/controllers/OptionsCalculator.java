@@ -419,6 +419,8 @@ public class OptionsCalculator {
 		conn.close();
 			
 		Map<String,List<OptionsModel>> model = getPositionsModel(username);
+		System.out.println("PositionModel is "+model);
+		/*
 		Iterator<String> keyModelStr = model.keySet().iterator();
 		while(keyModelStr.hasNext())
 		{
@@ -434,6 +436,7 @@ public class OptionsCalculator {
 			System.out.println("inv dynamic position"+investment);
 			//positionMap.put(pos, investment);
 		}
+		*/
 		
 	
 		
