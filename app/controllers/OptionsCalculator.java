@@ -439,12 +439,16 @@ public class OptionsCalculator {
 				    threadExecutor.execute(new PremiumCalculator(opModel));
 				}
 				threadExecutor.shutdown();
-			    threadExecutor.awaitTermination(10,TimeUnit.SECONDS);
+			    threadExecutor.awaitTermination(5,TimeUnit.SECONDS);
 	
 				double investment = getInvestment(positionModel);
 				System.out.println("inv dynamic position"+investment);
-				String url  = positionMap.get(posName);
-				url+=" : " + investment;
+				String url = positionMap.get(posName);
+				if(positionMap.containsKey(posName))
+				{
+					positionMap.remove(posName);
+				}
+				posName+=" : " + investment;
 				//positionMap.put(pos, investment);
 				System.out.println("url is "+url);
 				positionMap.put(posName, url);
