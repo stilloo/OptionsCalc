@@ -447,6 +447,7 @@ public class OptionsCalculator {
 				url+=" : " + investment;
 				//positionMap.put(pos, investment);
 				System.out.println("url is "+url);
+				positionMap.put(posName, url);
 			}
 		}
 		catch(Exception e)
