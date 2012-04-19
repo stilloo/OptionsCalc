@@ -424,7 +424,7 @@ public class OptionsCalculator {
 		
 		Map<String,List<OptionsModel>> model = getPositionsModel(username);
 		System.out.println("PositionModel is "+model);
-	
+	/*
 		try
 		{
 			Iterator<String> keyModelStr = model.keySet().iterator();
@@ -459,7 +459,7 @@ public class OptionsCalculator {
 			
 		}
 		
-	
+	*/
 		
 	    return positionMap;
 	}
