@@ -443,10 +443,12 @@ public class OptionsCalculator {
 	
 				double investment = getInvestment(positionModel);
 				System.out.println("inv dynamic position"+investment);
+				String url  = positionMap.get(posName);
+				url+=" : " + investment;
 				//positionMap.put(pos, investment);
 			}
 		}
-		catch(InterruptedException e)
+		catch(Exception e)
 		{
 			
 		}
