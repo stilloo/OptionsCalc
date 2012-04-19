@@ -21,6 +21,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -417,33 +421,50 @@ public class OptionsCalculator {
 		st.close();
 		  
 		conn.close();
-		/*	
+		
 		Map<String,List<OptionsModel>> model = getPositionsModel(username);
 		System.out.println("PositionModel is "+model);
 	
-		Iterator<String> keyModelStr = model.keySet().iterator();
-		while(keyModelStr.hasNext())
+		try
 		{
-			String posName= keyModelStr.next();
-			List<OptionsModel> positionModel = model.get(posName);
-			//now get P & L for each object in model, for this we need to get updated premium from yql !
-			for(OptionsModel opModel:positionModel)
+			Iterator<String> keyModelStr = model.keySet().iterator();
+			while(keyModelStr.hasNext())
 			{
-				
-				calculateYQLPremium(opModel);
+				String posName= keyModelStr.next();
+				List<OptionsModel> positionModel = model.get(posName);
+				//now get P & L for each object in model, for this we need to get updated premium from yql !
+				ExecutorService threadExecutor = Executors.newFixedThreadPool(positionModel.size());
+				for(OptionsModel opModel:positionModel)
+				{
+				    threadExecutor.execute(new PremiumCalculator(opModel));
+				}
+				threadExecutor.shutdown();
+			    threadExecutor.awaitTermination(10,TimeUnit.SECONDS);
+	
+				double investment = getInvestment(positionModel);
+				System.out.println("inv dynamic position"+investment);
+				//positionMap.put(pos, investment);
 			}
-			double investment = getInvestment(positionModel);
-			System.out.println("inv dynamic position"+investment);
-			//positionMap.put(pos, investment);
 		}
-		*/
+		catch(InterruptedException e)
+		{
+			
+		}
 		
 	
 		
 	    return positionMap;
 	}
 	
-	private void calculateYQLPremium(OptionsModel opModel) {
+	public class PremiumCalculator implements Runnable
+	{
+		private OptionsModel opModel;
+		public PremiumCalculator(OptionsModel opModel)
+		{
+			this.opModel=opModel;
+		}
+		
+		public void run() {
 		// TODO Auto-generated method stub
 		String newstring = new SimpleDateFormat("yyyy-MM").format(opModel.getOptionDate());
 		
@@ -465,6 +486,7 @@ public class OptionsCalculator {
 			e.printStackTrace();
 		}
 		   
+	}
 	}
 
 	public double getInvestment()
