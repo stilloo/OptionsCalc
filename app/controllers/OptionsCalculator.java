@@ -417,7 +417,7 @@ public class OptionsCalculator {
 		st.close();
 		  
 		conn.close();
-			
+		/*	
 		Map<String,List<OptionsModel>> model = getPositionsModel(username);
 		System.out.println("PositionModel is "+model);
 	
@@ -436,7 +436,7 @@ public class OptionsCalculator {
 			System.out.println("inv dynamic position"+investment);
 			//positionMap.put(pos, investment);
 		}
-		
+		*/
 		
 	
 		
@@ -449,7 +449,7 @@ public class OptionsCalculator {
 		
 		 try {
 			URL url = new URL("http://query.yahooapis.com/v1/public/yql?q=SELECT%20option%20FROM%20yahoo.finance.options%20WHERE%20symbol%3D'"+opModel.getTicker()+"'%20AND%20expiration%3D'"+newstring+"'%20and%20option.strikePrice%3D"+(long)opModel.getStrikePrice()+"%20and%20%20option.type%3D'"+opModel.getOptionType()+"'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
-			System.out.println("CALLING url is "+url);
+			System.out.println("url is "+url);
 			InputStream xmlStream = url.openStream();
 			  XPathFactory  factory=XPathFactory.newInstance();
 			     XPath xPath=factory.newXPath();
