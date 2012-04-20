@@ -485,13 +485,13 @@ public class OptionsCalculator {
 				    threadExecutor.execute(new PremiumCalculator(opModel));
 				}
 				threadExecutor.shutdown();
-			    threadExecutor.awaitTermination(30,TimeUnit.SECONDS);
+			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
 	
 				long investment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
 				;
 				//positionMap.put(pos, investment);
-				//System.out.println("url is "+url);
+				System.out.println("pos name is "+posName);
 				positionPnLMap.put(posName, investment);
 			}
 		}
