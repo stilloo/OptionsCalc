@@ -589,8 +589,8 @@
 
                        // do something with the response
 						jQuery.each(response, function(key, val) {
-                            		document.getElementById(key).innerHTML="<a href='"+key+"'>"+key+"&nbsp;"+val+"</a>";
-                            		 
+                            		document.getElementById(key).innerHTML=key+"&nbsp;"+val;
+                                	 
                             		});
 
                          
@@ -631,7 +631,7 @@
 		 				   		while (posItr.hasNext()) {
 		 				       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
 		 		%}		      
-		 			   		document.getElementById("positionsdiv").innerHTML+="<span id='${pairs.getKey()}'><a href='${pairs.getValue()}'>${pairs.getKey()}</a></span><br>";
+		 			   		document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'><span id='${pairs.getKey()}'>${pairs.getKey()}</span></a><br>";
 		 			%{	      	
 		 				      	
 		 				  		 }

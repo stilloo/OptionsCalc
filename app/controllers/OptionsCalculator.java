@@ -485,7 +485,7 @@ public class OptionsCalculator {
 				    threadExecutor.execute(new PremiumCalculator(opModel));
 				}
 				threadExecutor.shutdown();
-			    threadExecutor.awaitTermination(4,TimeUnit.SECONDS);
+			    threadExecutor.awaitTermination(10,TimeUnit.SECONDS);
 	
 				long investment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);

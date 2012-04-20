@@ -111,7 +111,7 @@ a:link {
 
                        // do something with the response
 						jQuery.each(response, function(key, val) {
-                            		parent.document.getElementById(key).innerHTML="<a href='"+key+"'>"+key+"&nbsp;"+val+"</a>";
+                            		parent.document.getElementById(key).innerHTML=key+"&nbsp;"+val;
                             		 
                             		});
 
@@ -153,7 +153,7 @@ a:link {
 	      %}
 	   		if(parent.document.getElementById("${pairs.getKey()}") == null)
 	   		{
-	   			parent.document.getElementById("positionsdiv").innerHTML+="<span id='${pairs.getKey()}'><a href='${pairs.getValue()}'>${pairs.getKey()}</a></span><br>";
+	   			parent.document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'><span id='${pairs.getKey()}'>${pairs.getKey()}/span></a><<br>";
 	   		}
 	      	
 	      %{	
