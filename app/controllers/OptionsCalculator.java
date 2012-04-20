@@ -478,6 +478,7 @@ public class OptionsCalculator {
 			{
 				String posName= keyModelStr.next();
 				List<OptionsModel> positionModel = model.get(posName);
+				long originalInvestment = (long) getInvestment(positionModel);
 				//now get P & L for each object in model, for this we need to get updated premium from yql !
 				ExecutorService threadExecutor = Executors.newFixedThreadPool(positionModel.size());
 				for(OptionsModel opModel:positionModel)
@@ -487,12 +488,22 @@ public class OptionsCalculator {
 				threadExecutor.shutdown();
 			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
 	
-				long investment = (long) getInvestment(positionModel);
+				long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
-				;
+				long pnl = 0;
+				if(originalInvestment > 0 )
+				{
+					//its a buy position
+					pnl = currentInvestment - originalInvestment;
+				}
+				else
+				{
+					//its a sell position
+					pnl =  originalInvestment - currentInvestment;
+				}
 				//positionMap.put(pos, investment);
 				System.out.println("pos name is "+posName);
-				positionPnLMap.put(posName, investment);
+				positionPnLMap.put(posName, pnl);
 			}
 		}
 		catch(Exception e)
