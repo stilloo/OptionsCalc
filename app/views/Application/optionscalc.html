@@ -577,6 +577,43 @@
 			   }
 		   }
 	   
+	   function loopsiloop(){
+
+           setTimeout(function(){
+
+               $.ajax({
+
+                   url: 'pnlstatus',
+
+                   success: function( response ){
+
+                       // do something with the response
+						jQuery.each(response, function(key, val) {
+                            		document.getElementById(key).innerHTML="<a href='"+key+"'>"+key+"&nbsp;"+val+"</a>";
+                            		 
+                            		});
+
+                         
+                   },
+
+                   error: function(){
+
+                       // do some error handling.  you
+
+                       // should probably adjust the timeout
+
+                       // here.
+
+                       loopsiloop(); // recurse, if you'd like.
+
+                   }
+
+               });
+
+           }, 1000);
+
+        }
+	   
 	   function loadAllValues()
 	   {
 	
@@ -594,7 +631,7 @@
 		 				   		while (posItr.hasNext()) {
 		 				       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
 		 		%}		      
-		 			   document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'>${pairs.getKey()}</a><br>";
+		 			   		document.getElementById("positionsdiv").innerHTML+="<span id='${pairs.getKey()}'><a href='${pairs.getValue()}'>${pairs.getKey()}</a></span><br>";
 		 			%{	      	
 		 				      	
 		 				  		 }
@@ -607,7 +644,8 @@
 			   }
 			  
 		  %}
-		   
+		 // document.getElementById("positionsdiv").innerHTML+="<span id='aaplpos'><a href='aapl'>aaplpos</a></span><br>";
+		 	 
 		 
 		  var exp =  document.getElementById("expiration_1");
 		  %{
@@ -916,7 +954,7 @@
 	
 <div  align="center"><h2>Strategy Builder</h2></div>
     <div class="container" style="border-right: 1px solid black; padding: 5px;">
-    <body onload="loadAllValues()">
+    <body onload="loadAllValues();loopsiloop()">
 <form class="form-inline" name="optionform" action="@{Application.sayHello()}"  onsubmit="return validateAndSavePosition()"  target="my_iframe" method="GET">
 
   <div id="POItablediv" align="center" class="span8">

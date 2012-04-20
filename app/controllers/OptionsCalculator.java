@@ -464,6 +464,45 @@ public class OptionsCalculator {
 	    return positionMap;
 	}
 	
+	public Map<String,Long> getPositionForPnLAjax(String username) throws Exception
+	{
+		Map<String,Long> positionPnLMap = new LinkedHashMap<String, Long>();
+		
+		Map<String,List<OptionsModel>> model = getPositionsModel(username);
+		System.out.println("PositionModel is "+model);
+	
+		try
+		{
+			Iterator<String> keyModelStr = model.keySet().iterator();
+			while(keyModelStr.hasNext())
+			{
+				String posName= keyModelStr.next();
+				List<OptionsModel> positionModel = model.get(posName);
+				//now get P & L for each object in model, for this we need to get updated premium from yql !
+				ExecutorService threadExecutor = Executors.newFixedThreadPool(positionModel.size());
+				for(OptionsModel opModel:positionModel)
+				{
+				    threadExecutor.execute(new PremiumCalculator(opModel));
+				}
+				threadExecutor.shutdown();
+			    threadExecutor.awaitTermination(4,TimeUnit.SECONDS);
+	
+				long investment = (long) getInvestment(positionModel);
+				//System.out.println("inv dynamic position"+investment);
+				;
+				//positionMap.put(pos, investment);
+				//System.out.println("url is "+url);
+				positionPnLMap.put(posName, investment);
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		return positionPnLMap;
+	}
+	
 	public class PremiumCalculator implements Runnable
 	{
 		private OptionsModel opModel;

@@ -46,7 +46,7 @@ a:link {
 }
 </style>
  </head>
-    <body onload="loadAllValues()">
+    <body onload="loadAllValues();loopsiloop()">
   <center>
     Net Initial Position Value ($) :  <label for="inv" id="inv"></label> 
 
@@ -97,11 +97,51 @@ a:link {
 	 
   }
   
+  
+
+  function loopsiloop(){
+
+           setTimeout(function(){
+
+               $.ajax({
+
+                   url: 'pnlstatus',
+
+                   success: function( response ){
+
+                       // do something with the response
+						jQuery.each(response, function(key, val) {
+                            		parent.document.getElementById(key).innerHTML="<a href='"+key+"'>"+key+"&nbsp;"+val+"</a>";
+                            		 
+                            		});
+
+                         
+                   },
+
+                   error: function(){
+
+                       // do some error handling.  you
+
+                       // should probably adjust the timeout
+
+                       // here.
+
+                       loopsiloop(); // recurse, if you'd like.
+
+                   }
+
+               });
+
+           }, 1000);
+
+        }
+
+  
   function loadAllValues()
   {
 	  share();
 	
-	  parent.document.getElementById("positionsdiv").innerHTML="<b>Saved Positions</b><br/><br/>";
+	//  parent.document.getElementById("positionsdiv").innerHTML="<b>Saved Positions</b><br/><br/>";
 	     %{
 	    	java.util.Map<String,Double> positionsMap =  modelData.positionsMap;
 	    	java.util.Map<String,String> positionsURLProfitMap = modelData.positionURLProfitMap;
@@ -111,36 +151,49 @@ a:link {
 	   		while (posItr.hasNext()) {
 	       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
 	      %}
-	   		parent.document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'>${pairs.getKey()}</a><br>";
+	   		if(parent.document.getElementById("${pairs.getKey()}") == null)
+	   		{
+	   			parent.document.getElementById("positionsdiv").innerHTML+="<span id='${pairs.getKey()}'><a href='${pairs.getValue()}'>${pairs.getKey()}</a></span><br>";
+	   		}
 	      	
 	      %{	
 	  		 }
 	  		  }
 	     %}
-	     
+	     /*
+	     if(parent.document.getElementById("aaplpos") == null)
+	   		{
+	     parent.document.getElementById("positionsdiv").innerHTML+="<span id='aaplpos'><a href='aapl'>aaplpos</a></span><br>";
+	   		}
+	     */
 	  var exp =  document.getElementById("expiration_1");
 	  var option = document.createElement("option");
 	    option.text = "${params.get('expiration_1')}";
 	    option.value = "${params.get('expiration_1')}";
 	    
-	    try {
-	    	exp.add(option, null); //Standard
-	      
-	    }catch(error) {
-	    	exp.add(option); // IE only
+	    if(exp !=null)
+	    {
+		    try {
+		    	exp.add(option, null); //Standard
+		      
+		    }catch(error) {
+		    	exp.add(option); // IE only
+	    	}
+			exp.options[1].selected=true;  
 	    }
 
-		exp.options[1].selected=true;  
+	
 	    %{
 		
 		int indexcounts = Integer.parseInt(params.get("POITableCount"));
 		
 		int indexcomparecount = Integer.parseInt(params.get("POITable1Count"));
 		%}
+		if(document.getElementById("POITableCount") !=null)
+			document.getElementById("POITableCount").value="${indexcounts}";
 		
-		document.getElementById("POITableCount").value="${indexcounts}";
-		
-		document.getElementById("POITable1Count").value="${indexcomparecount}";
+		if(document.getElementById("POITable1Count") !=null)
+			document.getElementById("POITable1Count").value="${indexcomparecount}";
 		
 		  
 		//ok so now we know that we have 3 counts with 1 and 1c mandatory
@@ -161,33 +214,36 @@ a:link {
 		   option = document.createElement("option");
 		    option.text = "${params.get('longshort_'+i)}";
 		    option.value = "${params.get('longshort_'+i)}";
-		    
-		    try {
-		    	buysell.add(option, null); //Standard
-		      
-		    }catch(error) {
-		    	buysell.add(option); // IE only
-		    }
-
-		    if(option.value == "BUY")
-		    	{
-		    	 buysell.options[1].selected=true;
-				    	
-		    	}
-		    else if(option.value == "SELL")
-		    	{
-		   	 buysell.options[2].selected=true;
-					
-		    	}
-		    
+		    if(buysell !=null)
+		    {
+			    	try {
+			    	buysell.add(option, null); //Standard
+			      
+			    }catch(error) {
+			    	buysell.add(option); // IE only
+			    }
+	
+			    if(option.value == "BUY")
+			    	{
+			    	 buysell.options[1].selected=true;
+					    	
+			    	}
+			    else if(option.value == "SELL")
+			    	{
+			   	 buysell.options[2].selected=true;
+						
+			    	}
+			}
 		   var contracts = document.getElementById("contracts_"+${i});
+		   if(contracts !=null)
 			contracts.value="${params.get('contracts_'+i)}";
 		    
 		    var type =  document.getElementById("type_"+${i});
 			   option = document.createElement("option");
 			    option.text = "${params.get('type_'+i)}";
 			    option.value = "${params.get('type_'+i)}";
-			    
+			  if(type !=null)
+				  {
 			    try {
 			    	type.add(option, null); //Standard
 			      
@@ -205,12 +261,14 @@ a:link {
 		   	 type.options[2].selected=true;
 					
 		    	}
-			    
+				  }
+			  
 			    var strike =  document.getElementById("strike_"+${i});
 				   option = document.createElement("option");
 				    option.text = "${params.get('strike_'+i)}";
 				    option.value = "${params.get('strike_'+i)}";
-				    
+				    if(strike !=null)
+				    	{
 				    try {
 				    	strike.add(option, null); //Standard
 				      
@@ -219,9 +277,9 @@ a:link {
 				    }
 
 				    strike.options[1].selected=true;
-				    
+				    	}
 				    var premium = document.getElementById("premium_"+${i});
-				    
+				    if(premium !=null)
 				    premium.value="${params.get('premium_'+i)}";
 					
 				    
@@ -323,6 +381,7 @@ a:link {
 				    }
 					%}
 
+		if(document.optionform !=null)
 		   document.optionform.submit();
 			 
 		

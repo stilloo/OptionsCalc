@@ -33,6 +33,26 @@ public class Application extends Controller {
         render(params);
     }
 
+    public static void pnlstatus() {
+    	Map<String,Long> posInvMap  = new HashMap<String, Long>();
+    	 if(session.get("username") !=null)
+    	 {
+	    	OptionsCalculator calculator = new OptionsCalculator();
+	    	
+	    	try {
+	    		posInvMap =calculator.getPositionForPnLAjax(session.get("username"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	 }
+    	//posInvMap.put("aaplpos",12L);
+    	//posInvMap.put("googpos",123L);
+    	System.out.println("GOT request");
+        renderJSON(posInvMap);
+    }
+
+    
     public static void checkLogin() {
     	Map<String,String> map = new HashMap<String, String>();
     	map.put("user", params.get("user"));
