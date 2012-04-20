@@ -517,7 +517,7 @@ public class OptionsCalculator {
 		
 		 try {
 			URL url = new URL("http://query.yahooapis.com/v1/public/yql?q=SELECT%20option%20FROM%20yahoo.finance.options%20WHERE%20symbol%3D'"+opModel.getTicker()+"'%20AND%20expiration%3D'"+newstring+"'%20and%20option.strikePrice%3D"+(long)opModel.getStrikePrice()+"%20and%20%20option.type%3D'"+opModel.getOptionType()+"'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
-			//System.out.println("url is "+url);
+			System.out.println("url is "+url);
 			InputStream xmlStream = url.openStream();
 			  XPathFactory  factory=XPathFactory.newInstance();
 			     XPath xPath=factory.newXPath();
@@ -525,7 +525,7 @@ public class OptionsCalculator {
 			    		    new InputSource(xmlStream);
 			     Node root = (Node) xPath.evaluate("//option", inputSource, XPathConstants.NODE);
 			     String premium = xPath.evaluate("lastPrice", root);
-			    // System.out.println("root "+root + " premium "+premium);
+			     System.out.println("root "+root + " premium "+premium);
 			     opModel.setOptionPremium(Double.parseDouble(premium));
 			    xmlStream.close();
 		 } catch (Exception e) {
