@@ -535,16 +535,18 @@ public class OptionsCalculator {
 		
 		Map<String,List<OptionsModel>> model = getPositionsModelForAjax(username);
 		System.out.println("PositionModel is "+model);
-	
+		Map<String,Long> originalInvMap = new HashMap<String, Long>();
 		try
 		{
 			Iterator<String> keyModelStr = model.keySet().iterator();
 			long start = System.currentTimeMillis();
-			ExecutorService threadExecutor = Executors.newFixedThreadPool(10);
+			ExecutorService threadExecutor = Executors.newFixedThreadPool(30);
 			while(keyModelStr.hasNext())
 			{
 				String posName= keyModelStr.next();
 				List<OptionsModel> positionModel = model.get(posName);
+				long originalInvestment = (long) getInvestment(positionModel);
+				originalInvMap.put(posName, originalInvestment);
 				for(OptionsModel opModel:positionModel)
 				{
 
@@ -559,8 +561,8 @@ public class OptionsCalculator {
 			{
 				String posName= keyModelStr.next();
 				List<OptionsModel> positionModel = model.get(posName);
-				long originalInvestment = (long) getInvestment(positionModel);
 				
+				long originalInvestment = originalInvMap.get(posName);
 			 long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
 				long pnl = 0;
@@ -631,6 +633,8 @@ public class OptionsCalculator {
 		}
 		
 		public void run() {
+			long start = System.currentTimeMillis();
+			
 		// TODO Auto-generated method stub
 		String newstring = new SimpleDateFormat("yyyy-MM").format(opModel.getOptionDate());
 		
@@ -652,6 +656,8 @@ public class OptionsCalculator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		long end = System.currentTimeMillis() - start;
+		  System.out.println("PremiumCalculator TIME SPENT "+end);
 		   
 	}
 	}
