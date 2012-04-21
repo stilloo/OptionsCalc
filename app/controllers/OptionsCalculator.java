@@ -486,9 +486,7 @@ public class OptionsCalculator {
 				{
 				    threadExecutor.execute(new PremiumCalculator(opModel));
 				}
-				threadExecutor.shutdown();
-			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
-			    long end = System.currentTimeMillis() - start;
+				long end = System.currentTimeMillis() - start;
 			    System.out.println("TIME SPENT "+end);
 				long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
@@ -507,6 +505,9 @@ public class OptionsCalculator {
 				System.out.println("pos name is "+posName);
 				positionPnLMap.put(posName, pnl);
 			}
+			threadExecutor.shutdown();
+		    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
+		  
 		}
 		catch(Exception e)
 		{
