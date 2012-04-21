@@ -43,6 +43,13 @@ public class OptionsModel {
 	public void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
+	public int getContracts() {
+		return contracts;
+	}
+	public void setContracts(int contracts) {
+		this.contracts = contracts;
+	}
 	private String transactionType; // buy or sell
 	private String ticker;
+	private int contracts;
 }
