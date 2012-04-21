@@ -394,6 +394,71 @@ public class OptionsCalculator {
 	      return l;
 	}
 	
+	public Map<String,List<OptionsModel>> getPositionsModelForAjax(String username) throws Exception
+	{
+		  String myDriver = "com.mysql.jdbc.Driver";
+	      String myUrl = "jdbc:mysql://localhost/optionsDb";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, "root", "einstein123");
+	      String sql = "select * from positionsTb where userId='"+username+"' order by positionName";
+	      PreparedStatement st = conn.prepareStatement(sql);
+	      ResultSet rs = st.executeQuery();
+	      String currentPosition=null;
+	      Map<String,List<OptionsModel>> l=new HashMap<String, List<OptionsModel>>();
+	      List<OptionsModel> modelList = null;
+	      while(rs.next())
+	      {
+	    	 
+	    	  String positionName = rs.getString("positionName");
+	    	  String userId  = rs.getString("userId");
+	    	  String ticker = rs.getString("Ticker");
+	    	  double longShortStockPrice=rs.getDouble("LongShortStockPrice");
+	    	  java.sql.Date expiration = rs.getDate("Expiration");
+	    	  String buyOrSell = rs.getString("BuyOrSell");
+	    	  int contracts = rs.getInt("Contracts");
+	    	  String type = rs.getString("TYPE");
+	    	  int strike = rs.getInt("Strike");
+	    	  double premium = rs.getDouble("Premium");
+	    	  
+	    	
+	    	  if(currentPosition ==null || !currentPosition.equals(positionName))
+	    	  {
+	    		  
+	    		  //moving to new position
+	    		  modelList = new ArrayList<OptionsModel>();
+	    		  l.put(positionName,modelList);
+		      }
+	    	  
+    		  OptionsModel model = new OptionsModel();
+    		  model.setOptionPremium(premium);
+	    	  model.setOptionDate(expiration);
+	    	  model.setOptionType(type);
+	    	  model.setStrikePrice(strike);
+	    	  model.setTicker(ticker);
+	    	  model.setContracts(contracts);
+	    	  if(buyOrSell.equals("B"))
+	    	  {
+	    		  model.setTransactionType("BUY");
+	    	  }
+	    	  else if (buyOrSell.equals("S"))
+	    	  {
+	    		  model.setTransactionType("SELL");
+	    	  }
+	    	  modelList.add(model);
+    	 
+	    	  System.out.println("modellist is "+modelList);
+	    	  currentPosition=positionName;
+	    	
+	      }
+	   
+	      
+	      
+		rs.close();
+		st.close();
+		conn.close();
+	      return l;
+	}
+	
 	public Map<String,String> getPositionsURLProfit(String username) throws Exception
 	{
 		Map<String,String> positionMap = new LinkedHashMap<String, String>();
@@ -468,7 +533,7 @@ public class OptionsCalculator {
 	{
 		Map<String,Long> positionPnLMap = new LinkedHashMap<String, Long>();
 		
-		Map<String,List<OptionsModel>> model = getPositionsModel(username);
+		Map<String,List<OptionsModel>> model = getPositionsModelForAjax(username);
 		System.out.println("PositionModel is "+model);
 	
 		try
@@ -619,22 +684,52 @@ public class OptionsCalculator {
 			if(model.getOptionType().equals("C") && model.getTransactionType().equals("BUY"))
 			{
 				//ok its call option
-				investment+=model.getOptionPremium();
+				if(model.getContracts() > 0)
+				{
+					investment+=model.getContracts() * model.getOptionPremium();
+				}
+				else
+				{
+					investment+=model.getOptionPremium();
+				}
 				
 			}
 			else if(model.getOptionType().equals("C") && model.getTransactionType().equals("SELL"))
 			{
-				investment-=model.getOptionPremium();
+				if(model.getContracts() > 0)
+				{
+					investment-=model.getContracts() * model.getOptionPremium();
+				}
+				else
+				{
+					investment-=model.getOptionPremium();	
+				}
 				
 			}
 			else if(model.getOptionType().equals("P") && model.getTransactionType().equals("BUY"))
 			{
-				investment+=model.getOptionPremium();
+				if(model.getContracts() > 0)
+				{
+					investment+=model.getContracts() * model.getOptionPremium();
+				}
+				else
+				{
+					investment+=model.getOptionPremium();
+				} 
 				
 			}
 			else if(model.getOptionType().equals("P") && model.getTransactionType().equals("SELL"))
 			{
-				investment-=model.getOptionPremium();
+				if(model.getContracts() > 0)
+				{
+					investment-=model.getContracts() * model.getOptionPremium();
+				}
+				else
+				{
+					investment-=model.getOptionPremium();
+				}
+					
+				
 				
 			}
 		}
