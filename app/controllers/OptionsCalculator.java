@@ -566,6 +566,7 @@ public class OptionsCalculator {
 			 long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
 				long pnl = 0;
+				/*
 				if(originalInvestment > 0 )
 				{
 					//its a buy position
@@ -576,6 +577,8 @@ public class OptionsCalculator {
 					//its a sell position
 					pnl =  originalInvestment - currentInvestment;
 				}
+				*/
+				pnl = currentInvestment - originalInvestment;
 				//positionMap.put(pos, investment);
 				System.out.println("pos name is "+posName);
 				positionPnLMap.put(posName, pnl);
