@@ -483,9 +483,9 @@ public class OptionsCalculator {
 				long originalInvestment = (long) getInvestment(positionModel);
 				ExecutorService threadExecutor = Executors.newFixedThreadPool(model.size());
 			    threadExecutor.execute(new PositionsCalculator(positionModel));
-				long currentInvestment = (long) getInvestment(positionModel);
-				threadExecutor.shutdown();
+			    threadExecutor.shutdown();
 			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
+				long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
 				long pnl = 0;
 				if(originalInvestment > 0 )
