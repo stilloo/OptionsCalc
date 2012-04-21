@@ -473,7 +473,7 @@ public class OptionsCalculator {
 	
 		try
 		{
-			ExecutorService threadExecutor = Executors.newCachedThreadPool();
+			ExecutorService threadExecutor = Executors.newFixedThreadPool(10);
 			Iterator<String> keyModelStr = model.keySet().iterator();
 			while(keyModelStr.hasNext())
 			{
