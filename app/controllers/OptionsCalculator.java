@@ -481,13 +481,15 @@ public class OptionsCalculator {
 				long originalInvestment = (long) getInvestment(positionModel);
 				//now get P & L for each object in model, for this we need to get updated premium from yql !
 				ExecutorService threadExecutor = Executors.newFixedThreadPool(positionModel.size());
+				long start = System.currentTimeMillis();
 				for(OptionsModel opModel:positionModel)
 				{
 				    threadExecutor.execute(new PremiumCalculator(opModel));
 				}
 				threadExecutor.shutdown();
 			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
-	
+			    long end = System.currentTimeMillis() - start;
+			    System.out.println("TIME SPENT "+end);
 				long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
 				long pnl = 0;
@@ -535,6 +537,7 @@ public class OptionsCalculator {
 			     InputSource inputSource = 
 			    		    new InputSource(xmlStream);
 			     Node root = (Node) xPath.evaluate("//option", inputSource, XPathConstants.NODE);
+			     //Find why we are getting exception sometime on this !
 			     String premium = xPath.evaluate("lastPrice", root);
 			     System.out.println("root "+root + " premium "+premium);
 			     opModel.setOptionPremium(Double.parseDouble(premium));
