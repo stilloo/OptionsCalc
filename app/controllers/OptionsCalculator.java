@@ -540,12 +540,17 @@ public class OptionsCalculator {
 		{
 			Iterator<String> keyModelStr = model.keySet().iterator();
 			long start = System.currentTimeMillis();
-			ExecutorService threadExecutor = Executors.newFixedThreadPool(model.size());
+			ExecutorService threadExecutor = Executors.newFixedThreadPool(10);
 			while(keyModelStr.hasNext())
 			{
 				String posName= keyModelStr.next();
 				List<OptionsModel> positionModel = model.get(posName);
-				threadExecutor.execute(new PositionsCalculator(positionModel));
+				for(OptionsModel opModel:positionModel)
+				{
+
+				    threadExecutor.execute(new PremiumCalculator(opModel));
+				}
+				//threadExecutor.execute(new PositionsCalculator(positionModel));
 			}
 			threadExecutor.shutdown();
 			threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
