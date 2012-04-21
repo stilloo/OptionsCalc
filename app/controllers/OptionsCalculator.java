@@ -473,6 +473,7 @@ public class OptionsCalculator {
 	
 		try
 		{
+			ExecutorService threadExecutor = Executors.newCachedThreadPool();
 			Iterator<String> keyModelStr = model.keySet().iterator();
 			while(keyModelStr.hasNext())
 			{
@@ -480,7 +481,6 @@ public class OptionsCalculator {
 				List<OptionsModel> positionModel = model.get(posName);
 				long originalInvestment = (long) getInvestment(positionModel);
 				//now get P & L for each object in model, for this we need to get updated premium from yql !
-				ExecutorService threadExecutor = Executors.newFixedThreadPool(positionModel.size());
 				long start = System.currentTimeMillis();
 				for(OptionsModel opModel:positionModel)
 				{
