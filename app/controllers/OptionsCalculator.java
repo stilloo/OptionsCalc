@@ -540,17 +540,23 @@ public class OptionsCalculator {
 		{
 			Iterator<String> keyModelStr = model.keySet().iterator();
 			long start = System.currentTimeMillis();
-			
+			ExecutorService threadExecutor = Executors.newFixedThreadPool(model.size());
+			while(keyModelStr.hasNext())
+			{
+				String posName= keyModelStr.next();
+				List<OptionsModel> positionModel = model.get(posName);
+				threadExecutor.execute(new PositionsCalculator(positionModel));
+			}
+			threadExecutor.shutdown();
+			threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
+			keyModelStr = model.keySet().iterator();	
 			while(keyModelStr.hasNext())
 			{
 				String posName= keyModelStr.next();
 				List<OptionsModel> positionModel = model.get(posName);
 				long originalInvestment = (long) getInvestment(positionModel);
-				ExecutorService threadExecutor = Executors.newFixedThreadPool(model.size());
-			    threadExecutor.execute(new PositionsCalculator(positionModel));
-			    threadExecutor.shutdown();
-			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
-				long currentInvestment = (long) getInvestment(positionModel);
+				
+			 long currentInvestment = (long) getInvestment(positionModel);
 				//System.out.println("inv dynamic position"+investment);
 				long pnl = 0;
 				if(originalInvestment > 0 )
