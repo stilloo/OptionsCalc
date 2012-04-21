@@ -473,22 +473,19 @@ public class OptionsCalculator {
 	
 		try
 		{
-			ExecutorService threadExecutor = Executors.newFixedThreadPool(10);
 			Iterator<String> keyModelStr = model.keySet().iterator();
+			long start = System.currentTimeMillis();
+			
 			while(keyModelStr.hasNext())
 			{
 				String posName= keyModelStr.next();
 				List<OptionsModel> positionModel = model.get(posName);
 				long originalInvestment = (long) getInvestment(positionModel);
-				//now get P & L for each object in model, for this we need to get updated premium from yql !
-				long start = System.currentTimeMillis();
-				for(OptionsModel opModel:positionModel)
-				{
-				    threadExecutor.execute(new PremiumCalculator(opModel));
-				}
-				long end = System.currentTimeMillis() - start;
-			    System.out.println("TIME SPENT "+end);
+				ExecutorService threadExecutor = Executors.newFixedThreadPool(model.size());
+			    threadExecutor.execute(new PositionsCalculator(positionModel));
 				long currentInvestment = (long) getInvestment(positionModel);
+				threadExecutor.shutdown();
+			    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
 				//System.out.println("inv dynamic position"+investment);
 				long pnl = 0;
 				if(originalInvestment > 0 )
@@ -505,9 +502,9 @@ public class OptionsCalculator {
 				System.out.println("pos name is "+posName);
 				positionPnLMap.put(posName, pnl);
 			}
-			threadExecutor.shutdown();
-		    threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
-		  
+			
+			long end = System.currentTimeMillis() - start;
+		    System.out.println("TIME SPENT "+end);
 		}
 		catch(Exception e)
 		{
@@ -515,6 +512,38 @@ public class OptionsCalculator {
 		}
 		
 		return positionPnLMap;
+	}
+	
+	public class PositionsCalculator implements Runnable
+	{
+		List<OptionsModel> positionModel;
+		
+		public PositionsCalculator(List<OptionsModel> positionModel)
+		{
+			this.positionModel=positionModel;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			//now get P & L for each object in model, for this we need to get updated premium from yql !
+			ExecutorService threadExecutor = Executors.newFixedThreadPool(positionModel.size());
+			for(OptionsModel opModel:positionModel)
+			{
+
+			    threadExecutor.execute(new PremiumCalculator(opModel));
+			}
+			threadExecutor.shutdown();
+		    try {
+				threadExecutor.awaitTermination(60,TimeUnit.SECONDS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  
+		}
+		
+		
 	}
 	
 	public class PremiumCalculator implements Runnable
