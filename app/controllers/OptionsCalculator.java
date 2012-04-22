@@ -656,7 +656,21 @@ public class OptionsCalculator {
 			    		    new InputSource(xmlStream);
 			     Node root = (Node) xPath.evaluate("//option", inputSource, XPathConstants.NODE);
 			     //Find why we are getting exception sometime on this !
-			     String premium = xPath.evaluate("lastPrice", root);
+			   String premium = null;
+				  String bid = xPath.evaluate("bid", root);
+				  String ask = xPath.evaluate("ask", root);
+				  if("".equals(bid) || "".equals(ask) || "NaN".equals(bid) || "NaN".equals(ask))
+				  {
+					  premium = xPath.evaluate("lastPrice", root);  
+				  }
+				  else if ("".equals(bid) || "NaN".equals(bid))
+				 {
+					  premium = ask;
+				 }
+				  else
+				  {
+					  premium = bid;
+				  }
 			     System.out.println("root "+root + " premium "+premium);
 			     opModel.setOptionPremium(Double.parseDouble(premium));
 			    xmlStream.close();
