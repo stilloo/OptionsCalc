@@ -589,8 +589,14 @@
 
                        // do something with the response
 						jQuery.each(response, function(key, val) {
-                            		document.getElementById(key).innerHTML=key+"&nbsp;"+val;
-                                	 
+									if(val.indexOf("-") == 0)
+										{
+									document.getElementById(key).innerHTML=key+"&nbsp;"+"<span style='color: #f00;'>"+val+"</span>";
+										}
+									else
+										{
+										document.getElementById(key).innerHTML=key+"&nbsp;"+"<span style='color: #659D32;'>"+val+"</span>";
+										}
                             		});
 
                          
@@ -616,6 +622,10 @@
 	   
 	   function loadAllValues()
 	   {
+		   
+		    $('#myCollapsible').collapse({
+		        toggle: false
+		        })
 		%{
 			if(params.get('creationDate')  != null)
 			{
@@ -638,7 +648,9 @@
 		 				    	java.util.Iterator posItr = positionsURLProfitMap.entrySet().iterator();
 		 				   		while (posItr.hasNext()) {
 		 				       	 java.util.Map.Entry pairs = (java.util.Map.Entry)posItr.next();
+		 				       	
 		 		%}		      
+		 				   		
 		 			   		document.getElementById("positionsdiv").innerHTML+="<a href='${pairs.getValue()}'><span id='${pairs.getKey()}'>${pairs.getKey()}</span></a><br>";
 		 			%{	      	
 		 				      	
@@ -1116,6 +1128,7 @@
      %}
  
      <br/>
+        
      <div class="offset4" align="center">   
        <button style="display:none" id="subbtn" type="submit" onclick="document.getElementById('savepos').value='false';" class="btn btn-primary">Submit</button>
        
