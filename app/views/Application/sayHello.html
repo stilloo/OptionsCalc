@@ -111,8 +111,14 @@ a:link {
 
                        // do something with the response
 						jQuery.each(response, function(key, val) {
-                            		parent.document.getElementById(key).innerHTML=key+"&nbsp;"+val;
-                            		 
+										if(val < 0)
+										{
+									document.getElementById(key).innerHTML=key+"&nbsp;"+"<span style='color: #f00;'>"+val+"</span>";
+										}
+									else
+										{
+										document.getElementById(key).innerHTML=key+"&nbsp;"+"<span style='color: #659D32;'>"+val+"</span>";
+										}
                             		});
 
                          
