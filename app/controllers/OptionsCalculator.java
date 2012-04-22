@@ -168,11 +168,16 @@ public class OptionsCalculator {
 			   	 }
 			    newurl=parameters[0]+"&"+parameters[1]+"&"+parameters[2]+"&"+newurl;
 			    String mainURL=newurl.replaceAll("sayhello","optionscalc");
-			 
-		 ps.setString(3, mainURL);
-		 long timeNow = Calendar.getInstance().getTimeInMillis();
-		 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
+		//append created data to url
+			    long timeNow = Calendar.getInstance().getTimeInMillis();
+				 java.sql.Timestamp ts = new java.sql.Timestamp(timeNow);
 
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM-dd-yyyy");
+		
+		String creationDateStr = sdf.format(ts);
+		mainURL+="&creationDate="+creationDateStr;    	 	    
+		 ps.setString(3, mainURL);
+		
 		 ps.setTimestamp(4, ts);
 		 double positionValue = getInvestment(optionsModelList);
 		 ps.setDouble(5, positionValue);
