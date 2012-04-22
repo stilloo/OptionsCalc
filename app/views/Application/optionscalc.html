@@ -589,7 +589,7 @@
 
                        // do something with the response
 						jQuery.each(response, function(key, val) {
-									if(val > 0)
+									if(val < 0)
 										{
 									document.getElementById(key).innerHTML=key+"&nbsp;"+"<span style='color: #f00;'>"+val+"</span>";
 										}
