@@ -616,7 +616,14 @@
 	   
 	   function loadAllValues()
 	   {
-	
+		%{
+			if(params.get('creationDate')  != null)
+			{
+		%}
+		   document.getElementById("positiondt").style.display="";
+		%{
+			}
+		%}
 		   document.getElementById("positionsdiv").innerHTML="<b>Saved Positions</b><br/><br/>";
 		  %{
 			  
@@ -953,6 +960,7 @@
 <div class="throbber" style="display:none" id="throbber"></div>
 	
 <div  align="center"><h2>Strategy Builder</h2></div>
+<span  align="center" id="positiondt" style="display:none"><b>(Position created as of ${params.get('creationDate'))</b></span>
     <div class="container" style="border-right: 1px solid black; padding: 5px;">
     <body onload="loadAllValues();loopsiloop()">
 <form class="form-inline" name="optionform" action="@{Application.sayHello()}"  onsubmit="return validateAndSavePosition()"  target="my_iframe" method="GET">
