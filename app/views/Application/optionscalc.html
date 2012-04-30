@@ -471,35 +471,35 @@
 				   return;
 				   }
 			   
-			   if(data.query.results.optionsChain.option ==null)
+			   if(data.query.results.optionsChain ==null)
 				   {
 				   Change_Cursor('none');
 				   return;
 				   }
-				var len = data.query.results.optionsChain.option.length;
+				var len = data.query.results.optionsChain.length;
 				
 				if(len > 0)
 				{
 					for(var i=0;i<len;i++)
 					{
-						var strike = data.query.results.optionsChain.option[i].strikePrice;	
-						if(strUser1==data.query.results.optionsChain.option[i].type)
+						var strike = data.query.results.optionsChain[i].option.strikePrice;	
+						if(strUser1==data.query.results.optionsChain[i].option.type)
 						{
 							if(strike == strUser)
 							{
 							
-								if(data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].ask == "" || data.query.results.optionsChain.option[i].bid == "NaN" || data.query.results.optionsChain.option[i].ask == "NaN")
+								if(data.query.results.optionsChain[i].option.bid == "" || data.query.results.optionsChain[i].option.ask == "" || data.query.results.optionsChain[i].option.bid == "NaN" || data.query.results.optionsChain[i].option.ask == "NaN")
 								{
 									//document.getElementById('premium_'+x).value = data.query.results.optionsChain.option[i].lastPrice;
-									nodes[5].childNodes[0].value = data.query.results.optionsChain.option[i].lastPrice;
+									nodes[5].childNodes[0].value = data.query.results.optionsChain[i].option.lastPrice;
 								}
-								else if (data.query.results.optionsChain.option[i].bid == "" || data.query.results.optionsChain.option[i].bid == "NaN")
+								else if (data.query.results.optionsChain[i].option.bid == "" || data.query.results.optionsChain[i].option.bid == "NaN")
 									{
-									nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].ask;
+									nodes[5].childNodes[0].value  = data.query.results.optionsChain[i].option.ask;
 									}
 								else
 									{
-									nodes[5].childNodes[0].value  = data.query.results.optionsChain.option[i].bid;
+									nodes[5].childNodes[0].value  = data.query.results.optionsChain[i].option.bid;
 									}
 								break;
 							}
